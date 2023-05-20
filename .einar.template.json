@@ -12,19 +12,12 @@
         "description": "Base template allow you copy base files based on your private/public github account inside your einar project when starts",
         "folders": [
             {
-                "replace_holders": [
-                    "${project}"
-                ],
-                "source_dir": "helmchart",
-                "destination_dir": "helmchart"
+                "source_dir": "app/shared/utils",
+                "destination_dir": "app/shared/utils"
             }
         ],
         "files": [
             {
-                "type": "file",
-                "replace_holders": [
-                    ""
-                ],
                 "source_file": ".environment",
                 "destination_file": ".env"
             }
