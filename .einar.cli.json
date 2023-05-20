@@ -53,19 +53,5 @@
                 "github.com/redis/go-redis/v9"
             ]
         }
-    ],
-    "installations_base": [
-        {
-            "name":"zerolog",
-            "library": "github.com/rs/zerolog"
-        },
-        {
-            "name":"godotenv",
-            "library": "github.com/joho/godotenv"
-        },
-        {
-            "name":"uuid",
-            "library": "github.com/google/uuid"
-        }
     ]
 }

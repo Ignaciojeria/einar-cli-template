@@ -1,4 +1,74 @@
 {
+    "installations_base": [
+        {
+            "name":"zerolog",
+            "library": "github.com/rs/zerolog"
+        },
+        {
+            "name":"godotenv",
+            "library": "github.com/joho/godotenv"
+        },
+        {
+            "name":"uuid",
+            "library": "github.com/google/uuid"
+        }
+    ],
+    "installation_commands": [
+        {
+            "name":"pubsub",
+            "source_dir": "app/shared/archetype/pubsub",
+            "destination_dir": "app/shared/archetype/pubsub",
+            "command":"einar install pubsub",
+            "libraries": ["cloud.google.com/go/pubsub"]
+        },
+        {
+            "name":"resty",
+            "source_dir": "app/shared/archetype/resty",
+            "destination_dir": "app/shared/archetype/resty",
+            "command":"einar install resty",
+            "libraries": [
+                "github.com/go-resty/resty/v2"
+            ]
+        },
+        {
+            "name":"chi-server",
+            "source_dir": "app/shared/archetype/chi_server",
+            "destination_dir": "app/shared/archetype/chi_server",
+            "command":"einar install chi-server",
+            "libraries": [
+                "github.com/go-chi/chi"
+            ]
+        },
+        {
+            "name":"firestore",
+            "source_dir": "app/shared/archetype/firestore",
+            "destination_dir": "app/shared/archetype/firestore",
+            "command":"einar install firestore",
+            "libraries": [
+                "cloud.google.com/go/firestore",
+                "firebase.google.com/go"
+            ]
+        },
+        {
+            "name":"postgres",
+            "source_dir": "app/shared/archetype/postgres",
+            "destination_dir": "app/shared/archetype/postgres",
+            "command":"einar install postgres",
+            "libraries": [
+                "gorm.io/gorm",
+                "gorm.io/driver/postgres"
+            ]
+        },
+        {
+            "name":"redis",
+            "source_dir": "app/shared/archetype/redis",
+            "destination_dir": "app/shared/archetype/redis",
+            "command":"einar install redis",
+            "libraries": [
+                "github.com/redis/go-redis/v9"
+            ]
+        }
+    ],
     "base_template": {
         "description": "Base template allow you copy base files based on your private/public github account inside your einar project when starts",
         "folders": [
