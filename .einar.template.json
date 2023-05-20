@@ -25,8 +25,8 @@
                 "replace_holders": [
                     ""
                 ],
-                "source_dir": "ci/.gitlab-ci.yml",
-                "destination_dir": ".gitlab-ci.yml"
+                "source_file": ".environment",
+                "destination_file": ".env"
             }
         ]
     }
