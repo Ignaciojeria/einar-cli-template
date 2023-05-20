@@ -45,7 +45,8 @@
             "destination_dir": "app/shared/archetype/firestore",
             "command":"einar install firestore",
             "libraries": [
-                "cloud.google.com/go/firestore"
+                "cloud.google.com/go/firestore",
+                "firebase.google.com/go"
             ]
         },
         {
