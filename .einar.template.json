@@ -7,16 +7,16 @@
                 "destination_dir": "app/shared/utils"
             },
             {
-                "source_file": "app/shared/config",
-                "destination_file": "app/shared/config"
+                "source_dir": "app/shared/config",
+                "destination_dir": "app/shared/config"
             },
             {
-                "source_file": "app/shared/archetype/container",
-                "destination_file": "app/shared/archetype/container"
+                "source_dir": "app/shared/archetype/container",
+                "destination_dir": "app/shared/archetype/container"
             },
             {
-                "source_file": "app/shared/constants",
-                "destination_file": "app/shared/constants"
+                "source_dir": "app/shared/constants",
+                "destination_dir": "app/shared/constants"
             }
         ],
         "files": [
