@@ -1,25 +1,44 @@
 {
-    "config_template": {
-        "description": "Config template allow you modify einar default config keys by your custom config keys allocated on your repository template",
-        "replace_config_key": [
-            {
-                "einar_config_key": "PORT",
-                "custom_config_key": "APPLICATION_PORT"
-            }
-        ]
-    },
     "base_template": {
         "description": "Base template allow you copy base files based on your private/public github account inside your einar project when starts",
         "folders": [
             {
                 "source_dir": "app/shared/utils",
                 "destination_dir": "app/shared/utils"
+            },
+            {
+                "source_file": "app/shared/config",
+                "destination_file": "app/shared/config"
+            },
+            {
+                "source_file": "app/shared/archetype/container",
+                "destination_file": "app/shared/archetype/container"
+            },
+            {
+                "source_file": "app/shared/constants",
+                "destination_file": "app/shared/constants"
             }
         ],
         "files": [
             {
                 "source_file": ".environment",
                 "destination_file": ".env"
+            },
+            {
+                "source_file": "main.go",
+                "destination_file": "main.go"
+            },
+            {
+                "source_file": ".einar.cli.json",
+                "destination_file": ".einar.cli.json"
+            },
+            {
+                "source_file": ".gitignore",
+                "destination_file": ".gitignore"
+            },
+            {
+                "source_file": "app/shared/archetype/setup.go",
+                "destination_file": "app/shared/archetype/setup.go"
             }
         ]
     }
