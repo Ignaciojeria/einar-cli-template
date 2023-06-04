@@ -13,6 +13,34 @@
             "library": "github.com/google/uuid"
         }
     ],
+    "component_generation_commands":{
+        "name":"subscription",
+        "files": {
+            "source_file": "app/subscription/archetype_subscription.go",
+            "destination_dir": "app/adapter/out/subscription",
+            "dependsOn":"pubsub",
+            "replaceHolders": [
+                {
+                    "type":"camelCase",
+                    "name": "__archetype_subscription_struct",
+                    "appendAtStart":"",
+                    "appendAtEnd":""
+                },
+                {
+                    "type":"snake_case",
+                    "name": "__archetype_subscription_stop",
+                    "appendAtStart":"",
+                    "appendAtEnd":"Stop"
+                },
+                {
+                    "type":"PascalCase",
+                    "name": "__archetype_subscription_constructor",
+                    "appendAtStart":"",
+                    "appendAtEnd":""
+                }
+            ]
+        }
+    },
     "installation_commands": [
         {
             "name":"pubsub",
