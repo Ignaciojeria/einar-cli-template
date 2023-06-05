@@ -15,28 +15,29 @@
     ],
     "component_commands":{
         "name":"subscription",
+        "command":"einar generate subscription ${subscription_name}",
+        "depends_on":["pubsub"],
         "files": {
             "source_file": "app/subscription/archetype_subscription.go",
             "destination_dir": "app/adapter/out/subscription",
-            "dependsOn":"pubsub",
-            "replaceHolders": [
+            "replace_holders": [
                 {
                     "type":"camelCase",
                     "name": "__archetype_subscription_struct",
-                    "appendAtStart":"",
-                    "appendAtEnd":""
+                    "append_at_start":"",
+                    "append_at_end":""
                 },
                 {
                     "type":"snake_case",
                     "name": "__archetype_subscription_stop",
-                    "appendAtStart":"",
-                    "appendAtEnd":"Stop"
+                    "append_at_start":"",
+                    "append_at_end":"Stop"
                 },
                 {
                     "type":"PascalCase",
                     "name": "__archetype_subscription_constructor",
-                    "appendAtStart":"",
-                    "appendAtEnd":""
+                    "append_at_start":"",
+                    "append_at_end":""
                 }
             ]
         }
