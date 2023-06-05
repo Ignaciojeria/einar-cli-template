@@ -13,7 +13,7 @@
             "library": "github.com/google/uuid"
         }
     ],
-    "component_generation_commands":{
+    "component_commands":{
         "name":"subscription",
         "files": {
             "source_file": "app/subscription/archetype_subscription.go",
