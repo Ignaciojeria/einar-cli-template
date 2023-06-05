@@ -2,5 +2,6 @@
     "version": "latest",
     "project":"${project}",
     "template_repository":"${template-repository-url.git}",
-    "installations_added": []
+    "components":[],
+    "installations": []
 }
