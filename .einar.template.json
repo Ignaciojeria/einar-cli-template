@@ -13,7 +13,7 @@
             "library": "github.com/google/uuid"
         }
     ],
-    "component_commands":{
+    "component_commands":[{
         "kind":"subscription",
         "command":"einar generate subscription ${subscription_name}",
         "depends_on":["pubsub"],
@@ -41,7 +41,7 @@
                 }
             ]
         }
-    },
+    }],
     "installation_commands": [
         {
             "name":"pubsub",
