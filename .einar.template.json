@@ -14,7 +14,7 @@
         }
     ],
     "component_commands":{
-        "name":"subscription",
+        "kind":"subscription",
         "command":"einar generate subscription ${subscription_name}",
         "depends_on":["pubsub"],
         "files": {
@@ -22,19 +22,19 @@
             "destination_dir": "app/adapter/out/subscription",
             "replace_holders": [
                 {
-                    "type":"camelCase",
+                    "kind":"camelCase",
                     "name": "__archetype_subscription_struct",
                     "append_at_start":"",
                     "append_at_end":""
                 },
                 {
-                    "type":"snake_case",
+                    "kind":"snake_case",
                     "name": "__archetype_subscription_stop",
                     "append_at_start":"",
                     "append_at_end":"Stop"
                 },
                 {
-                    "type":"PascalCase",
+                    "kind":"PascalCase",
                     "name": "__archetype_subscription_constructor",
                     "append_at_start":"",
                     "append_at_end":""
