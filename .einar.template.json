@@ -31,7 +31,7 @@
                     "kind":"snake_case",
                     "name": "__archetype_subscription_stop",
                     "append_at_start":"",
-                    "append_at_end":"Stop"
+                    "append_at_end":"_stop"
                 },
                 {
                     "kind":"PascalCase",
