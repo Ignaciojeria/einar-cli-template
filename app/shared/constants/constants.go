@@ -1,8 +1,5 @@
 package constants
 
-const CL = "CL"
-const PE = "PE"
-
 // SHARED ARCHETYPE CONSTANTS
 const PROCESS_NAME = "PROCESS_NAME"
 
@@ -17,18 +14,3 @@ const ERROR_UNMARSHALING_EVENT = "ERROR_UNMARSHALING_EVENT"
 const REQUEST_BODY = "REQUEST_BODY"
 const RESPONSE_BODY = "RESPONSE_BODY"
 const STATUS_CODE = "STATUS_CODE"
-
-// ARCHETYPE DATADOG LOGS CONSTANTS
-const SPAN_ID = "span.id"
-const TRACE_ID = "trace.id"
-const SERVICE_NAME = "service.name"
-const SERVICE_VERSION = "service.version"
-
-// HTTP CLIENT HEADERS CONSTANTS
-const CONTENT_TYPE_HEADER_KEY = "Content-Type"
-const X_COMMERCE_HEADER_KEY = "x-commerce"
-const X_COUNTRY_HEADER_KEY = "x-country"
-const X_CHREF_HEADER_KEY = "x-chref"
-const X_CMREF_HEADER_KEY = "x-cmref"
-const X_TXREF_HEADER_KEY = "x-txref"
-const X_ENVIRONMENT_HEADER_KEY = "x-environment"
