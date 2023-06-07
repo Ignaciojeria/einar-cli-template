@@ -63,6 +63,12 @@
                     "name": "ArchetypeRepository",
                     "append_at_start":"",
                     "append_at_end":""
+                },
+                {
+                    "kind":"PascalCase",
+                    "name": "ArchetypeInBoundPort",
+                    "append_at_start":"",
+                    "append_at_end":""
                 }
             ]
         }]
