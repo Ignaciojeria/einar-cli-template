@@ -1,7 +1,7 @@
 package firestore
 
 import (
-	"archetype/app/ports/out"
+	"archetype/app/domain/ports/out"
 	fs "archetype/app/shared/archetype/firestore"
 	"context"
 
