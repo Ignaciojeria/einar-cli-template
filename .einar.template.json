@@ -54,7 +54,7 @@
             "destination_dir": "app/adapter/out/firestore",
             "ioc_discovery":true,
             "port":{
-                "source_file": "app/ports/out.go",
+                "source_file": "app/ports/out/archetype_outbound_port.go",
                 "destination_dir": "app/domain/ports/out"
             },
             "replace_holders": [
