@@ -18,8 +18,8 @@
         "command":"einar generate subscription ${subscription_name}",
         "depends_on":["pubsub"],
         "files": [{
-            "source_file": "app/subscription/archetype_subscription.go",
-            "destination_dir": "app/adapter/out/subscription",
+            "source_file": "app/adapter/in/subscription/archetype_subscription.go",
+            "destination_dir": "app/adapter/in/subscription",
             "ioc_discovery":true,
             "replace_holders": [
                 {
