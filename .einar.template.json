@@ -17,6 +17,7 @@
         "kind":"subscription",
         "command":"einar generate subscription ${subscription_name}",
         "depends_on":["pubsub"],
+        "type":"inbound-adapter",
         "files": [{
             "source_file": "app/adapter/in/subscription/archetype_subscription.go",
             "destination_dir": "app/adapter/in/subscription",
@@ -37,6 +38,25 @@
                 {
                     "kind":"PascalCase",
                     "name": "__archetype_subscription_constructor",
+                    "append_at_start":"",
+                    "append_at_end":""
+                }
+            ]
+        }]
+    },
+    {
+        "kind":"firestore-repository",
+        "type":"outbound-adapter",
+        "command":"einar generate firestore-repository ${operation_name}",
+        "depends_on":["firestore"],
+        "files": [{
+            "source_file": "app/adapter/out/firestore/archetype_repository.go",
+            "destination_dir": "app/adapter/out/firestore",
+            "ioc_discovery":true,
+            "replace_holders": [
+                {
+                    "kind":"PascalCase",
+                    "name": "ArchetypeRepository",
                     "append_at_start":"",
                     "append_at_end":""
                 }
