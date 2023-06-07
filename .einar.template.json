@@ -49,6 +49,19 @@
         "type":"outbound-adapter",
         "command":"einar generate firestore-repository ${operation_name}",
         "depends_on":["firestore"],
+        "port":{
+            "source_file": "app/ports/out.go",
+            "destination_dir": "app/domain/ports/out",
+            "ioc_discovery":false,
+            "replace_holders": [
+                {
+                    "kind":"PascalCase",
+                    "name": "Out",
+                    "append_at_start":"",
+                    "append_at_end":""
+                }
+            ]
+        },
         "files": [{
             "source_file": "app/adapter/out/firestore/archetype_repository.go",
             "destination_dir": "app/adapter/out/firestore",
