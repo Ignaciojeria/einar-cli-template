@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 
 	"archetype/app/shared/archetype/container"
-	archetype "archetype/app/shared/archetype/pubsub"
+	einar "archetype/app/shared/archetype/pubsub"
 	"archetype/app/shared/archetype/pubsub/subscription"
 
 	"archetype/app/shared/constants"
@@ -49,7 +49,7 @@ func __archetype_subscription_constructor(
 func init() {
 	const subscription_name = "INSERT YOUR SUBSCRIPTION NAME"
 	container.InjectComponent(func() error {
-		subscription_setup := archetype.Client.Subscription(subscription_name)
+		subscription_setup := einar.Client.Subscription(subscription_name)
 		subscription_setup.ReceiveSettings.Synchronous = true
 		subscription_setup.ReceiveSettings.NumGoroutines = 1
 		subscription_setup.ReceiveSettings.MaxOutstandingMessages = 1

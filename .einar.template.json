@@ -72,6 +72,34 @@
                 }
             ]
         }]
+    },    {
+        "kind":"publisher",
+        "adapter_type":"outbound",
+        "command":"einar generate publisher ${operation_name}",
+        "depends_on":["pubsub"],
+        "files": [{
+            "source_file": "app/adapter/out/publisher/archetype_publisher.go",
+            "destination_dir": "app/adapter/out/pubsub",
+            "ioc_discovery":true,
+            "port":{
+                "source_file": "app/domain/ports/out/archetype_outbound_port.go",
+                "destination_dir": "app/domain/ports/out"
+            },
+            "replace_holders": [
+                {
+                    "kind":"PascalCase",
+                    "name": "ArchetypePublisher",
+                    "append_at_start":"",
+                    "append_at_end":""
+                },
+                {
+                    "kind":"PascalCase",
+                    "name": "ArchetypeOutBoundPort",
+                    "append_at_start":"",
+                    "append_at_end":""
+                }
+            ]
+        }]
     }],
     "installation_commands": [
         {
