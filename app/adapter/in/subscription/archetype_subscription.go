@@ -48,7 +48,7 @@ func __archetype_subscription_constructor(
 
 func init() {
 	const subscription_name = "INSERT YOUR SUBSCRIPTION NAME"
-	container.InjectComponent(func() error {
+	container.InjectInBoundAdapter(func() error {
 		subscription_setup := einar.Client.Subscription(subscription_name)
 		subscription_setup.ReceiveSettings.Synchronous = true
 		subscription_setup.ReceiveSettings.NumGoroutines = 1
@@ -57,7 +57,7 @@ func init() {
 		return nil
 	}, container.InjectionProps{
 		DependencyID: uuid.NewString(),
-		Paralel:      true,
+		Parallel:     true,
 	})
 }
 

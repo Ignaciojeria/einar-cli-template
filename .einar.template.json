@@ -69,6 +69,12 @@
                     "name": "ArchetypeOutBoundPort",
                     "append_at_start":"",
                     "append_at_end":""
+                },
+                {
+                    "kind":"camelCase",
+                    "name": "archetypeCollection",
+                    "append_at_start":"",
+                    "append_at_end":""
                 }
             ]
         }]
@@ -96,6 +102,12 @@
                 {
                     "kind":"PascalCase",
                     "name": "ArchetypeOutBoundPort",
+                    "append_at_start":"",
+                    "append_at_end":""
+                },
+                {
+                    "kind":"camelCase",
+                    "name": "archetypeTopic",
                     "append_at_start":"",
                     "append_at_end":""
                 }

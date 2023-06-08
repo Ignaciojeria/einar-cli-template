@@ -12,15 +12,15 @@ import (
 	"github.com/google/uuid"
 )
 
-var ArchetypeTopic *pubsub.Topic
+var archetypeTopic *pubsub.Topic
 
 func init() {
-	container.InjectComponent(func() error {
-		ArchetypeTopic = einar.Client.Topic("INSERT YOUR TOPIC NAME HERE")
+	container.InjectOutBoundAdapter(func() error {
+		archetypeTopic = einar.Client.Topic("INSERT YOUR TOPIC NAME HERE")
 		return nil
 	}, container.InjectionProps{
 		DependencyID: uuid.NewString(),
-		Paralel:      false,
+		Parallel:     false,
 	})
 }
 
@@ -40,7 +40,7 @@ var ArchetypePublisher out.ArchetypeOutBoundPort = func(ctx context.Context, REP
 		Data: bytes,
 	}
 
-	result := ArchetypeTopic.Publish(ctx, message)
+	result := archetypeTopic.Publish(ctx, message)
 
 	// Get the server-generated message ID.
 	messageID, err := result.Get(ctx)
