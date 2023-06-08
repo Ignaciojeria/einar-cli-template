@@ -78,7 +78,7 @@
         "command":"einar generate publisher ${operation_name}",
         "depends_on":["pubsub"],
         "files": [{
-            "source_file": "app/adapter/out/publisher/archetype_publisher.go",
+            "source_file": "app/adapter/out/pubsub/archetype_publisher.go",
             "destination_dir": "app/adapter/out/pubsub",
             "ioc_discovery":true,
             "port":{

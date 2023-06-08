@@ -1,4 +1,4 @@
-package publisher
+package pubsub
 
 import (
 	"archetype/app/domain/ports/out"
