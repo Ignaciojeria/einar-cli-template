@@ -25,5 +25,5 @@ func init() {
 			return err
 		}
 		return nil
-	}, container.InjectionProps{Paralel: false, DependencyID: uuid.NewString()})
+	}, container.InjectionProps{Parallel: false, DependencyID: uuid.NewString()})
 }

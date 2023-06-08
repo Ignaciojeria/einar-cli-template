@@ -21,7 +21,11 @@ func Setup() error {
 		return err
 	}
 
-	if err := injectComponents(); err != nil {
+	if err := injectOutBoundAdapters(); err != nil {
+		return err
+	}
+
+	if err := injectInboundAdapters(); err != nil {
 		return err
 	}
 
@@ -36,10 +40,10 @@ func Setup() error {
 
 func InjectInstallations() error {
 	for _, v := range container.InstallationsContainer {
-		if v.InjectionProps.Paralel {
+		if v.InjectionProps.Parallel {
 			go v.LoadDependency()
 		}
-		if !v.InjectionProps.Paralel {
+		if !v.InjectionProps.Parallel {
 			if err := v.LoadDependency(); err != nil {
 				return err
 			}
@@ -49,12 +53,26 @@ func InjectInstallations() error {
 }
 
 // CUSTOM INITIALIZATION OF YOUR DOMAIN COMPONENTS
-func injectComponents() error {
-	for _, v := range container.ComponentsContainer {
-		if v.InjectionProps.Paralel {
+func injectOutBoundAdapters() error {
+	for _, v := range container.OutboundAdapterContainer {
+		if v.InjectionProps.Parallel {
 			go v.LoadDependency()
 		}
-		if !v.InjectionProps.Paralel {
+		if !v.InjectionProps.Parallel {
+			if err := v.LoadDependency(); err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+
+func injectInboundAdapters() error {
+	for _, v := range container.InboundAdapterContainer {
+		if v.InjectionProps.Parallel {
+			go v.LoadDependency()
+		}
+		if !v.InjectionProps.Parallel {
 			if err := v.LoadDependency(); err != nil {
 				return err
 			}

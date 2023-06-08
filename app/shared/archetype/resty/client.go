@@ -16,7 +16,7 @@ func init() {
 		Client = resty.New()
 		return nil
 	}, container.InjectionProps{
-		Paralel:      false,
+		Parallel:     false,
 		DependencyID: uuid.NewString(),
 	})
 }
