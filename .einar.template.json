@@ -78,6 +78,35 @@
                 }
             ]
         }]
+    },
+    {
+        "kind":"postgres-repository",
+        "adapter_type":"outbound",
+        "command":"einar generate postgres-repository ${operation_name}",
+        "depends_on":["postgres"],
+        "files": [{
+            "source_file": "app/adapter/out/postgresql/archetype_repository.go",
+            "destination_dir": "app/adapter/out/postgresql",
+            "ioc_discovery":true,
+            "port":{
+                "source_file": "app/domain/ports/out/archetype_outbound_port.go",
+                "destination_dir": "app/domain/ports/out"
+            },
+            "replace_holders": [
+                {
+                    "kind":"PascalCase",
+                    "name": "ArchetypeRepository",
+                    "append_at_start":"",
+                    "append_at_end":""
+                },
+                {
+                    "kind":"PascalCase",
+                    "name": "ArchetypeOutBoundPort",
+                    "append_at_start":"",
+                    "append_at_end":""
+                }
+            ]
+        }]
     },    
     {
         "kind":"publisher",
@@ -109,7 +138,7 @@
                     "kind":"camelCase",
                     "name": "archetypeTopic",
                     "append_at_start":"",
-                    "append_at_end":""
+                    "append_at_end":"Topic"
                 }
             ]
         }]
