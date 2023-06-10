@@ -162,6 +162,82 @@
                 }
             ]
         }]
+    },    
+    {
+        "kind":"delete-controller",
+        "adapter_type":"inbound",
+        "command":"einar generate delete-controller ${operation_name}",
+        "depends_on":["chi-server"],
+        "files": [{
+            "source_file": "app/adapter/in/controller/archetype_delete_controller.go",
+            "destination_dir": "app/adapter/in/controller",
+            "ioc_discovery":true,
+            "replace_holders": [
+                {
+                    "kind":"camelCase",
+                    "name": "archetypeDeleteController",
+                    "append_at_start":"",
+                    "append_at_end":""
+                }
+            ]
+        }]
+    },
+    {
+        "kind":"patch-controller",
+        "adapter_type":"inbound",
+        "command":"einar generate patch-controller ${operation_name}",
+        "depends_on":["chi-server"],
+        "files": [{
+            "source_file": "app/adapter/in/controller/archetype_patch_controller.go",
+            "destination_dir": "app/adapter/in/controller",
+            "ioc_discovery":true,
+            "replace_holders": [
+                {
+                    "kind":"camelCase",
+                    "name": "archetypePatchController",
+                    "append_at_start":"",
+                    "append_at_end":""
+                }
+            ]
+        }]
+    },
+    {
+        "kind":"post-controller",
+        "adapter_type":"inbound",
+        "command":"einar generate post-controller ${operation_name}",
+        "depends_on":["chi-server"],
+        "files": [{
+            "source_file": "app/adapter/in/controller/archetype_post_controller.go",
+            "destination_dir": "app/adapter/in/controller",
+            "ioc_discovery":true,
+            "replace_holders": [
+                {
+                    "kind":"camelCase",
+                    "name": "archetypePostController",
+                    "append_at_start":"",
+                    "append_at_end":""
+                }
+            ]
+        }]
+    },
+    {
+        "kind":"put-controller",
+        "adapter_type":"inbound",
+        "command":"einar generate put-controller ${operation_name}",
+        "depends_on":["chi-server"],
+        "files": [{
+            "source_file": "app/adapter/in/controller/archetype_put_controller.go",
+            "destination_dir": "app/adapter/in/controller",
+            "ioc_discovery":true,
+            "replace_holders": [
+                {
+                    "kind":"camelCase",
+                    "name": "archetypePutController",
+                    "append_at_start":"",
+                    "append_at_end":""
+                }
+            ]
+        }]
     }],
     "installation_commands": [
         {
