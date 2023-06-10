@@ -13,7 +13,8 @@
             "library": "github.com/google/uuid"
         }
     ],
-    "component_commands":[{
+    "component_commands":[
+    {
         "kind":"subscription",
         "command":"einar generate subscription ${subscription_name}",
         "depends_on":["pubsub"],
@@ -139,6 +140,25 @@
                     "name": "archetypeTopic",
                     "append_at_start":"",
                     "append_at_end":"Topic"
+                }
+            ]
+        }]
+    },   
+    {
+        "kind":"get-controller",
+        "adapter_type":"inbound",
+        "command":"einar generate get-controller ${operation_name}",
+        "depends_on":["chi-server"],
+        "files": [{
+            "source_file": "app/adapter/in/controller/archetype_get_controller.go",
+            "destination_dir": "app/adapter/in/controller",
+            "ioc_discovery":true,
+            "replace_holders": [
+                {
+                    "kind":"camelCase",
+                    "name": "archetypeGetController",
+                    "append_at_start":"",
+                    "append_at_end":""
                 }
             ]
         }]

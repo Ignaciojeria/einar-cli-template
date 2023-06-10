@@ -11,19 +11,27 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
+var Chi *chi.Mux
+
 func init() {
 	config.Installations.EnableHTTPServer = true
-	container.InjectHTTPServer(func() error {
-		fmt.Println("starting server on port :" + config.PORT.Get())
-		r := chi.NewRouter()
-		r.Get("/health", func(w http.ResponseWriter, r *http.Request) {
+
+	container.InjectInstallation(func() error {
+		Chi = chi.NewRouter()
+		Chi.Get("/health", func(w http.ResponseWriter, r *http.Request) {
 			w.Write([]byte("UP"))
 		})
-		err := http.ListenAndServe(":"+config.PORT.Get(), r)
+		return nil
+	}, container.InjectionProps{Parallel: false, DependencyID: uuid.NewString()})
+
+	container.InjectHTTPServer(func() error {
+		fmt.Println("starting server on port :" + config.PORT.Get())
+		err := http.ListenAndServe(":"+config.PORT.Get(), Chi)
 		if err != nil {
 			log.Error().Err(err).Msg("error initializing application server")
 			return err
 		}
 		return nil
 	}, container.InjectionProps{Parallel: false, DependencyID: uuid.NewString()})
+
 }
