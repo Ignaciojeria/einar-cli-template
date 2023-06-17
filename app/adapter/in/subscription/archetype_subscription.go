@@ -53,11 +53,10 @@ func init() {
 		subscription_setup.ReceiveSettings.Synchronous = true
 		subscription_setup.ReceiveSettings.NumGoroutines = 1
 		subscription_setup.ReceiveSettings.MaxOutstandingMessages = 1
-		__archetype_subscription_constructor(subscription_setup.Receive, subscription_name)
+		go __archetype_subscription_constructor(subscription_setup.Receive, subscription_name)
 		return nil
 	}, container.InjectionProps{
 		DependencyID: uuid.NewString(),
-		Parallel:     true,
 	})
 }
 

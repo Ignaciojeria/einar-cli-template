@@ -27,7 +27,6 @@ func init() {
 		DB = db
 		return nil
 	}, container.InjectionProps{
-		Parallel:     false,
 		DependencyID: uuid.NewString(),
 	})
 }

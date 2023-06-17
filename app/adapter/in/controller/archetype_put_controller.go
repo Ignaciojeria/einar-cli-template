@@ -1,24 +1,24 @@
 package controller
 
 import (
-	einar "archetype/app/shared/archetype/chi_server"
 	"archetype/app/shared/archetype/container"
+	einar "archetype/app/shared/archetype/echo_server"
+
 	"net/http"
 
 	"github.com/google/uuid"
+	"github.com/labstack/echo/v4"
 )
 
 func init() {
 	container.InjectInBoundAdapter(func() error {
-		einar.Chi.Put("/INSERT_YOUR_PATTERN_HERE", archetypePutController)
+		einar.Echo.PUT("/INSERT_YOUR_PATTERN_HERE", archetypePutController)
 		return nil
 	}, container.InjectionProps{
 		DependencyID: uuid.NewString(),
-		Parallel:     true,
 	})
 }
 
-func archetypePutController(w http.ResponseWriter, r *http.Request) {
-	// Write your handling process here
-	w.Write([]byte("YOUR CUSTOM RESPONSE"))
+func archetypePutController(c echo.Context) error {
+	return c.JSON(http.StatusOK, "INSERT_YOUR_CUSTOM_RESPONSE")
 }

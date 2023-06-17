@@ -40,13 +40,8 @@ func Setup() error {
 
 func InjectInstallations() error {
 	for _, v := range container.InstallationsContainer {
-		if v.InjectionProps.Parallel {
-			go v.LoadDependency()
-		}
-		if !v.InjectionProps.Parallel {
-			if err := v.LoadDependency(); err != nil {
-				return err
-			}
+		if err := v.LoadDependency(); err != nil {
+			return err
 		}
 	}
 	return nil
@@ -55,13 +50,8 @@ func InjectInstallations() error {
 // CUSTOM INITIALIZATION OF YOUR DOMAIN COMPONENTS
 func injectOutBoundAdapters() error {
 	for _, v := range container.OutboundAdapterContainer {
-		if v.InjectionProps.Parallel {
-			go v.LoadDependency()
-		}
-		if !v.InjectionProps.Parallel {
-			if err := v.LoadDependency(); err != nil {
-				return err
-			}
+		if err := v.LoadDependency(); err != nil {
+			return err
 		}
 	}
 	return nil
@@ -69,13 +59,8 @@ func injectOutBoundAdapters() error {
 
 func injectInboundAdapters() error {
 	for _, v := range container.InboundAdapterContainer {
-		if v.InjectionProps.Parallel {
-			go v.LoadDependency()
-		}
-		if !v.InjectionProps.Parallel {
-			if err := v.LoadDependency(); err != nil {
-				return err
-			}
+		if err := v.LoadDependency(); err != nil {
+			return err
 		}
 	}
 	return nil

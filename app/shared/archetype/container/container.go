@@ -15,7 +15,6 @@ type DependencyContainer struct {
 
 type InjectionProps struct {
 	DependencyID string // name of injected dependency should be unique and required
-	Parallel     bool   // if true injected dependency should be executed as a go routine
 }
 
 type LoadDependency func() error

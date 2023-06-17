@@ -31,7 +31,6 @@ func init() {
 		Client = c
 		return nil
 	}, container.InjectionProps{
-		Parallel:     false,
 		DependencyID: uuid.NewString(),
 	})
 }
