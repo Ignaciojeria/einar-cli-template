@@ -148,7 +148,7 @@
         "kind":"get-controller",
         "adapter_type":"inbound",
         "command":"einar generate get-controller ${operation_name}",
-        "depends_on":["chi-server"],
+        "depends_on":["echo-server"],
         "files": [{
             "source_file": "app/adapter/in/controller/archetype_get_controller.go",
             "destination_dir": "app/adapter/in/controller",
@@ -167,7 +167,7 @@
         "kind":"delete-controller",
         "adapter_type":"inbound",
         "command":"einar generate delete-controller ${operation_name}",
-        "depends_on":["chi-server"],
+        "depends_on":["echo-server"],
         "files": [{
             "source_file": "app/adapter/in/controller/archetype_delete_controller.go",
             "destination_dir": "app/adapter/in/controller",
@@ -186,7 +186,7 @@
         "kind":"patch-controller",
         "adapter_type":"inbound",
         "command":"einar generate patch-controller ${operation_name}",
-        "depends_on":["chi-server"],
+        "depends_on":["echo-server"],
         "files": [{
             "source_file": "app/adapter/in/controller/archetype_patch_controller.go",
             "destination_dir": "app/adapter/in/controller",
@@ -205,7 +205,7 @@
         "kind":"post-controller",
         "adapter_type":"inbound",
         "command":"einar generate post-controller ${operation_name}",
-        "depends_on":["chi-server"],
+        "depends_on":["echo-server"],
         "files": [{
             "source_file": "app/adapter/in/controller/archetype_post_controller.go",
             "destination_dir": "app/adapter/in/controller",
@@ -224,7 +224,7 @@
         "kind":"put-controller",
         "adapter_type":"inbound",
         "command":"einar generate put-controller ${operation_name}",
-        "depends_on":["chi-server"],
+        "depends_on":["echo-server"],
         "files": [{
             "source_file": "app/adapter/in/controller/archetype_put_controller.go",
             "destination_dir": "app/adapter/in/controller",
