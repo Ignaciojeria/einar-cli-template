@@ -1,7 +1,10 @@
 {
     "version": "latest",
     "project":"${project}",
-    "template_repository":"${template-repository-url.git}",
+    "template":{
+        "id":"d11193b5-a7b7-435f-823b-4d36edb4f5d2",
+        "url":"https://github.com/Ignaciojeria/einar-cli-template"
+    },
     "components":[],
     "installations": []
 }
