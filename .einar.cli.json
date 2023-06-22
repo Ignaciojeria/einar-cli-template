@@ -1,5 +1,5 @@
 {
-    "version": "beta",
+    "version": "${version}",
     "project":"${project}",
     "template":{
         "id":"d11193b5-a7b7-435f-823b-4d36edb4f5d2",
