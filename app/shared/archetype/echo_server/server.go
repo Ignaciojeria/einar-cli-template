@@ -39,7 +39,7 @@ func init() {
 }
 
 func init() {
-	container.InjectInBoundAdapter(func() error {
+	container.InjectInboundAdapter(func() error {
 		Echo.GET("/health", func(c echo.Context) error {
 			return c.String(http.StatusOK, "UP")
 		})

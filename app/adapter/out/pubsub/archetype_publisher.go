@@ -15,7 +15,7 @@ import (
 var archetypeTopic *pubsub.Topic
 
 func init() {
-	container.InjectOutBoundAdapter(func() error {
+	container.InjectOutboundAdapter(func() error {
 		archetypeTopic = einar.Client.Topic("INSERT YOUR TOPIC NAME HERE")
 		return nil
 	}, container.InjectionProps{

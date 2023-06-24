@@ -11,7 +11,7 @@ import (
 )
 
 func init() {
-	container.InjectInBoundAdapter(func() error {
+	container.InjectInboundAdapter(func() error {
 		einar.Echo.PATCH("/INSERT_YOUR_PATTERN_HERE", archetypePatchController)
 		return nil
 	}, container.InjectionProps{

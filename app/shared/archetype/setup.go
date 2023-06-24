@@ -21,7 +21,7 @@ func Setup() error {
 		return err
 	}
 
-	if err := injectOutBoundAdapters(); err != nil {
+	if err := injectOutboundAdapters(); err != nil {
 		return err
 	}
 
@@ -48,7 +48,7 @@ func InjectInstallations() error {
 }
 
 // CUSTOM INITIALIZATION OF YOUR DOMAIN COMPONENTS
-func injectOutBoundAdapters() error {
+func injectOutboundAdapters() error {
 	for _, v := range container.OutboundAdapterContainer {
 		if err := v.LoadDependency(); err != nil {
 			return err

@@ -44,11 +44,11 @@ func Inject(dependency LoadDependency, props InjectionProps, container map[strin
 	return nil
 }
 
-func InjectInBoundAdapter(dependency LoadDependency, props InjectionProps) error {
+func InjectInboundAdapter(dependency LoadDependency, props InjectionProps) error {
 	return Inject(dependency, props, InboundAdapterContainer)
 }
 
-func InjectOutBoundAdapter(dependency LoadDependency, props InjectionProps) error {
+func InjectOutboundAdapter(dependency LoadDependency, props InjectionProps) error {
 	return Inject(dependency, props, OutboundAdapterContainer)
 }
 

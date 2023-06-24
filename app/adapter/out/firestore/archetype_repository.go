@@ -13,7 +13,7 @@ import (
 var archetypeCollection *firestore.CollectionRef
 
 func init() {
-	container.InjectOutBoundAdapter(func() error {
+	container.InjectOutboundAdapter(func() error {
 		archetypeCollection = einar.Client.Collection("INSERT_YOUR_COLLECTION_CONSTANTS_HERE")
 		return nil
 	}, container.InjectionProps{
