@@ -50,9 +50,7 @@ func init() {
 	const subscription_name = "INSERT YOUR SUBSCRIPTION NAME"
 	container.InjectInboundAdapter(func() error {
 		subscription_setup := einar.Client.Subscription(subscription_name)
-		subscription_setup.ReceiveSettings.Synchronous = true
-		subscription_setup.ReceiveSettings.NumGoroutines = 1
-		subscription_setup.ReceiveSettings.MaxOutstandingMessages = 1
+		subscription_setup.ReceiveSettings.MaxOutstandingMessages = 5
 		go __archetype_subscription_constructor(subscription_setup.Receive, subscription_name)
 		return nil
 	}, container.InjectionProps{
