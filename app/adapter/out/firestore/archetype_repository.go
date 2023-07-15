@@ -9,6 +9,6 @@ import (
 )
 
 var ArchetypeRepository out.ArchetypeOutBoundPort = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]string) error {
-	var _ *firestore.CollectionRef = einar.Client.Collection("INSERT_YOUR_COLLECTION_CONSTANT_HERE")
+	var _ *firestore.CollectionRef = einar.Collection("INSERT_YOUR_COLLECTION_CONSTANT_HERE")
 	return nil
 }

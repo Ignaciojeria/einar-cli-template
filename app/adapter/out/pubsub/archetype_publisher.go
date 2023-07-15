@@ -2,29 +2,15 @@ package pubsub
 
 import (
 	"archetype/app/domain/ports/out"
-	"archetype/app/shared/archetype/container"
 	einar "archetype/app/shared/archetype/pubsub"
 	"context"
 	"encoding/json"
 	"fmt"
 
 	"cloud.google.com/go/pubsub"
-	"github.com/google/uuid"
 )
 
-var archetypeTopic *pubsub.Topic
-
-func init() {
-	container.InjectOutboundAdapter(func() error {
-		archetypeTopic = einar.Client.Topic("INSERT YOUR TOPIC NAME HERE")
-		return nil
-	}, container.InjectionProps{
-		DependencyID: uuid.NewString(),
-	})
-}
-
 var ArchetypePublisher out.ArchetypeOutBoundPort = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]string) error {
-
 	bytes, err := json.Marshal(REPLACE_BY_YOUR_DOMAIN)
 	if err != nil {
 		fmt.Println("Error:", err)
@@ -39,7 +25,7 @@ var ArchetypePublisher out.ArchetypeOutBoundPort = func(ctx context.Context, REP
 		Data: bytes,
 	}
 
-	result := archetypeTopic.Publish(ctx, message)
+	result := einar.Topic("INSERT YOUR TOPIC NAME HERE").Publish(ctx, message)
 
 	// Get the server-generated message ID.
 	messageID, err := result.Get(ctx)
