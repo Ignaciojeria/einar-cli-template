@@ -81,6 +81,35 @@
         }]
     },
     {
+        "kind":"usecase",
+        "adapter_type":"inbound",
+        "command":"einar generate usecase ${operation_name}",
+        "depends_on":[""],
+        "files": [{
+            "source_file": "app/business/archetype_usecase.go",
+            "destination_dir": "app/business",
+            "ioc_discovery":true,
+            "port":{
+                "source_file": "app/domain/ports/in/archetype_inbound_port.go",
+                "destination_dir": "app/domain/ports/in"
+            },
+            "replace_holders": [
+                {
+                    "kind":"PascalCase",
+                    "name": "ArchetypeUseCase",
+                    "append_at_start":"",
+                    "append_at_end":""
+                },
+                {
+                    "kind":"PascalCase",
+                    "name": "ArchetypeInBoundPort",
+                    "append_at_start":"",
+                    "append_at_end":""
+                }
+            ]
+        }]
+    },
+    {
         "kind":"postgres-repository",
         "adapter_type":"outbound",
         "command":"einar generate postgres-repository ${operation_name}",
