@@ -34,7 +34,6 @@ const ENV Config = "ENV"
 const INTEGRATION_TESTS Config = "INTEGRATION_TESTS"
 
 const GOOGLE_PROJECT_ID Config = "GOOGLE_PROJECT_ID"
-const GOOGLE_APPLICATION_CRETENTIALS_B64 Config = "GOOGLE_APPLICATION_CRETENTIALS_B64"
 
 const DATABASE_POSTGRES_HOSTNAME Config = "DATABASE_POSTGRES_HOSTNAME"
 const DATABASE_POSTGRES_PORT Config = "DATABASE_POSTGRES_PORT"
@@ -78,7 +77,6 @@ func Setup() error {
 
 	if Installations.EnablePubSub || Installations.EnableFirestore {
 		requiredEnvVars = append(requiredEnvVars, GOOGLE_PROJECT_ID)
-		requiredEnvVars = append(requiredEnvVars, GOOGLE_APPLICATION_CRETENTIALS_B64)
 	}
 
 	if Installations.EnablePostgreSQLDB {

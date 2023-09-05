@@ -7,7 +7,7 @@ ENV = "local"
 ##################################
 #ENABLE FOR PUBSUB OR FIRESTORE ARCHETYPE INSTALLATION
 #GOOGLE_PROJECT_ID = "secret"
-#GOOGLE_APPLICATION_CRETENTIALS_B64 = "secret"
+#GOOGLE_APPLICATION_CRETENTIALS = "secret"
 ##################################
 #ENABLE FOR REDIS ARCHETYPE INSTALLATION
 #REDIS_ADDRESS = "localhost:6379"
