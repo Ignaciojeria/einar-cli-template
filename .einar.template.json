@@ -250,6 +250,26 @@
         }]
     },
     {
+        "kind":"example-controller",
+        "adapter_type":"inbound",
+        "command":"einar generate get-controller ${operation_name}",
+        "depends_on":["echo-server"],
+        "has_component_dir": true,
+        "files": [{
+            "source_file": "app/adapter/in/controller/archetype_get_controller.go",
+            "destination_dir": "app/adapter/in/controller",
+            "ioc_discovery":true,
+            "replace_holders": [
+                {
+                    "kind":"camelCase",
+                    "name": "archetypeGetController",
+                    "append_at_start":"",
+                    "append_at_end":""
+                }
+            ]
+        }]
+    }, 
+    {
         "kind":"put-controller",
         "adapter_type":"inbound",
         "command":"einar generate put-controller ${operation_name}",
