@@ -41,6 +41,18 @@
                     "name": "__archetype_subscription_constructor",
                     "append_at_start":"",
                     "append_at_end":""
+                },
+                {
+                    "kind":"snake_case",
+                    "name": "__archetype_subscription_error_when_pull",
+                    "append_at_start":"",
+                    "append_at_end":"_error"
+                },
+                {
+                    "kind":"snake_case",
+                    "name": "__archetype_subscription_pull_succedded",
+                    "append_at_start":"",
+                    "append_at_end":"_succedded"
                 }
             ]
         }]

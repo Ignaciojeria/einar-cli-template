@@ -8,6 +8,8 @@ import (
 	einar "archetype/app/shared/archetype/pubsub"
 	"archetype/app/shared/archetype/pubsub/subscription"
 
+	"archetype/app/shared/archetype/slog"
+
 	"archetype/app/shared/constants"
 
 	"time"
@@ -62,17 +64,26 @@ func (s __archetype_subscription_struct) receive(ctx context.Context, m *pubsub.
 	s.processMessage(ctx, m)
 }
 
-func (s __archetype_subscription_struct) processMessage(ctx context.Context, m *pubsub.Message) error {
+func (s __archetype_subscription_struct) processMessage(ctx context.Context, m *pubsub.Message) (err error) {
+
+	defer func() {
+		if err != nil {
+			slog.Logger.Error(
+				"__archetype_subscription_error_when_pull",
+				constants.SUBSCRIPTION_NAME, s.subscriptionName,
+				constants.ERROR, err.Error(),
+			)
+			return
+		}
+		slog.Logger.Info(
+			"__archetype_subscription_pull_succedded",
+			constants.SUBSCRIPTION_NAME, s.subscriptionName,
+			constants.ERROR, err.Error(),
+		)
+	}()
 
 	var replace_by_your_model interface{}
-	err := json.Unmarshal(m.Data, &replace_by_your_model)
-
-	if err != nil {
-		log.
-			Error().
-			Str(constants.SUBSCRIPTION_NAME, s.subscriptionName).
-			Err(err).
-			Msg("error unmarshaling m.Data")
+	if json.Unmarshal(m.Data, &replace_by_your_model) != nil {
 		m.Ack()
 		return err
 	}

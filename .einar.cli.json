@@ -3,7 +3,7 @@
     "project":"${project}",
     "template":{
         "id":"d11193b5-a7b7-435f-823b-4d36edb4f5d2",
-        "url":"https://github.com/Ignaciojeria/einar-cli-template"
+        "url":"https://github.com/Ignaciojeria/einar-cli-template/tree/main-1.21.0"
     },
     "components":[],
     "installations": []

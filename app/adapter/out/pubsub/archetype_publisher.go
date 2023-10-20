@@ -10,10 +10,10 @@ import (
 	"cloud.google.com/go/pubsub"
 )
 
-var ArchetypePublisher out.ArchetypeOutBoundPort = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]string) error {
+var ArchetypePublisher out.ArchetypeOutBoundPort = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]string) (err error) {
+
 	bytes, err := json.Marshal(REPLACE_BY_YOUR_DOMAIN)
 	if err != nil {
-		fmt.Println("Error:", err)
 		return err
 	}
 
@@ -30,9 +30,6 @@ var ArchetypePublisher out.ArchetypeOutBoundPort = func(ctx context.Context, REP
 	// Get the server-generated message ID.
 	messageID, err := result.Get(ctx)
 	if err != nil {
-		// Handle the error
-		fmt.Println("Error occurred while publishing the result:", err.Error())
-		// Perform any necessary error handling actions
 		return err
 	}
 
