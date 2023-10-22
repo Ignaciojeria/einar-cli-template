@@ -373,6 +373,10 @@
                 "destination_dir": "app/shared/archetype/container"
             },
             {
+                "source_dir": "app/shared/archetype/slog",
+                "destination_dir": "app/shared/archetype/slog"
+            },
+            {
                 "source_dir": "app/shared/constants",
                 "destination_dir": "app/shared/constants"
             }
