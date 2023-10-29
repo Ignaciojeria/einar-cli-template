@@ -12,7 +12,7 @@ import (
 
 func init() {
 	container.InjectInboundAdapter(func() error {
-		einar.Echo.DELETE("/INSERT_YOUR_PATTERN_HERE", archetypeDeleteController)
+		einar.Echo.DELETE("/api/insert_your_pattern_here", archetypeDeleteController)
 		return nil
 	}, container.InjectionProps{
 		DependencyID: uuid.NewString(),
@@ -20,5 +20,5 @@ func init() {
 }
 
 func archetypeDeleteController(c echo.Context) error {
-	return c.JSON(http.StatusOK, "INSERT_YOUR_CUSTOM_RESPONSE")
+	return c.JSON(http.StatusOK, "insert_your_custom_response")
 }

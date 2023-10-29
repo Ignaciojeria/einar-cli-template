@@ -25,6 +25,7 @@ func init() {
 	}, container.InjectionProps{DependencyID: uuid.NewString()})
 
 	container.InjectHTTPServer(func() error {
+		setUpRenderer(EmbeddedPatterns...)
 		for _, route := range Echo.Routes() {
 			fmt.Printf("Method: %v, Path: %v, Name: %v\n", route.Method, route.Path, route.Name)
 		}

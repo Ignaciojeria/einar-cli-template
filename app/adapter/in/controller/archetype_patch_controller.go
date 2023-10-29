@@ -12,7 +12,7 @@ import (
 
 func init() {
 	container.InjectInboundAdapter(func() error {
-		einar.Echo.PATCH("/INSERT_YOUR_PATTERN_HERE", archetypePatchController)
+		einar.Echo.PATCH("/api/insert_your_pattern_here", archetypePatchController)
 		return nil
 	}, container.InjectionProps{
 		DependencyID: uuid.NewString(),
@@ -20,5 +20,5 @@ func init() {
 }
 
 func archetypePatchController(c echo.Context) error {
-	return c.JSON(http.StatusOK, "INSERT_YOUR_CUSTOM_RESPONSE")
+	return c.JSON(http.StatusOK, "insert_your_custom_response")
 }

@@ -262,25 +262,49 @@
         }]
     },
     {
-        "kind":"example-controller",
+        "kind":"view",
         "adapter_type":"inbound",
-        "command":"einar generate get-controller ${operation_name}",
+        "command":"einar generate view ${operation_name}",
         "depends_on":["echo-server"],
         "has_component_dir": true,
-        "files": [{
-            "source_file": "app/adapter/in/controller/archetype_get_controller.go",
-            "destination_dir": "app/adapter/in/controller",
-            "ioc_discovery":true,
-            "replace_holders": [
-                {
-                    "kind":"camelCase",
-                    "name": "archetypeGetController",
-                    "append_at_start":"",
-                    "append_at_end":""
-                }
-            ]
-        }]
-    }, 
+        "files": [
+            {
+            "source_file": "app/adapter/in/view/archetype_view.css",
+            "destination_dir": "app/adapter/in/view",
+            "ioc_discovery":false
+            },
+            {
+                "source_file": "app/adapter/in/view/archetype_view.html",
+                "destination_dir": "app/adapter/in/view",
+                "ioc_discovery":false
+            },
+            {
+                "source_file": "app/adapter/in/view/archetype_view.go",
+                "destination_dir": "app/adapter/in/view",
+                "ioc_discovery":true,
+                "replace_holders": [
+                    {
+                        "kind":"kebab-case",
+                        "name": "html_archetype_view",
+                        "append_at_start":"",
+                        "append_at_end":""
+                    },
+                    {
+                        "kind":"kebab-case",
+                        "name": "css_archetype_view",
+                        "append_at_start":"",
+                        "append_at_end":""
+                    },
+                    {
+                        "kind":"kebab-case",
+                        "name": "endpoint_archetype_view",
+                        "append_at_start":"",
+                        "append_at_end":""
+                    }
+                ]
+            }
+        ]
+    },
     {
         "kind":"put-controller",
         "adapter_type":"inbound",
