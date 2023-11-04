@@ -292,7 +292,7 @@
                         "append_at_end":""
                     },
                     {
-                        "kind":"CamelCase",
+                        "kind":"PascalCase",
                         "name": "ComponentConstantName",
                         "append_at_start":"",
                         "append_at_end":""
@@ -300,13 +300,13 @@
                 ]
             },
             {
-                "source_file": "app/adapter/in/view/component",
+                "source_file": "app/adapter/in/view/component/archetype_constant.go",
                 "destination_dir": "app/adapter/in/view/component",
                 "ioc_discovery":true,
                 "has_component_dir": false,
                 "replace_holders": [   
                     {
-                        "kind":"CamelCase",
+                        "kind":"PascalCase",
                         "name": "ComponentConstantName",
                         "append_at_start":"",
                         "append_at_end":""
