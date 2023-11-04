@@ -39,5 +39,8 @@ func render(c echo.Context) error {
 	routerState := einar.NewRoutingState(c, map[string]string{
 		component.IndexComponentDefault: component.ComponentConstantName,
 	})
-	return c.Render(http.StatusOK, component.ComponentConstantName+component.DOT_HTML, routerState)
+	if c.Request().Header.Get(component.FlatContext) != "" {
+		return c.Render(http.StatusOK, component.ComponentConstantName+component.DOT_HTML, routerState)
+	}
+	return c.Render(http.StatusOK, component.Index+component.DOT_HTML, routerState)
 }
