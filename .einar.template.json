@@ -262,55 +262,52 @@
         }]
     },
     {
-        "kind":"view",
+        "kind":"web-component",
         "adapter_type":"inbound",
-        "command":"einar generate view ${operation_name}",
+        "command":"einar generate web-component ${operation_name}",
         "depends_on":["echo-server"],
-        "has_component_dir": true,
         "files": [
             {
             "source_file": "app/adapter/in/view_component/archetype_view.css",
             "destination_dir": "app/adapter/in/view",
-            "ioc_discovery":false
+            "ioc_discovery":false,
+            "has_component_dir": true
             },
             {
                 "source_file": "app/adapter/in/view_component/archetype_view.html",
                 "destination_dir": "app/adapter/in/view",
-                "ioc_discovery":false
+                "ioc_discovery":false,
+                "has_component_dir": true
             },
             {
                 "source_file": "app/adapter/in/view_component/archetype_view.go",
                 "destination_dir": "app/adapter/in/view",
                 "ioc_discovery":true,
+                "has_component_dir": true,
                 "replace_holders": [
                     {
                         "kind":"CamelCase",
-                        "name": ".App",
-                        "append_at_start":"",
+                        "name": "archetype_constant",
+                        "append_at_start":"component.",
                         "append_at_end":""
                     }
                 ]
             },
             {
-                "source_file": "app/adapter/in/view/component/app-component.go",
+                "source_file": "app/adapter/in/view_component/archetype_constant.go",
                 "destination_dir": "app/adapter/in/view/component",
                 "ioc_discovery":true,
+                "has_component_dir": false,
                 "replace_holders": [
                     {
                         "kind":"CamelCase",
-                        "name": ".App",
-                        "append_at_start":"",
-                        "append_at_end":""
-                    },
-                    {
-                        "kind":"CamelCase",
-                        "name": "App =",
+                        "name": "archetype_constant",
                         "append_at_start":"",
                         "append_at_end":""
                     },
                     {
                         "kind":"kebab-case",
-                        "name": "= \"app\"",
+                        "name": "archetype_constant_value",
                         "append_at_start":"",
                         "append_at_end":""
                     }
