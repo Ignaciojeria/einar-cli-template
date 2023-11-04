@@ -20,15 +20,15 @@ var css embed.FS
 func init() {
 	einar.EmbeddedPatterns = append(einar.EmbeddedPatterns, einar.EmbeddedPattern{
 		Content: html,
-		Pattern: archetype_constant + component.DOT_HTML,
+		Pattern: component.ComponentConstantName + component.DOT_HTML,
 	})
 	einar.EmbeddedPatterns = append(einar.EmbeddedPatterns, einar.EmbeddedPattern{
 		Content: css,
-		Pattern: archetype_constant + component.DOT_CSS,
+		Pattern: component.ComponentConstantName + component.DOT_CSS,
 	})
 	container.InjectInboundAdapter(func() error {
-		einar.Echo.GET("/"+archetype_constant, render)
-		einar.Echo.GET("/"+archetype_constant+component.DOT_CSS, echo.WrapHandler(http.FileServer(http.FS(css))))
+		einar.Echo.GET("/"+component.ComponentConstantName, render)
+		einar.Echo.GET("/"+component.ComponentConstantName+component.DOT_CSS, echo.WrapHandler(http.FileServer(http.FS(css))))
 		return nil
 	}, container.InjectionProps{
 		DependencyID: uuid.NewString(),
@@ -37,7 +37,7 @@ func init() {
 
 func render(c echo.Context) error {
 	routerState := einar.NewRoutingState(c, map[string]string{
-		component.IndexComponentDefault: archetype_constant,
+		component.IndexComponentDefault: component.ComponentConstantName,
 	})
-	return c.Render(http.StatusOK, archetype_constant+component.DOT_HTML, routerState)
+	return c.Render(http.StatusOK, component.ComponentConstantName+component.DOT_HTML, routerState)
 }

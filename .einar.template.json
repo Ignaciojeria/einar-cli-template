@@ -299,15 +299,21 @@
                 "ioc_discovery":true,
                 "has_component_dir": false,
                 "replace_holders": [
+                        {
+                        "kind":"snake_case",
+                        "name": "ArchetypeView",
+                        "append_at_start":"",
+                        "append_at_end":""
+                    },
                     {
                         "kind":"CamelCase",
-                        "name": "archetype_constant",
+                        "name": "ComponentConstantName",
                         "append_at_start":"",
                         "append_at_end":""
                     },
                     {
                         "kind":"kebab-case",
-                        "name": "archetype_constant_value",
+                        "name": "ComponentConstantValue",
                         "append_at_start":"",
                         "append_at_end":""
                     }
