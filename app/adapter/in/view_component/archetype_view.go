@@ -38,6 +38,7 @@ func init() {
 func render(c echo.Context) error {
 	routerState := einar.NewRoutingState(c, map[string]string{
 		component.IndexComponentDefault: component.App,
+		component.Name:                  component.App,
 	})
 	return c.Render(http.StatusOK, component.App+component.DOT_HTML, routerState)
 }
