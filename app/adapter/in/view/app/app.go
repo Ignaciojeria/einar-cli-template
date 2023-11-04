@@ -1,6 +1,7 @@
-package controller
+package app
 
 import (
+	"archetype/app/adapter/in/view/component"
 	"archetype/app/shared/archetype/container"
 	einar "archetype/app/shared/archetype/echo_server"
 	"embed"
@@ -19,15 +20,15 @@ var css embed.FS
 func init() {
 	einar.EmbeddedPatterns = append(einar.EmbeddedPatterns, einar.EmbeddedPattern{
 		Content: html,
-		Pattern: "html_archetype_view.html",
+		Pattern: component.App + component.DOT_HTML,
 	})
 	einar.EmbeddedPatterns = append(einar.EmbeddedPatterns, einar.EmbeddedPattern{
 		Content: css,
-		Pattern: "css_archetype_view.css",
+		Pattern: component.App + component.DOT_CSS,
 	})
 	container.InjectInboundAdapter(func() error {
-		einar.Echo.GET("/endpoint_archetype_view", render)
-		einar.Echo.GET("/styles/css_archetype_view.css", echo.WrapHandler(http.FileServer(http.FS(css))))
+		einar.Echo.GET("/"+component.App, render)
+		einar.Echo.GET("/"+component.App+component.DOT_CSS, echo.WrapHandler(http.FileServer(http.FS(css))))
 		return nil
 	}, container.InjectionProps{
 		DependencyID: uuid.NewString(),
@@ -35,8 +36,8 @@ func init() {
 }
 
 func render(c echo.Context) error {
-	data := map[string]interface{}{
-		"componentName": "endpoint_archetype_view",
-	}
-	return c.Render(http.StatusOK, "html_archetype_view.html", data)
+	routerState := einar.NewRoutingState(c, map[string]string{
+		component.IndexComponentDefault: component.App,
+	})
+	return c.Render(http.StatusOK, component.App+component.DOT_HTML, routerState)
 }

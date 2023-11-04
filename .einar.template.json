@@ -269,35 +269,48 @@
         "has_component_dir": true,
         "files": [
             {
-            "source_file": "app/adapter/in/view/archetype_view.css",
+            "source_file": "app/adapter/in/view_component/archetype_view.css",
             "destination_dir": "app/adapter/in/view",
             "ioc_discovery":false
             },
             {
-                "source_file": "app/adapter/in/view/archetype_view.html",
+                "source_file": "app/adapter/in/view_component/archetype_view.html",
                 "destination_dir": "app/adapter/in/view",
                 "ioc_discovery":false
             },
             {
-                "source_file": "app/adapter/in/view/archetype_view.go",
+                "source_file": "app/adapter/in/view_component/archetype_view.go",
                 "destination_dir": "app/adapter/in/view",
                 "ioc_discovery":true,
                 "replace_holders": [
                     {
-                        "kind":"kebab-case",
-                        "name": "html_archetype_view",
+                        "kind":"CamelCase",
+                        "name": ".App",
+                        "append_at_start":"",
+                        "append_at_end":""
+                    }
+                ]
+            },
+            {
+                "source_file": "app/adapter/in/view/component/app-component.go",
+                "destination_dir": "app/adapter/in/view/component",
+                "ioc_discovery":true,
+                "replace_holders": [
+                    {
+                        "kind":"CamelCase",
+                        "name": ".App",
+                        "append_at_start":"",
+                        "append_at_end":""
+                    },
+                    {
+                        "kind":"CamelCase",
+                        "name": "App =",
                         "append_at_start":"",
                         "append_at_end":""
                     },
                     {
                         "kind":"kebab-case",
-                        "name": "css_archetype_view",
-                        "append_at_start":"",
-                        "append_at_end":""
-                    },
-                    {
-                        "kind":"kebab-case",
-                        "name": "endpoint_archetype_view",
+                        "name": "= \"app\"",
                         "append_at_start":"",
                         "append_at_end":""
                     }
@@ -350,6 +363,13 @@
                 "github.com/labstack/echo/v4",
                 "github.com/labstack/echo/v4/middleware"
             ]
+        },
+        {
+            "name":"web-components",
+            "source_dir": "app/adapter/in/view",
+            "destination_dir": "app/adapter/in/view",
+            "command":"einar install web-components",
+            "libraries": []
         },
         {
             "name":"firestore",
