@@ -352,9 +352,21 @@
             "replace_holders": [
                 {
                     "kind":"camelCase",
-                    "name": "cliArchetypeCmd",
+                    "name": "archetypeCmdUsage",
+                    "append_at_start":"",
+                    "append_at_end":""
+                },
+                {
+                    "kind":"camelCase",
+                    "name": "archetypeCmd",
                     "append_at_start":"",
                     "append_at_end":"Cmd"
+                },
+                {
+                    "kind":"camelCase",
+                    "name": "runArchetypeCmd",
+                    "append_at_start":"run",
+                    "append_at_end":""
                 }
             ]
         }]
@@ -370,8 +382,8 @@
         },
         {
             "name":"cobra-cli",
-            "source_dir": "app/shared/archetype/cobra_cli",
-            "destination_dir": "app/shared/archetype/cobra_cli",
+            "source_dir": "app/shared/archetype/cmd",
+            "destination_dir": "app/shared/archetype/cmd",
             "command":"einar install cobra-cli",
             "libraries": ["github.com/spf13/cobra"]
         },

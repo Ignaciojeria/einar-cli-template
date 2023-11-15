@@ -1,7 +1,7 @@
 package cli
 
 import (
-	"archetype/app/shared/archetype/cobra_cli"
+	"archetype/app/shared/archetype/cmd"
 	"archetype/app/shared/archetype/container"
 	"fmt"
 
@@ -11,19 +11,19 @@ import (
 
 func init() {
 	container.InjectInboundAdapter(func() error {
-		cobra_cli.RootCmd.AddCommand(cliArchetypeCmd)
+		cmd.RootCmd.AddCommand(archetypeCmd)
 		return nil
 	}, container.InjectionProps{
 		DependencyID: uuid.NewString(),
 	})
 }
 
-var cliArchetypeCmd = &cobra.Command{
-	Use:   "cliArchetype",
+var archetypeCmd = &cobra.Command{
+	Use:   "archetypeCmdUsage",
 	Short: "short description of your command",
-	Run:   runCliArchetypeCmd,
+	Run:   runArchetypeCmd,
 }
 
-func runCliArchetypeCmd(cmd *cobra.Command, args []string) {
-	fmt.Println("Hello from cliArchetypeCmd")
+func runArchetypeCmd(cmd *cobra.Command, args []string) {
+	fmt.Println("Hello from archetypeCmdUsage")
 }

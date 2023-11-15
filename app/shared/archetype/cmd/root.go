@@ -1,4 +1,4 @@
-package cobra_cli
+package cmd
 
 import (
 	"os"
