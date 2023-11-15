@@ -19,7 +19,8 @@ func init() {
 		pwd := config.DATABASE_POSTGRES_PASSWORD.Get()
 		host := config.DATABASE_POSTGRES_HOSTNAME.Get()
 		dbname := config.DATABASE_POSTGRES_NAME.Get()
-		db, err := gorm.Open(postgres.Open("postgres://" + username + ":" + pwd + "@" + host + "/" + dbname + "?sslmode=disable"))
+		sslMode := config.DATABASE_POSTGRES_SSL_MODE.Get()
+		db, err := gorm.Open(postgres.Open("postgres://" + username + ":" + pwd + "@" + host + "/" + dbname + "?sslmode=" + sslMode))
 		if err != nil {
 			log.Error().Err(err).Msg("error getting postgresql connection")
 			return err

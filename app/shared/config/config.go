@@ -40,6 +40,7 @@ const DATABASE_POSTGRES_PORT Config = "DATABASE_POSTGRES_PORT"
 const DATABASE_POSTGRES_NAME Config = "DATABASE_POSTGRES_NAME"
 const DATABASE_POSTGRES_USERNAME Config = "DATABASE_POSTGRES_USERNAME"
 const DATABASE_POSTGRES_PASSWORD Config = "DATABASE_POSTGRES_PASSWORD"
+const DATABASE_POSTGRES_SSL_MODE Config = "DATABASE_POSTGRES_SSL_MODE"
 
 // Redis configuration
 const REDIS_ADDRESS Config = "REDIS_ADDRESS"
@@ -85,6 +86,7 @@ func Setup() error {
 		requiredEnvVars = append(requiredEnvVars, DATABASE_POSTGRES_NAME)
 		requiredEnvVars = append(requiredEnvVars, DATABASE_POSTGRES_USERNAME)
 		requiredEnvVars = append(requiredEnvVars, DATABASE_POSTGRES_PASSWORD)
+		requiredEnvVars = append(requiredEnvVars, DATABASE_POSTGRES_SSL_MODE)
 	}
 
 	if Installations.EnableRedis {
