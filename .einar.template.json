@@ -339,7 +339,27 @@
                 }
             ]
         }]
-    }],
+    },
+    {
+        "kind":"cmd",
+        "adapter_type":"inbound",
+        "command":"einar generate cmd ${operation_name}",
+        "depends_on":["cobra-cli"],
+        "files": [{
+            "source_file": "app/adapter/in/cli/archetype_cmd.go",
+            "destination_dir": "app/adapter/in/cli",
+            "ioc_discovery":true,
+            "replace_holders": [
+                {
+                    "kind":"camelCase",
+                    "name": "cliArchetypeCmd",
+                    "append_at_start":"",
+                    "append_at_end":"Cmd"
+                }
+            ]
+        }]
+    }
+],
     "installation_commands": [
         {
             "name":"pubsub",
@@ -347,6 +367,13 @@
             "destination_dir": "app/shared/archetype/pubsub",
             "command":"einar install pubsub",
             "libraries": ["cloud.google.com/go/pubsub"]
+        },
+        {
+            "name":"cobra-cli",
+            "source_dir": "app/shared/archetype/cobra_cli",
+            "destination_dir": "app/shared/archetype/cobra_cli",
+            "command":"einar install cobra-cli",
+            "libraries": ["github.com/spf13/cobra"]
         },
         {
             "name":"resty",
