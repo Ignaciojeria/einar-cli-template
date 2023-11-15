@@ -4,6 +4,7 @@ import (
 	"errors"
 	"os"
 
+	"github.com/google/uuid"
 	"github.com/rs/zerolog/log"
 )
 
@@ -44,20 +45,20 @@ func Inject(dependency LoadDependency, props InjectionProps, container map[strin
 	return nil
 }
 
-func InjectInboundAdapter(dependency LoadDependency, props InjectionProps) error {
-	return Inject(dependency, props, InboundAdapterContainer)
+func InjectInboundAdapter(dependency LoadDependency, props ...InjectionProps) error {
+	return Inject(dependency, InjectionProps{uuid.NewString()}, InboundAdapterContainer)
 }
 
-func InjectOutboundAdapter(dependency LoadDependency, props InjectionProps) error {
-	return Inject(dependency, props, OutboundAdapterContainer)
+func InjectOutboundAdapter(dependency LoadDependency, props ...InjectionProps) error {
+	return Inject(dependency, InjectionProps{uuid.NewString()}, OutboundAdapterContainer)
 }
 
-func InjectInstallation(dependency LoadDependency, props InjectionProps) error {
-	return Inject(dependency, props, InstallationsContainer)
+func InjectInstallation(dependency LoadDependency, props ...InjectionProps) error {
+	return Inject(dependency, InjectionProps{uuid.NewString()}, InstallationsContainer)
 }
 
-func InjectHTTPServer(dependency LoadDependency, props InjectionProps) error {
-	HTTPServerContainer = DependencyContainer{LoadDependency: dependency, InjectionProps: props, isPresent: true}
+func InjectHTTPServer(dependency LoadDependency, props ...InjectionProps) error {
+	HTTPServerContainer = DependencyContainer{LoadDependency: dependency, InjectionProps: InjectionProps{uuid.NewString()}, isPresent: true}
 	return nil
 }
 

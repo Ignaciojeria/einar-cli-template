@@ -7,7 +7,6 @@ import (
 	"embed"
 	"net/http"
 
-	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 )
 
@@ -30,8 +29,6 @@ func init() {
 		einar.Echo.GET("/", render)
 		einar.Echo.GET("/"+component.Index+component.DOT_CSS, echo.WrapHandler(http.FileServer(http.FS(css))))
 		return nil
-	}, container.InjectionProps{
-		DependencyID: uuid.NewString(),
 	})
 }
 

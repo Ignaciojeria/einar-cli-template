@@ -5,7 +5,6 @@ import (
 	"archetype/app/shared/config"
 	"sync"
 
-	"github.com/google/uuid"
 	"github.com/rs/zerolog/log"
 
 	"context"
@@ -41,7 +40,7 @@ func init() {
 		}
 		Client = c
 		return nil
-	}, container.InjectionProps{DependencyID: uuid.NewString()})
+	})
 }
 
 // Collection fetches a *firestore.CollectionRef by name. If the CollectionRef exists in the sync.Map, it's returned, otherwise a new one is created and stored in the map.

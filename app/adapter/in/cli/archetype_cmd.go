@@ -5,7 +5,6 @@ import (
 	"archetype/app/shared/archetype/container"
 	"fmt"
 
-	"github.com/google/uuid"
 	"github.com/spf13/cobra"
 )
 
@@ -13,8 +12,6 @@ func init() {
 	container.InjectInboundAdapter(func() error {
 		cmd.RootCmd.AddCommand(archetypeCmd)
 		return nil
-	}, container.InjectionProps{
-		DependencyID: uuid.NewString(),
 	})
 }
 

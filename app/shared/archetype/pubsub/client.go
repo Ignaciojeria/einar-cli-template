@@ -7,7 +7,6 @@ import (
 	"sync"
 
 	"cloud.google.com/go/pubsub"
-	"github.com/google/uuid"
 	"github.com/rs/zerolog/log"
 )
 
@@ -27,8 +26,6 @@ func init() {
 		}
 		Client = c
 		return nil
-	}, container.InjectionProps{
-		DependencyID: uuid.NewString(),
 	})
 }
 

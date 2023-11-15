@@ -4,9 +4,7 @@ import (
 	"archetype/app/shared/archetype/container"
 	"archetype/app/shared/config"
 	"fmt"
-	"net/http"
 
-	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/rs/zerolog/log"
@@ -22,7 +20,7 @@ func init() {
 		Echo.Use(middleware.Logger())
 		Echo.Use(middleware.Recover())
 		return nil
-	}, container.InjectionProps{DependencyID: uuid.NewString()})
+	})
 
 	container.InjectHTTPServer(func() error {
 		setUpRenderer(EmbeddedPatterns...)
@@ -35,15 +33,6 @@ func init() {
 			return err
 		}
 		return nil
-	}, container.InjectionProps{DependencyID: uuid.NewString()})
+	})
 
-}
-
-func init() {
-	container.InjectInboundAdapter(func() error {
-		Echo.GET("/health", func(c echo.Context) error {
-			return c.String(http.StatusOK, "UP")
-		})
-		return nil
-	}, container.InjectionProps{DependencyID: uuid.NewString()})
 }

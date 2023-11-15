@@ -4,7 +4,6 @@ import (
 	"archetype/app/shared/archetype/container"
 	"archetype/app/shared/config"
 
-	"github.com/google/uuid"
 	"github.com/rs/zerolog/log"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -27,7 +26,5 @@ func init() {
 		}
 		DB = db
 		return nil
-	}, container.InjectionProps{
-		DependencyID: uuid.NewString(),
 	})
 }

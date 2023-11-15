@@ -15,7 +15,6 @@ import (
 	"time"
 
 	"cloud.google.com/go/pubsub"
-	"github.com/google/uuid"
 	"github.com/rs/zerolog/log"
 )
 
@@ -55,8 +54,6 @@ func init() {
 		subscription_setup.ReceiveSettings.MaxOutstandingMessages = 5
 		go __archetype_subscription_constructor(subscription_setup.Receive, subscription_name)
 		return nil
-	}, container.InjectionProps{
-		DependencyID: uuid.NewString(),
 	})
 }
 

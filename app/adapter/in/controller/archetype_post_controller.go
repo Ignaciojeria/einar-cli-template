@@ -6,7 +6,6 @@ import (
 
 	"net/http"
 
-	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 )
 
@@ -14,8 +13,6 @@ func init() {
 	container.InjectInboundAdapter(func() error {
 		einar.Echo.POST("/api/insert_your_pattern_here", archetypePostController)
 		return nil
-	}, container.InjectionProps{
-		DependencyID: uuid.NewString(),
 	})
 }
 
