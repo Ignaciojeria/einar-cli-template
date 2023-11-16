@@ -70,10 +70,7 @@ func Setup() error {
 
 	// Check that all required environment variables are set
 	requiredEnvVars := []Config{
-		//ARCHETYPE CONFIGURATION
-		PORT,
-		COUNTRY,
-		SERVICE,
+		//PUT YOUR CUSTOM REQUIRED ENVIRONMENTS
 	}
 
 	if Installations.EnablePubSub || Installations.EnableFirestore {
@@ -92,6 +89,10 @@ func Setup() error {
 	if Installations.EnableRedis {
 		requiredEnvVars = append(requiredEnvVars, REDIS_ADDRESS)
 		requiredEnvVars = append(requiredEnvVars, REDIS_PASSWORD)
+	}
+
+	if Installations.EnableHTTPServer {
+		requiredEnvVars = append(requiredEnvVars, PORT)
 	}
 
 	for _, envVar := range requiredEnvVars {
