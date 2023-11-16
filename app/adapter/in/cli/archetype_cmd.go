@@ -12,7 +12,7 @@ func init() {
 }
 
 var archetypeCmd = &cobra.Command{
-	Use:   "archetypeCmdUsage",
+	Use:   "_example",
 	Short: "short description of your command",
 	Run:   runArchetypeCmd,
 }
