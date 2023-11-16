@@ -3,16 +3,10 @@ package archetype
 import (
 	"archetype/app/shared/archetype/container"
 	"archetype/app/shared/config"
-
-	"github.com/rs/zerolog"
 )
 
 // ARCHETYPE CONFIGURATION
 func Setup() error {
-	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
-	zerolog.LevelFieldName = "severity"
-	zerolog.TimestampFieldName = "timestamp"
-
 	if err := config.Setup(); err != nil {
 		return err
 	}

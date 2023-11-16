@@ -2,10 +2,10 @@ package firestore
 
 import (
 	"archetype/app/shared/archetype/container"
+	"archetype/app/shared/archetype/slog"
 	"archetype/app/shared/config"
+	"archetype/app/shared/constants"
 	"sync"
-
-	"github.com/rs/zerolog/log"
 
 	"context"
 
@@ -22,20 +22,16 @@ func init() {
 	config.Installations.EnableFirestore = true
 	container.InjectInstallation(func() error {
 		ctx := context.Background()
-
 		app, err := firebase.NewApp(ctx, &firebase.Config{
 			ProjectID: config.GOOGLE_PROJECT_ID.Get(),
 		})
-
 		if err != nil {
-			log.Error().Err(err).Msg("error initializing firebase app")
+			slog.Logger.Error("error initializing firebase app", constants.ERROR, err.Error())
 			return err
 		}
-
 		c, err := app.Firestore(ctx)
-
 		if err != nil {
-			log.Error().Err(err).Msg("error getting firestore client")
+			slog.Logger.Error("error getting firestore client", constants.ERROR, err.Error())
 			return err
 		}
 		Client = c

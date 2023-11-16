@@ -2,12 +2,13 @@ package echo_server
 
 import (
 	"archetype/app/shared/archetype/container"
+	"archetype/app/shared/archetype/slog"
 	"archetype/app/shared/config"
+	"archetype/app/shared/constants"
 	"fmt"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"github.com/rs/zerolog/log"
 )
 
 var Echo *echo.Echo
@@ -29,7 +30,10 @@ func init() {
 		}
 		err := Echo.Start(":" + config.PORT.Get())
 		if err != nil {
-			log.Error().Err(err).Msg("error initializing application server")
+			slog.
+				Logger.
+				Error("error initializing application server",
+					constants.ERROR, err.Error())
 			return err
 		}
 		return nil

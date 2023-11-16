@@ -2,9 +2,10 @@ package postgres
 
 import (
 	"archetype/app/shared/archetype/container"
+	"archetype/app/shared/archetype/slog"
 	"archetype/app/shared/config"
+	"archetype/app/shared/constants"
 
-	"github.com/rs/zerolog/log"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -21,7 +22,7 @@ func init() {
 		sslMode := config.DATABASE_POSTGRES_SSL_MODE.Get()
 		db, err := gorm.Open(postgres.Open("postgres://" + username + ":" + pwd + "@" + host + "/" + dbname + "?sslmode=" + sslMode))
 		if err != nil {
-			log.Error().Err(err).Msg("error getting postgresql connection")
+			slog.Logger.Error("error getting postgresql connection", constants.ERROR, err.Error())
 			return err
 		}
 		DB = db

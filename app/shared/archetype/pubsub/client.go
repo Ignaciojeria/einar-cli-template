@@ -2,12 +2,13 @@ package pubsub
 
 import (
 	"archetype/app/shared/archetype/container"
+	"archetype/app/shared/archetype/slog"
 	"archetype/app/shared/config"
+	"archetype/app/shared/constants"
 	"context"
 	"sync"
 
 	"cloud.google.com/go/pubsub"
-	"github.com/rs/zerolog/log"
 )
 
 var (
@@ -21,7 +22,7 @@ func init() {
 		projectId := config.GOOGLE_PROJECT_ID.Get()
 		c, err := pubsub.NewClient(context.Background(), projectId)
 		if err != nil {
-			log.Error().Err(err).Msg("error getting pubsub client")
+			slog.Logger.Error("error getting pubsub client", constants.ERROR, err.Error())
 			return err
 		}
 		Client = c

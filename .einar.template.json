@@ -1,10 +1,6 @@
 {
     "installations_base": [
         {
-            "name":"zerolog",
-            "library": "github.com/rs/zerolog"
-        },
-        {
             "name":"godotenv",
             "library": "github.com/joho/godotenv"
         },

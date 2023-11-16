@@ -15,7 +15,6 @@ import (
 	"time"
 
 	"cloud.google.com/go/pubsub"
-	"github.com/rs/zerolog/log"
 )
 
 var __archetype_subscription_stop bool = false
@@ -35,11 +34,11 @@ func __archetype_subscription_constructor(
 	}
 	ctx := context.Background()
 	if err := r(ctx, subscription.Middleware(subscriptionName, s.receive)); err != nil {
-		log.
-			Error().
-			Err(err).
-			Str(constants.SUBSCRIPTION_NAME, subscriptionName).
-			Msg(constants.SUSBCRIPTION_SIGNAL_BROKEN)
+		slog.Logger.Error(
+			constants.SUSBCRIPTION_SIGNAL_BROKEN,
+			constants.SUBSCRIPTION_NAME, s.subscriptionName,
+			constants.ERROR, err.Error(),
+		)
 		time.Sleep(10 * time.Second)
 		go __archetype_subscription_constructor(r, subscriptionName)
 		return s, err

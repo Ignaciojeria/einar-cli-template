@@ -1,11 +1,11 @@
 package container
 
 import (
+	"archetype/app/shared/archetype/slog"
 	"errors"
 	"os"
 
 	"github.com/google/uuid"
-	"github.com/rs/zerolog/log"
 )
 
 type DependencyContainer struct {
@@ -30,13 +30,13 @@ var (
 func Inject(dependency LoadDependency, props InjectionProps, container map[string]DependencyContainer) error {
 	if props.DependencyID == "" {
 		err := errors.New("container injector error on InjectionProps. DependencyID can't be empty")
-		log.Error().Err(err).Send()
+		slog.Logger.Error(err.Error())
 		return err
 	}
 
 	if _, exists := container[props.DependencyID]; exists {
 		err := errors.New("container injector error. Next dependency already exists: " + props.DependencyID)
-		log.Error().Err(err).Send()
+		slog.Logger.Error(err.Error())
 		return err
 	}
 

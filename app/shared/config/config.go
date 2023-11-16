@@ -1,11 +1,11 @@
 package config
 
 import (
+	"archetype/app/shared/archetype/slog"
 	"fmt"
 	"os"
 
 	"github.com/joho/godotenv"
-	"github.com/rs/zerolog/log"
 )
 
 type archetypeConfiguration struct {
@@ -65,7 +65,7 @@ func Setup() error {
 	errs := []string{}
 
 	if err := godotenv.Load(); err != nil {
-		log.Error().Err(err).Msg(".env file not found getting environments from envgonsul")
+		slog.Logger.Warn(".env file not found getting environments from system")
 	}
 
 	// Check that all required environment variables are set
@@ -102,7 +102,8 @@ func Setup() error {
 	}
 
 	if len(errs) > 0 {
-		log.Error().Strs("notFoundEnvironments", errs).Msg("error loading environment variables")
+		slog.Logger.Error("error loading environment variables", "notFoundEnvironments", errs)
+		//log.Error().Strs("notFoundEnvironments", errs).Msg("error loading environment variables")
 		return fmt.Errorf("error loading environment variables: %v", errs)
 	}
 
