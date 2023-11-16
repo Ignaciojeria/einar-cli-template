@@ -2,17 +2,13 @@ package cli
 
 import (
 	"archetype/app/shared/archetype/cmd"
-	"archetype/app/shared/archetype/container"
 	"fmt"
 
 	"github.com/spf13/cobra"
 )
 
 func init() {
-	container.InjectInboundAdapter(func() error {
-		cmd.RootCmd.AddCommand(archetypeCmd)
-		return nil
-	})
+	cmd.RootCmd.AddCommand(archetypeCmd)
 }
 
 var archetypeCmd = &cobra.Command{
@@ -22,5 +18,5 @@ var archetypeCmd = &cobra.Command{
 }
 
 func runArchetypeCmd(cmd *cobra.Command, args []string) {
-	fmt.Println("Hello from archetypeCmdUsage")
+	fmt.Println("_example command not implemented yet")
 }

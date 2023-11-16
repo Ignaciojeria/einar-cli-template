@@ -367,6 +367,12 @@
                     "name": "runArchetypeCmd",
                     "append_at_start":"run",
                     "append_at_end":""
+                },
+                {
+                    "kind":"camelCase",
+                    "name": "_example",
+                    "append_at_start":"",
+                    "append_at_end":""
                 }
             ]
         }]
