@@ -393,11 +393,6 @@
                     "ioc_discovery":true
                 },
                 {   
-                "source_file": "app/shared/archetype/cmd/root.go",
-                "destination_dir": "app/shared/archetype/cmd",
-                "ioc_discovery":true
-                },
-                {   
                     "source_file": "app/adapter/in/cli/connect.go",
                     "destination_dir": "app/adapter/in/cli",
                     "ioc_discovery":true
