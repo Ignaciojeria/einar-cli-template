@@ -261,7 +261,9 @@
         "kind":"web-component",
         "adapter_type":"inbound",
         "command":"einar generate web-component ${operation_name}",
-        "depends_on":["echo-server"],
+        "depends_on":[
+        "echo-server",
+        "web-components"],
         "files": [
             {
             "source_file": "app/adapter/in/view_component/archetype_view.css",
@@ -296,20 +298,20 @@
                 ]
             },
             {
-                "source_file": "app/adapter/in/view/component/archetype_constant.go",
+                "source_file": "app/adapter/in/view/component/app.go",
                 "destination_dir": "app/adapter/in/view/component",
                 "ioc_discovery":true,
                 "has_component_dir": false,
                 "replace_holders": [   
                     {
                         "kind":"PascalCase",
-                        "name": "ComponentConstantName",
-                        "append_at_start":"",
+                        "name": "App =",
+                        "append_at_start":"PascalCase",
                         "append_at_end":""
                     },
                     {
                         "kind":"kebab-case",
-                        "name": "ComponentConstantValue",
+                        "name": "`app`",
                         "append_at_start":"",
                         "append_at_end":""
                     }

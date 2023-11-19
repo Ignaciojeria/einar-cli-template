@@ -1,3 +1,3 @@
 package component
 
-const App = "app"
+const App = `app`
