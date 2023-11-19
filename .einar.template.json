@@ -291,8 +291,8 @@
                     },
                     {
                         "kind":"PascalCase",
-                        "name": "ComponentConstantName",
-                        "append_at_start":"",
+                        "name": ".App",
+                        "append_at_start":".",
                         "append_at_end":""
                     }
                 ]
