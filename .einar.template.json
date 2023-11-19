@@ -312,7 +312,7 @@
                     {
                         "kind":"kebab-case",
                         "name": "`app`",
-                        "append_at_start":"`",
+                        "append_at_start":"= `",
                         "append_at_end":"`"
                     }
                 ]
