@@ -386,8 +386,28 @@
         },
         {
             "name":"cobra-cli",
-            "source_dir": "app/shared/archetype/cmd",
-            "destination_dir": "app/shared/archetype/cmd",
+            "files": [
+                {   
+                    "source_file": "app/shared/archetype/cmd/root.go",
+                    "destination_dir": "app/shared/archetype/cmd",
+                    "ioc_discovery":true
+                },
+                {   
+                "source_file": "app/shared/archetype/cmd/root.go",
+                "destination_dir": "app/shared/archetype/cmd",
+                "ioc_discovery":true
+                },
+                {   
+                    "source_file": "app/adapter/in/cli/connect.go",
+                    "destination_dir": "app/adapter/in/cli",
+                    "ioc_discovery":true
+                },
+                {   
+                "source_file": "app/shared/archetype/cmd/main_mutation/main.go",
+                "destination_dir": "",
+                "ioc_discovery":false
+            }
+                ],
             "command":"einar install cobra-cli",
             "libraries": ["github.com/spf13/cobra"]
         },
