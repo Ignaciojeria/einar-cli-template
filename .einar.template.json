@@ -399,7 +399,7 @@
                 },
                 {   
                 "source_file": "app/shared/archetype/cmd/main_mutation/main.go",
-                "destination_dir": "",
+                "destination_dir": ".",
                 "ioc_discovery":false
             }
                 ],
