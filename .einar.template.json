@@ -393,9 +393,13 @@
         },
         {
             "name":"resty",
-            "source_dir": "app/shared/archetype/resty",
-            "destination_dir": "app/shared/archetype/resty",
             "command":"einar install resty",
+            "files": [
+            {   "source_file": "app/shared/archetype/resty/client.go",
+                "destination_dir": "app/shared/archetype/resty",
+                "ioc_discovery":true
+            }
+            ],
             "libraries": [
                 "github.com/go-resty/resty/v2"
             ]
