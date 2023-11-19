@@ -306,14 +306,14 @@
                     {
                         "kind":"PascalCase",
                         "name": "App =",
-                        "append_at_start":"PascalCase",
+                        "append_at_start":"",
                         "append_at_end":""
                     },
                     {
                         "kind":"kebab-case",
                         "name": "`app`",
-                        "append_at_start":"",
-                        "append_at_end":""
+                        "append_at_start":"`",
+                        "append_at_end":"`"
                     }
                 ]
             }
