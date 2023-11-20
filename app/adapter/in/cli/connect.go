@@ -29,7 +29,7 @@ func init() {
 func runconnect(cmd *cobra.Command, args []string) {
 	if len(args) > 0 && args[0] == "setup-child" {
 		// This is the child process for setup
-		os.Setenv(string(config.PORT), "5555")
+		os.Setenv(string(config.PORT), "5556")
 		if err := archetype.Setup(); err != nil {
 			fmt.Fprintf(os.Stderr, "Setup failed: %s\n", err)
 			os.Exit(1)

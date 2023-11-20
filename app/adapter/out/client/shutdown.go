@@ -14,7 +14,7 @@ var Shutdown = func(ctx context.Context) (err error) {
 	// Realiza una solicitud POST al endpoint de apagado
 	resp, err := client.R().
 		SetContext(ctx).
-		Post("http://localhost:5555/api/shutdown")
+		Post("http://localhost:5556/api/shutdown")
 
 	if err != nil {
 		return err // Manejo de errores en caso de fallar la solicitud

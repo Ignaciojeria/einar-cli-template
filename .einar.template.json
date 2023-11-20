@@ -422,6 +422,11 @@
                     "ioc_discovery":true
                 },
                 {   
+                    "source_file": "app/adapter/in/controller/shutdown.go",
+                    "destination_dir": "app/adapter/in/controller",
+                    "ioc_discovery":true
+                },
+                {   
                     "source_file": "app/adapter/in/cli/connect.go",
                     "destination_dir": "app/adapter/in/cli",
                     "ioc_discovery":false
