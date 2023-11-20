@@ -371,7 +371,11 @@
         "kind":"cmd",
         "adapter_type":"inbound",
         "command":"einar generate cmd ${operation_name}",
-        "depends_on":["cobra-cli"],
+        "depends_on":[
+            "echo-server",
+            "resty",
+            "cobra-cli"
+        ],
         "files": [{
             "source_file": "app/adapter/in/cli/archetype_cmd.go",
             "destination_dir": "app/adapter/in/cli",
