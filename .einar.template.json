@@ -395,7 +395,7 @@
                 {   
                     "source_file": "app/adapter/in/cli/connect.go",
                     "destination_dir": "app/adapter/in/cli",
-                    "ioc_discovery":true
+                    "ioc_discovery":false
                 },
                 {   
                 "source_file": "app/shared/archetype/cmd/main_mutation/main.go",
