@@ -145,7 +145,36 @@
                 }
             ]
         }]
-    },    
+    },
+    {
+        "kind":"http-client",
+        "adapter_type":"outbound",
+        "command":"einar generate http-client ${operation_name}",
+        "depends_on":["resty"],
+        "files": [{
+            "source_file": "app/adapter/out/client/archetype_client.go",
+            "destination_dir": "app/adapter/out/client",
+            "ioc_discovery":true,
+            "port":{
+                "source_file": "app/domain/ports/out/archetype_outbound_port.go",
+                "destination_dir": "app/domain/ports/out"
+            },
+            "replace_holders": [
+                {
+                    "kind":"PascalCase",
+                    "name": "ArchetypeRestyClient",
+                    "append_at_start":"",
+                    "append_at_end":""
+                },
+                {
+                    "kind":"PascalCase",
+                    "name": "ArchetypeOutBoundPort",
+                    "append_at_start":"",
+                    "append_at_end":""
+                }
+            ]
+        }]
+    },
     {
         "kind":"publisher",
         "adapter_type":"outbound",
