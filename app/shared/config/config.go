@@ -14,6 +14,7 @@ type archetypeConfiguration struct {
 	EnablePostgreSQLDB bool
 	EnablePubSub       bool
 	EnableFirestore    bool
+	EnableCobraCli     bool
 	EnableHTTPServer   bool
 	EnableRedis        bool
 	EnableRestyClient  bool

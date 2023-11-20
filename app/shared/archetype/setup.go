@@ -7,10 +7,11 @@ import (
 
 // ARCHETYPE CONFIGURATION
 func Setup() error {
-	if err := config.Setup(); err != nil {
-		return err
+	if !config.Installations.EnableCobraCli {
+		if err := config.Setup(); err != nil {
+			return err
+		}
 	}
-
 	if err := InjectInstallations(); err != nil {
 		return err
 	}

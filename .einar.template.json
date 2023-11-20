@@ -427,6 +427,16 @@
                     "ioc_discovery":false
                 },
                 {   
+                    "source_file": "app/adapter/in/cli/shutdown.go",
+                    "destination_dir": "app/adapter/in/cli",
+                    "ioc_discovery":false
+                },
+                {
+                    "source_file": "app/adapter/out/client/shutdown.go",
+                    "destination_dir": "app/adapter/out/client",
+                    "ioc_discovery":false
+                },
+                {   
                 "source_file": "app/shared/archetype/cmd/main_mutation/main.go",
                 "destination_dir": ".",
                 "ioc_discovery":false
