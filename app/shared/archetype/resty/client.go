@@ -11,8 +11,15 @@ var Client *resty.Client
 
 func init() {
 	config.Installations.EnableRestyClient = true
-	container.InjectInstallation(func() error {
+	LoadDependency()
+}
+
+func LoadDependency() container.LoadDependency {
+	var dependency container.LoadDependency = func() error {
+		//Customize your resty client here :
 		Client = resty.New()
 		return nil
-	})
+	}
+	container.InjectInstallation(dependency)
+	return dependency
 }
