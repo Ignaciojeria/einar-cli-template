@@ -419,6 +419,9 @@
         },
         {
             "name":"cobra-cli",
+            "depends_on":[
+            "echo-server",
+            "resty"],
             "files": [
                 {   
                     "source_file": "app/shared/archetype/cmd/root.go",
@@ -482,7 +485,8 @@
             "source_dir": "app/adapter/in/view",
             "destination_dir": "app/adapter/in/view",
             "command":"einar install web-components",
-            "libraries": []
+            "libraries": [],
+            "depends_on":["echo-server"]
         },
         {
             "name":"firestore",
