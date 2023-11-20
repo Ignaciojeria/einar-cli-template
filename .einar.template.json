@@ -346,7 +346,7 @@
         "files": [{
             "source_file": "app/adapter/in/cli/archetype_cmd.go",
             "destination_dir": "app/adapter/in/cli",
-            "ioc_discovery":true,
+            "ioc_discovery":false,
             "replace_holders": [
                 {
                     "kind":"camelCase",
