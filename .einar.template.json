@@ -62,10 +62,6 @@
             "source_file": "app/adapter/out/firestore/archetype_repository.go",
             "destination_dir": "app/adapter/out/firestore",
             "ioc_discovery":true,
-            "port":{
-                "source_file": "app/domain/ports/out/archetype_outbound_port.go",
-                "destination_dir": "app/domain/ports/out"
-            },
             "replace_holders": [
                 {
                     "kind":"PascalCase",
@@ -97,10 +93,6 @@
             "source_file": "app/business/archetype_usecase.go",
             "destination_dir": "app/business",
             "ioc_discovery":true,
-            "port":{
-                "source_file": "app/domain/ports/in/archetype_inbound_port.go",
-                "destination_dir": "app/domain/ports/in"
-            },
             "replace_holders": [
                 {
                     "kind":"PascalCase",
@@ -126,10 +118,6 @@
             "source_file": "app/adapter/out/postgresql/archetype_repository.go",
             "destination_dir": "app/adapter/out/postgresql",
             "ioc_discovery":true,
-            "port":{
-                "source_file": "app/domain/ports/out/archetype_outbound_port.go",
-                "destination_dir": "app/domain/ports/out"
-            },
             "replace_holders": [
                 {
                     "kind":"PascalCase",
@@ -155,10 +143,6 @@
             "source_file": "app/adapter/out/client/archetype_client.go",
             "destination_dir": "app/adapter/out/client",
             "ioc_discovery":true,
-            "port":{
-                "source_file": "app/domain/ports/out/archetype_outbound_port.go",
-                "destination_dir": "app/domain/ports/out"
-            },
             "replace_holders": [
                 {
                     "kind":"PascalCase",
@@ -184,10 +168,6 @@
             "source_file": "app/adapter/out/pubsub/archetype_publisher.go",
             "destination_dir": "app/adapter/out/pubsub",
             "ioc_discovery":true,
-            "port":{
-                "source_file": "app/domain/ports/out/archetype_outbound_port.go",
-                "destination_dir": "app/domain/ports/out"
-            },
             "replace_holders": [
                 {
                     "kind":"PascalCase",
@@ -372,8 +352,6 @@
         "adapter_type":"inbound",
         "command":"einar generate cmd ${operation_name}",
         "depends_on":[
-            "echo-server",
-            "resty",
             "cobra-cli"
         ],
         "files": [{

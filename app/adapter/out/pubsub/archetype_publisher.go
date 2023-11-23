@@ -1,7 +1,6 @@
 package pubsub
 
 import (
-	"archetype/app/domain/ports/out"
 	einar "archetype/app/shared/archetype/pubsub"
 	"context"
 	"encoding/json"
@@ -10,7 +9,7 @@ import (
 	"cloud.google.com/go/pubsub"
 )
 
-var ArchetypePublisher out.ArchetypeOutBoundPort = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]string) (err error) {
+var ArchetypePublisher = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]string) (err error) {
 
 	bytes, err := json.Marshal(REPLACE_BY_YOUR_DOMAIN)
 	if err != nil {
