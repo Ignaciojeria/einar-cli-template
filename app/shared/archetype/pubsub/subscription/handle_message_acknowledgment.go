@@ -27,10 +27,12 @@ func HandleMessageAcknowledgement(ctx context.Context, details *HandleMessageAck
 		)
 		for _, err := range details.ErrorsRequiringNack {
 			if errors.Is(details.Error, err) {
-				return details.Message.Nack()
+				details.Message.Nack()
+				return
 			}
 		}
-		return details.Message.Ack()
+		details.Message.Ack()
+		return
 	}
 	slog.Logger.Info(
 		details.SubscriptionName+"_succedded",
