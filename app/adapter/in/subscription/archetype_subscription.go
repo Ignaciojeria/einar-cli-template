@@ -34,9 +34,9 @@ func init() {
 		return nil
 	}
 	container.InjectInboundAdapter(func() error {
-		subscription := einar.Client.Subscription(subscriptionName)
-		subscription.ReceiveSettings.MaxOutstandingMessages = 5
-		settings := subscription.Receive
+		subRef := einar.Client.Subscription(subscriptionName)
+		subRef.ReceiveSettings.MaxOutstandingMessages = 5
+		settings := subRef.Receive
 		go subscription.New(subscriptionName, processMessage, settings)
 		return nil
 	})
