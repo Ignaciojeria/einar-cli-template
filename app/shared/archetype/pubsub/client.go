@@ -6,14 +6,12 @@ import (
 	"archetype/app/shared/config"
 	"archetype/app/shared/constants"
 	"context"
-	"sync"
 
 	"cloud.google.com/go/pubsub"
 )
 
 var (
-	Client    *pubsub.Client
-	topicRefs sync.Map
+	Client *pubsub.Client
 )
 
 func init() {
@@ -28,22 +26,4 @@ func init() {
 		Client = c
 		return nil
 	})
-}
-
-// Topic fetches a *pubsub.Topic by name. If the Topic exists in the sync.Map, it's returned, otherwise a new one is created and stored in the map.
-func Topic(topicName string) *pubsub.Topic {
-	value, ok := topicRefs.Load(topicName)
-	if ok {
-		// If the topic reference was found, return it.
-		return value.(*pubsub.Topic)
-	}
-
-	// If the topic reference was not found, create a new one.
-	newTopicRef := Client.Topic(topicName)
-
-	// Store the new topic reference in the map.
-	topicRefs.Store(topicName, newTopicRef)
-
-	// Return the new topic reference.
-	return newTopicRef
 }
