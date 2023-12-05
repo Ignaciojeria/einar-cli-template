@@ -1,10 +1,6 @@
 {
     "installations_base": [
         {
-            "name":"zerolog",
-            "library": "github.com/rs/zerolog"
-        },
-        {
             "name":"godotenv",
             "library": "github.com/joho/godotenv"
         },
@@ -41,6 +37,18 @@
                     "name": "__archetype_subscription_constructor",
                     "append_at_start":"",
                     "append_at_end":""
+                },
+                {
+                    "kind":"snake_case",
+                    "name": "__archetype_subscription_error_when_pull",
+                    "append_at_start":"",
+                    "append_at_end":"_error"
+                },
+                {
+                    "kind":"snake_case",
+                    "name": "__archetype_subscription_pull_succedded",
+                    "append_at_start":"",
+                    "append_at_end":"_succedded"
                 }
             ]
         }]
@@ -54,10 +62,6 @@
             "source_file": "app/adapter/out/firestore/archetype_repository.go",
             "destination_dir": "app/adapter/out/firestore",
             "ioc_discovery":true,
-            "port":{
-                "source_file": "app/domain/ports/out/archetype_outbound_port.go",
-                "destination_dir": "app/domain/ports/out"
-            },
             "replace_holders": [
                 {
                     "kind":"PascalCase",
@@ -89,10 +93,6 @@
             "source_file": "app/business/archetype_usecase.go",
             "destination_dir": "app/business",
             "ioc_discovery":true,
-            "port":{
-                "source_file": "app/domain/ports/in/archetype_inbound_port.go",
-                "destination_dir": "app/domain/ports/in"
-            },
             "replace_holders": [
                 {
                     "kind":"PascalCase",
@@ -118,10 +118,6 @@
             "source_file": "app/adapter/out/postgresql/archetype_repository.go",
             "destination_dir": "app/adapter/out/postgresql",
             "ioc_discovery":true,
-            "port":{
-                "source_file": "app/domain/ports/out/archetype_outbound_port.go",
-                "destination_dir": "app/domain/ports/out"
-            },
             "replace_holders": [
                 {
                     "kind":"PascalCase",
@@ -137,7 +133,32 @@
                 }
             ]
         }]
-    },    
+    },
+    {
+        "kind":"http-client",
+        "adapter_type":"outbound",
+        "command":"einar generate http-client ${operation_name}",
+        "depends_on":["resty"],
+        "files": [{
+            "source_file": "app/adapter/out/client/archetype_client.go",
+            "destination_dir": "app/adapter/out/client",
+            "ioc_discovery":true,
+            "replace_holders": [
+                {
+                    "kind":"PascalCase",
+                    "name": "ArchetypeRestyClient",
+                    "append_at_start":"",
+                    "append_at_end":""
+                },
+                {
+                    "kind":"PascalCase",
+                    "name": "ArchetypeOutBoundPort",
+                    "append_at_start":"",
+                    "append_at_end":""
+                }
+            ]
+        }]
+    },
     {
         "kind":"publisher",
         "adapter_type":"outbound",
@@ -147,10 +168,6 @@
             "source_file": "app/adapter/out/pubsub/archetype_publisher.go",
             "destination_dir": "app/adapter/out/pubsub",
             "ioc_discovery":true,
-            "port":{
-                "source_file": "app/domain/ports/out/archetype_outbound_port.go",
-                "destination_dir": "app/domain/ports/out"
-            },
             "replace_holders": [
                 {
                     "kind":"PascalCase",
@@ -250,25 +267,67 @@
         }]
     },
     {
-        "kind":"example-controller",
+        "kind":"web-component",
         "adapter_type":"inbound",
-        "command":"einar generate get-controller ${operation_name}",
-        "depends_on":["echo-server"],
-        "has_component_dir": true,
-        "files": [{
-            "source_file": "app/adapter/in/controller/archetype_get_controller.go",
-            "destination_dir": "app/adapter/in/controller",
-            "ioc_discovery":true,
-            "replace_holders": [
-                {
-                    "kind":"camelCase",
-                    "name": "archetypeGetController",
-                    "append_at_start":"",
-                    "append_at_end":""
-                }
-            ]
-        }]
-    }, 
+        "command":"einar generate web-component ${operation_name}",
+        "depends_on":[
+        "echo-server",
+        "web-components"],
+        "files": [
+            {
+            "source_file": "app/adapter/in/view_component/archetype_view.css",
+            "destination_dir": "app/adapter/in/view",
+            "ioc_discovery":false,
+            "has_component_dir": true
+            },
+            {
+                "source_file": "app/adapter/in/view_component/archetype_view.html",
+                "destination_dir": "app/adapter/in/view",
+                "ioc_discovery":false,
+                "has_component_dir": true
+            },
+            {
+                "source_file": "app/adapter/in/view_component/archetype_view.go",
+                "destination_dir": "app/adapter/in/view",
+                "ioc_discovery":true,
+                "has_component_dir": true,
+                "replace_holders": [
+                    {
+                        "kind":"snake_case",
+                        "name": "ArchetypeView",
+                        "append_at_start":"",
+                        "append_at_end":""
+                    },
+                    {
+                        "kind":"PascalCase",
+                        "name": ".App",
+                        "append_at_start":".",
+                        "append_at_end":""
+                    }
+                ]
+            },
+            {
+                "source_file": "app/adapter/in/view/component/app.go",
+                "destination_dir": "app/adapter/in/view/component",
+                "ioc_discovery":true,
+                "has_component_dir": false,
+                "replace_holders": [   
+                    {
+                        "kind":"PascalCase",
+                        "name": "App =",
+                        "append_at_start":"",
+                        "append_at_end":""
+                    },
+                    {
+                        "kind":"kebab-case",
+                        "name": "`app`",
+                        "append_at_start":"= `",
+                        "append_at_end":"`"
+                    }
+                ]
+            }
+        ]
+    },
     {
         "kind":"put-controller",
         "adapter_type":"inbound",
@@ -287,7 +346,47 @@
                 }
             ]
         }]
-    }],
+    },
+    {
+        "kind":"cmd",
+        "adapter_type":"inbound",
+        "command":"einar generate cmd ${operation_name}",
+        "depends_on":[
+            "cobra-cli"
+        ],
+        "files": [{
+            "source_file": "app/adapter/in/cli/archetype_cmd.go",
+            "destination_dir": "app/adapter/in/cli",
+            "ioc_discovery":false,
+            "replace_holders": [
+                {
+                    "kind":"camelCase",
+                    "name": "archetypeCmdUsage",
+                    "append_at_start":"",
+                    "append_at_end":""
+                },
+                {
+                    "kind":"camelCase",
+                    "name": "archetypeCmd",
+                    "append_at_start":"",
+                    "append_at_end":"Cmd"
+                },
+                {
+                    "kind":"camelCase",
+                    "name": "runArchetypeCmd",
+                    "append_at_start":"run",
+                    "append_at_end":""
+                },
+                {
+                    "kind":"camelCase",
+                    "name": "_example",
+                    "append_at_start":"",
+                    "append_at_end":""
+                }
+            ]
+        }]
+    }
+],
     "installation_commands": [
         {
             "name":"pubsub",
@@ -297,10 +396,54 @@
             "libraries": ["cloud.google.com/go/pubsub"]
         },
         {
+            "name":"cobra-cli",
+            "depends_on":[
+            "echo-server",
+            "resty"],
+            "files": [
+                {   
+                    "source_file": "app/shared/archetype/cmd/root.go",
+                    "destination_dir": "app/shared/archetype/cmd",
+                    "ioc_discovery":true
+                },
+                {   
+                    "source_file": "app/adapter/in/controller/shutdown.go",
+                    "destination_dir": "app/adapter/in/controller",
+                    "ioc_discovery":true
+                },
+                {   
+                    "source_file": "app/adapter/in/cli/connect.go",
+                    "destination_dir": "app/adapter/in/cli",
+                    "ioc_discovery":false
+                },
+                {   
+                    "source_file": "app/adapter/in/cli/shutdown.go",
+                    "destination_dir": "app/adapter/in/cli",
+                    "ioc_discovery":false
+                },
+                {
+                    "source_file": "app/adapter/out/client/shutdown.go",
+                    "destination_dir": "app/adapter/out/client",
+                    "ioc_discovery":false
+                },
+                {   
+                "source_file": "app/shared/archetype/cmd/main_mutation/main.go",
+                "destination_dir": ".",
+                "ioc_discovery":false
+            }
+                ],
+            "command":"einar install cobra-cli",
+            "libraries": ["github.com/spf13/cobra"]
+        },
+        {
             "name":"resty",
-            "source_dir": "app/shared/archetype/resty",
-            "destination_dir": "app/shared/archetype/resty",
             "command":"einar install resty",
+            "files": [
+            {   "source_file": "app/shared/archetype/resty/client.go",
+                "destination_dir": "app/shared/archetype/resty",
+                "ioc_discovery":true
+            }
+            ],
             "libraries": [
                 "github.com/go-resty/resty/v2"
             ]
@@ -314,6 +457,14 @@
                 "github.com/labstack/echo/v4",
                 "github.com/labstack/echo/v4/middleware"
             ]
+        },
+        {
+            "name":"web-components",
+            "source_dir": "app/adapter/in/view",
+            "destination_dir": "app/adapter/in/view",
+            "command":"einar install web-components",
+            "libraries": [],
+            "depends_on":["echo-server"]
         },
         {
             "name":"firestore",
@@ -359,6 +510,10 @@
             {
                 "source_dir": "app/shared/archetype/container",
                 "destination_dir": "app/shared/archetype/container"
+            },
+            {
+                "source_dir": "app/shared/archetype/slog",
+                "destination_dir": "app/shared/archetype/slog"
             },
             {
                 "source_dir": "app/shared/constants",

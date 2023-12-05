@@ -5,17 +5,21 @@ import (
 	"archetype/app/shared/config"
 
 	"github.com/go-resty/resty/v2"
-	"github.com/google/uuid"
 )
 
 var Client *resty.Client
 
 func init() {
 	config.Installations.EnableRestyClient = true
-	container.InjectInstallation(func() error {
+	LoadDependency()
+}
+
+func LoadDependency() container.LoadDependency {
+	var dependency container.LoadDependency = func() error {
+		//Customize your resty client here :
 		Client = resty.New()
 		return nil
-	}, container.InjectionProps{
-		DependencyID: uuid.NewString(),
-	})
+	}
+	container.InjectInstallation(dependency)
+	return dependency
 }

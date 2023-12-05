@@ -1,0 +1,10 @@
+<link rel="stylesheet" href="/index.css"/>
+<script src="https://unpkg.com/htmx.org@1.9.6"></script>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.4/dist/full.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.tailwindcss.com"></script>
+
+<html  data-theme="business">
+<div hx-get="/{{.Context.indexComponentDefault}}" hx-headers='{{.FlatContext}}' hx-trigger="load" hx-target="#index-component-default" hx-push-url="true"></div>
+<div id="index-component-default">
+</div>
+</html>

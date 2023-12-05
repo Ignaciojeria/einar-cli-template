@@ -1,11 +1,11 @@
 package config
 
 import (
+	"archetype/app/shared/archetype/slog"
 	"fmt"
 	"os"
 
 	"github.com/joho/godotenv"
-	"github.com/rs/zerolog/log"
 )
 
 type archetypeConfiguration struct {
@@ -14,6 +14,7 @@ type archetypeConfiguration struct {
 	EnablePostgreSQLDB bool
 	EnablePubSub       bool
 	EnableFirestore    bool
+	EnableCobraCli     bool
 	EnableHTTPServer   bool
 	EnableRedis        bool
 	EnableRestyClient  bool
@@ -40,6 +41,7 @@ const DATABASE_POSTGRES_PORT Config = "DATABASE_POSTGRES_PORT"
 const DATABASE_POSTGRES_NAME Config = "DATABASE_POSTGRES_NAME"
 const DATABASE_POSTGRES_USERNAME Config = "DATABASE_POSTGRES_USERNAME"
 const DATABASE_POSTGRES_PASSWORD Config = "DATABASE_POSTGRES_PASSWORD"
+const DATABASE_POSTGRES_SSL_MODE Config = "DATABASE_POSTGRES_SSL_MODE"
 
 // Redis configuration
 const REDIS_ADDRESS Config = "REDIS_ADDRESS"
@@ -64,15 +66,12 @@ func Setup() error {
 	errs := []string{}
 
 	if err := godotenv.Load(); err != nil {
-		log.Error().Err(err).Msg(".env file not found getting environments from envgonsul")
+		slog.Logger.Warn(".env file not found getting environments from system")
 	}
 
 	// Check that all required environment variables are set
 	requiredEnvVars := []Config{
-		//ARCHETYPE CONFIGURATION
-		PORT,
-		COUNTRY,
-		SERVICE,
+		//PUT YOUR CUSTOM REQUIRED ENVIRONMENTS
 	}
 
 	if Installations.EnablePubSub || Installations.EnableFirestore {
@@ -85,11 +84,16 @@ func Setup() error {
 		requiredEnvVars = append(requiredEnvVars, DATABASE_POSTGRES_NAME)
 		requiredEnvVars = append(requiredEnvVars, DATABASE_POSTGRES_USERNAME)
 		requiredEnvVars = append(requiredEnvVars, DATABASE_POSTGRES_PASSWORD)
+		requiredEnvVars = append(requiredEnvVars, DATABASE_POSTGRES_SSL_MODE)
 	}
 
 	if Installations.EnableRedis {
 		requiredEnvVars = append(requiredEnvVars, REDIS_ADDRESS)
 		requiredEnvVars = append(requiredEnvVars, REDIS_PASSWORD)
+	}
+
+	if Installations.EnableHTTPServer {
+		requiredEnvVars = append(requiredEnvVars, PORT)
 	}
 
 	for _, envVar := range requiredEnvVars {
@@ -100,7 +104,8 @@ func Setup() error {
 	}
 
 	if len(errs) > 0 {
-		log.Error().Strs("notFoundEnvironments", errs).Msg("error loading environment variables")
+		slog.Logger.Error("error loading environment variables", "notFoundEnvironments", errs)
+		//log.Error().Strs("notFoundEnvironments", errs).Msg("error loading environment variables")
 		return fmt.Errorf("error loading environment variables: %v", errs)
 	}
 

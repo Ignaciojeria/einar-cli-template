@@ -4,78 +4,41 @@ import (
 	"context"
 	"encoding/json"
 
+	"archetype/app/exception"
 	"archetype/app/shared/archetype/container"
 	einar "archetype/app/shared/archetype/pubsub"
 	"archetype/app/shared/archetype/pubsub/subscription"
 
-	"archetype/app/shared/constants"
-
-	"time"
-
 	"cloud.google.com/go/pubsub"
-	"github.com/google/uuid"
-	"github.com/rs/zerolog/log"
 )
 
-var __archetype_subscription_stop bool = false
-
-type __archetype_subscription_struct struct {
-	subscriptionName string
-}
-
-func __archetype_subscription_constructor(
-	r subscription.Receive,
-	subscriptionName string) (__archetype_subscription_struct, error) {
-	if __archetype_subscription_stop {
-		return __archetype_subscription_struct{}, nil
-	}
-	s := __archetype_subscription_struct{
-		subscriptionName: subscriptionName,
-	}
-	ctx := context.Background()
-	if err := r(ctx, subscription.Middleware(subscriptionName, s.receive)); err != nil {
-		log.
-			Error().
-			Err(err).
-			Str(constants.SUBSCRIPTION_NAME, subscriptionName).
-			Msg(constants.SUSBCRIPTION_SIGNAL_BROKEN)
-		time.Sleep(10 * time.Second)
-		go __archetype_subscription_constructor(r, subscriptionName)
-		return s, err
-	}
-	return s, nil
-}
-
 func init() {
-	const subscription_name = "INSERT YOUR SUBSCRIPTION NAME"
-	container.InjectInboundAdapter(func() error {
-		subscription_setup := einar.Client.Subscription(subscription_name)
-		subscription_setup.ReceiveSettings.MaxOutstandingMessages = 5
-		go __archetype_subscription_constructor(subscription_setup.Receive, subscription_name)
+	const subscriptionName = "INSERT YOUR SUBSCRIPTION NAME"
+
+	processMessage := func(ctx context.Context, m *pubsub.Message) (err error) {
+		var dataModel interface{}
+		defer subscription.HandleMessageAcknowledgement(ctx, &subscription.HandleMessageAcknowledgementDetails{
+			SubscriptionName: subscriptionName,
+			Error:            err,
+			Message:          m,
+			ErrorsRequiringNack: []error{
+				exception.INTERNAL_SERVER_ERROR,
+			},
+			CustomLogFields: map[string]interface{}{
+				"dataModel": dataModel,
+			},
+		})
+		if json.Unmarshal(m.Data, &dataModel) != nil {
+			return err
+		}
 		return nil
-	}, container.InjectionProps{
-		DependencyID: uuid.NewString(),
-	})
-}
-
-func (s __archetype_subscription_struct) receive(ctx context.Context, m *pubsub.Message) {
-	s.processMessage(ctx, m)
-}
-
-func (s __archetype_subscription_struct) processMessage(ctx context.Context, m *pubsub.Message) error {
-
-	var replace_by_your_model interface{}
-	err := json.Unmarshal(m.Data, &replace_by_your_model)
-
-	if err != nil {
-		log.
-			Error().
-			Str(constants.SUBSCRIPTION_NAME, s.subscriptionName).
-			Err(err).
-			Msg("error unmarshaling m.Data")
-		m.Ack()
-		return err
 	}
-	m.Ack()
-	return nil
+	container.InjectInboundAdapter(func() error {
+		subRef := einar.Client.Subscription(subscriptionName)
+		subRef.ReceiveSettings.MaxOutstandingMessages = 5
+		settings := subRef.Receive
+		go subscription.New(subscriptionName, processMessage, settings)
+		return nil
+	})
+
 }
