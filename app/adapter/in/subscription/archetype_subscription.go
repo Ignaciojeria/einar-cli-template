@@ -8,6 +8,7 @@ import (
 	"archetype/app/shared/archetype/container"
 	einar "archetype/app/shared/archetype/pubsub"
 	"archetype/app/shared/archetype/pubsub/subscription"
+	"archetype/app/shared/constants"
 
 	"cloud.google.com/go/pubsub"
 )
@@ -40,7 +41,7 @@ func init() {
 		settings := subRef.Receive
 		go subscription.
 			New(subscriptionName, processMessage, settings).
-			WithPushHandler(einar.PushHandlerTopic + subscriptionName).
+			WithPushHandler(constants.DefaultPushHandlerPrefix + subscriptionName).
 			Start()
 		return nil
 	})

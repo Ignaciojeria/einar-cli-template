@@ -5,6 +5,7 @@ import (
 	"archetype/app/shared/archetype/slog"
 	"archetype/app/shared/constants"
 	"context"
+	"io"
 	"net/http"
 	"time"
 
@@ -40,7 +41,7 @@ func (s Subscription) Start() (Subscription, error) {
 		slog.Logger.Error(
 			subscription_signal_broken,
 			subscription_name, s.subscriptionName,
-			constants.ERROR, err.Error(),
+			constants.Error, err.Error(),
 		)
 		time.Sleep(10 * time.Second)
 		go s.Start()
@@ -60,8 +61,22 @@ func (s Subscription) receive(ctx context.Context, m *pubsub.Message) {
 
 func (s Subscription) pushHandler(c echo.Context) error {
 	var msg pubsub.Message
-	if c.Bind(&msg) != nil {
-		return c.String(http.StatusNoContent, "error reading request body")
+	googleChannel := c.Request().Header.Get("X-Goog-Channel-ID")
+	if googleChannel != "" {
+		if err := c.Bind(&msg); err != nil {
+			return c.String(http.StatusNoContent, "error binding Pub/Sub message")
+		}
+	}
+	if googleChannel == "" {
+		msg.Attributes = map[string]string{
+			constants.EventType:  c.Request().Header.Get(constants.EventType),
+			constants.EntityType: c.Request().Header.Get(constants.EntityType),
+		}
+		body, err := io.ReadAll(c.Request().Body)
+		if err != nil {
+			return c.String(http.StatusNoContent, "error reading request body")
+		}
+		msg.Data = body
 	}
 	if err := s.processMessage(c.Request().Context(), &msg); err != nil {
 		return c.String(http.StatusNoContent, "error processing message")

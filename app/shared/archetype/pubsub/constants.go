@@ -1,3 +1,3 @@
 package pubsub
 
-const PushHandlerTopic = "/topic/"
+const DefaultPushHandlerPrefix = "/topic/"

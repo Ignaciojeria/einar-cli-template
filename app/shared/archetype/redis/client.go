@@ -31,7 +31,7 @@ func init() {
 
 		ping := Client.Ping(context.Background())
 		if err := ping.Err(); err != nil {
-			slog.Logger.Error("error on ping redis connection", constants.ERROR, err.Error())
+			slog.Logger.Error("error on ping redis connection", constants.Error, err.Error())
 			return err
 		}
 		return nil

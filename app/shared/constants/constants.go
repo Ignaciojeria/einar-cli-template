@@ -1,4 +1,7 @@
 package constants
 
-const ERROR = "error"
-const FIELDS = "fields"
+const Error = "error"
+const Fields = "fields"
+const EventType = "eventType"
+const EntityType = "entityType"
+const DefaultPushHandlerPrefix = "/topic/"
