@@ -33,12 +33,15 @@ func init() {
 		}
 		return nil
 	}
+
 	container.InjectInboundAdapter(func() error {
 		subRef := einar.Client.Subscription(subscriptionName)
 		subRef.ReceiveSettings.MaxOutstandingMessages = 5
 		settings := subRef.Receive
-		go subscription.New(subscriptionName, processMessage, settings)
+		go subscription.
+			New(subscriptionName, processMessage, settings).
+			WithPushHandler(einar.PushHandlerTopic + subscriptionName).
+			Start()
 		return nil
 	})
-
 }
