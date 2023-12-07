@@ -26,12 +26,12 @@ func init() {
 			ProjectID: config.GOOGLE_PROJECT_ID.Get(),
 		})
 		if err != nil {
-			slog.Logger.Error("error initializing firebase app", constants.ERROR, err.Error())
+			slog.Logger.Error("error initializing firebase app", constants.Error, err.Error())
 			return err
 		}
 		c, err := app.Firestore(ctx)
 		if err != nil {
-			slog.Logger.Error("error getting firestore client", constants.ERROR, err.Error())
+			slog.Logger.Error("error getting firestore client", constants.Error, err.Error())
 			return err
 		}
 		Client = c

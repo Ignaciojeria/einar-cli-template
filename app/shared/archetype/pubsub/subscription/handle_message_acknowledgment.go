@@ -21,9 +21,9 @@ func HandleMessageAcknowledgement(ctx context.Context, details *HandleMessageAck
 	if details.Error != nil {
 		slog.Logger.Error(
 			details.SubscriptionName+"_exception",
-			constants.SUBSCRIPTION_NAME, details.SubscriptionName,
-			constants.ERROR, details.Error,
-			constants.FIELDS, details.CustomLogFields,
+			subscription_name, details.SubscriptionName,
+			constants.Fields, details.CustomLogFields,
+			constants.Error, details.Error,
 		)
 		for _, err := range details.ErrorsRequiringNack {
 			if errors.Is(details.Error, err) {
@@ -36,8 +36,8 @@ func HandleMessageAcknowledgement(ctx context.Context, details *HandleMessageAck
 	}
 	slog.Logger.Info(
 		details.SubscriptionName+"_succedded",
-		constants.SUBSCRIPTION_NAME, details.SubscriptionName,
-		constants.FIELDS, details.CustomLogFields,
+		subscription_name, details.SubscriptionName,
+		constants.Fields, details.CustomLogFields,
 	)
 	details.Message.Ack()
 }

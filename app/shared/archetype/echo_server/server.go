@@ -33,7 +33,7 @@ func init() {
 			slog.
 				Logger.
 				Error("error initializing application server",
-					constants.ERROR, err.Error())
+					constants.Error, err.Error())
 			return err
 		}
 		return nil

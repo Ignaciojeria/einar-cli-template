@@ -390,6 +390,8 @@
     "installation_commands": [
         {
             "name":"pubsub",
+            "depends_on":[
+                "echo-server"],
             "source_dir": "app/shared/archetype/pubsub",
             "destination_dir": "app/shared/archetype/pubsub",
             "command":"einar install pubsub",
