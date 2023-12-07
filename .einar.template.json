@@ -504,6 +504,10 @@
                 "destination_dir": "app/shared/utils"
             },
             {
+                "source_dir": "app/exception",
+                "destination_dir": "app/exception"
+            },
+            {
                 "source_dir": "app/shared/config",
                 "destination_dir": "app/shared/config"
             },
