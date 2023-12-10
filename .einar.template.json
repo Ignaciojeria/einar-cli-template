@@ -54,6 +54,20 @@
         }]
     },
     {
+        "kind":"nats-subscription",
+        "command":"einar generate nats-subscription ${subscription_name}",
+        "depends_on":[
+        "nats-server",
+        "echo-server"],
+        "adapter_type":"inbound",
+        "files": [{
+            "source_file": "app/adapter/in/nats_subscription/archetype_subscription.go",
+            "destination_dir": "app/adapter/in/nats_subscription",
+            "ioc_discovery":true,
+            "replace_holders": []
+        }]
+    },
+    {
         "kind":"firestore-repository",
         "adapter_type":"outbound",
         "command":"einar generate firestore-repository ${operation_name}",
@@ -189,7 +203,34 @@
                 }
             ]
         }]
-    },   
+    },
+    {
+        "kind":"nats-publisher",
+        "adapter_type":"outbound",
+        "command":"einar generate nats-publisher ${operation_name}",
+        "depends_on":[
+        "nats-server",
+        "echo-server"],
+        "files": [{
+            "source_file": "app/adapter/out/nats_publisher/archetype_publisher.go",
+            "destination_dir": "app/adapter/out/nats_publisher",
+            "ioc_discovery":true,
+            "replace_holders": [
+                {
+                    "kind":"PascalCase",
+                    "name": "ArchetypePublisher",
+                    "append_at_start":"",
+                    "append_at_end":""
+                },
+                {
+                    "kind":"camelCase",
+                    "name": "archetypeTopic",
+                    "append_at_start":"",
+                    "append_at_end":"Topic"
+                }
+            ]
+        }]
+    }, 
     {
         "kind":"get-controller",
         "adapter_type":"inbound",
@@ -495,6 +536,16 @@
             "command":"einar install redis",
             "libraries": [
                 "github.com/redis/go-redis/v9"
+            ]
+        },
+        {
+            "name":"nats-server",
+            "source_dir": "app/shared/archetype/nats_server",
+            "destination_dir": "app/shared/archetype/nats_server",
+            "command":"einar install nats-server",
+            "libraries": [
+                "github.com/nats-io/nats-server/v2",
+                "github.com/nats-io/nats.go"
             ]
         }
     ],
