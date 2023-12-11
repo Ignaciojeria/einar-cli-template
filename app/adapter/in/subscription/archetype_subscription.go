@@ -32,7 +32,7 @@ var archetype_subscription = func(ctx context.Context, subscriptionName string, 
 	return nil
 }
 
-var init_archetype_subscription = func() error {
+var archetypeInboundAdapterConfig = func() error {
 	var subscriptionName = "INSERT YOUR SUBSCRIPTION NAME"
 	subRef := einar.Client().Subscription(subscriptionName)
 	subRef.ReceiveSettings.MaxOutstandingMessages = 5
@@ -44,4 +44,4 @@ var init_archetype_subscription = func() error {
 	return nil
 }
 
-var _ = container.InjectInboundAdapter(init_archetype_subscription)
+var _ = container.InjectInboundAdapter(archetypeInboundAdapterConfig)
