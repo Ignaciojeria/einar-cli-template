@@ -8,7 +8,7 @@ import (
 )
 
 func TestArchetypeSubscriptionSuccedded(t *testing.T) {
-	init_archetype_subscription()
+	archetypeInboundAdapterConfig()
 	ctx := context.Background()
 	testData := `{"key": "value"}`
 	msg := &pubsub.Message{

@@ -30,7 +30,7 @@
                 },
                 {
                     "kind":"camelCase",
-                    "name": "init_archetype_subscription",
+                    "name": "archetypeInboundAdapterConfig",
                     "append_at_start":"",
                     "append_at_end":"Config"
                 }
@@ -63,7 +63,7 @@
                 },
                 {
                     "kind":"camelCase",
-                    "name": "init_archetype_subscription",
+                    "name": "archetypeInboundAdapterConfig",
                     "append_at_start":"",
                     "append_at_end":"Config"
                 }
