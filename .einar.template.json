@@ -575,10 +575,6 @@
                 "destination_dir": "app/shared/utils"
             },
             {
-                "source_dir": "app/business",
-                "destination_dir": "app/business"
-            },
-            {
                 "source_dir": "app/exception",
                 "destination_dir": "app/exception"
             },
@@ -603,6 +599,11 @@
             {
                 "source_file": ".environment",
                 "destination_file": ".env"
+            },
+
+            {
+                "source_dir": "app/business/tracer.go",
+                "destination_dir": "app/business/tracer.go"
             },
             {
                 "source_file": "main.go",
