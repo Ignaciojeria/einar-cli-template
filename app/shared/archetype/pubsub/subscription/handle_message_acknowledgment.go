@@ -34,6 +34,7 @@ func HandleMessageAcknowledgement(ctx context.Context, details *HandleMessageAck
 		details.Message.Ack()
 		return
 	}
+	// Logica existente para manejar el mensaje exitoso
 	slog.Logger.Info(
 		details.SubscriptionName+"_succedded",
 		subscription_name, details.SubscriptionName,

@@ -9,6 +9,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"go.opentelemetry.io/contrib/instrumentation/github.com/labstack/echo/otelecho"
 )
 
 var e *echo.Echo
@@ -20,6 +21,7 @@ func init() {
 		e = echo.New()
 		e.Use(middleware.Logger())
 		e.Use(middleware.Recover())
+		e.Use(otelecho.Middleware(config.SERVICE.Get() + "-http-server"))
 		return nil
 	})
 

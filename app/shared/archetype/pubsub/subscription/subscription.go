@@ -13,6 +13,9 @@ import (
 
 	"cloud.google.com/go/pubsub"
 	"github.com/labstack/echo/v4"
+	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/codes"
+	"go.opentelemetry.io/otel/trace"
 )
 
 const subscription_signal_broken = "subscription_signal_broken"
@@ -49,7 +52,7 @@ func (s Subscription) Start() (Subscription, error) {
 
 	ctx := context.Background()
 
-	if err := s.recieveWithSettings(ctx, Middleware(s.subscriptionName, s.receive)); err != nil {
+	if err := s.recieveWithSettings(ctx, s.receive); err != nil {
 		slog.Logger.Error(
 			subscription_signal_broken,
 			subscription_name, s.subscriptionName,
@@ -68,7 +71,17 @@ func (s Subscription) WithPushHandler(path string) Subscription {
 }
 
 func (s Subscription) receive(ctx context.Context, m *pubsub.Message) {
-	s.processMessage(ctx, s.subscriptionName, m)
+	ctx, span := tracer.Start(ctx, "SubscriptionMiddleware", trace.WithAttributes(
+		attribute.String("subscription.name", s.subscriptionName),
+		attribute.String("message.id", m.ID),
+		attribute.String("message.publishTime", m.PublishTime.String()),
+	))
+	defer span.End()
+	err := s.processMessage(ctx, s.subscriptionName, m)
+	if err != nil {
+		span.RecordError(err)
+		span.SetStatus(codes.Error, err.Error())
+	}
 }
 
 func (s Subscription) pushHandler(c echo.Context) error {
