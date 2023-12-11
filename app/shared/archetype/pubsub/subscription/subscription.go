@@ -49,7 +49,7 @@ func (s Subscription) Start() (Subscription, error) {
 
 	ctx := context.Background()
 
-	if err := s.recieveWithSettings(ctx, Middleware(s.subscriptionName, s.receive)); err != nil {
+	if err := s.recieveWithSettings(ctx, s.receive); err != nil {
 		slog.Logger.Error(
 			subscription_signal_broken,
 			subscription_name, s.subscriptionName,

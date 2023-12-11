@@ -7,6 +7,9 @@ import (
 	"errors"
 
 	"cloud.google.com/go/pubsub"
+	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/codes"
 )
 
 type HandleMessageAcknowledgementDetails struct {
@@ -18,7 +21,19 @@ type HandleMessageAcknowledgementDetails struct {
 }
 
 func HandleMessageAcknowledgement(ctx context.Context, details *HandleMessageAcknowledgementDetails) {
+	tracer := otel.Tracer("pubsub-tracer")
+	ctx, span := tracer.Start(ctx, "HandleMessageAcknowledgement")
+	defer span.End()
+
+	span.SetAttributes(
+		attribute.String("subscription.name", details.SubscriptionName),
+		attribute.String("message.id", details.Message.ID),
+		attribute.String("message.publishTime", details.Message.PublishTime.String()),
+	)
+
 	if details.Error != nil {
+		span.RecordError(details.Error)
+		span.SetStatus(codes.Error, details.Error.Error())
 		slog.Logger.Error(
 			details.SubscriptionName+"_exception",
 			subscription_name, details.SubscriptionName,
