@@ -600,10 +600,9 @@
                 "source_file": ".environment",
                 "destination_file": ".env"
             },
-
             {
-                "source_dir": "app/business/tracer.go",
-                "destination_dir": "app/business/tracer.go"
+                "source_file": "app/business/tracer.go",
+                "destination_file": "app/business/tracer.go"
             },
             {
                 "source_file": "main.go",
