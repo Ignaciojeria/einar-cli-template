@@ -26,8 +26,8 @@ func init() {
 		Pattern: component.App + component.DOT_CSS,
 	})
 	container.InjectInboundAdapter(func() error {
-		einar.Echo.GET("/"+component.App, render)
-		einar.Echo.GET("/"+component.App+component.DOT_CSS, echo.WrapHandler(http.FileServer(http.FS(css))))
+		einar.Echo().GET("/"+component.App, render)
+		einar.Echo().GET("/"+component.App+component.DOT_CSS, echo.WrapHandler(http.FileServer(http.FS(css))))
 		return nil
 	})
 }

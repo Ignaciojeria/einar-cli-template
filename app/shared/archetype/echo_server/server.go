@@ -11,24 +11,24 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 )
 
-var Echo *echo.Echo
+var e *echo.Echo
 
 func init() {
 	config.Installations.EnableHTTPServer = true
 
 	container.InjectInstallation(func() error {
-		Echo = echo.New()
-		Echo.Use(middleware.Logger())
-		Echo.Use(middleware.Recover())
+		e = echo.New()
+		e.Use(middleware.Logger())
+		e.Use(middleware.Recover())
 		return nil
 	})
 
 	container.InjectHTTPServer(func() error {
 		setUpRenderer(EmbeddedPatterns...)
-		for _, route := range Echo.Routes() {
+		for _, route := range e.Routes() {
 			fmt.Printf("Method: %v, Path: %v, Name: %v\n", route.Method, route.Path, route.Name)
 		}
-		err := Echo.Start(":" + config.PORT.Get())
+		err := e.Start(":" + config.PORT.Get())
 		if err != nil {
 			slog.
 				Logger.
@@ -38,5 +38,11 @@ func init() {
 		}
 		return nil
 	})
+}
 
+func Echo() *echo.Echo {
+	if e == nil {
+		e = echo.New()
+	}
+	return e
 }

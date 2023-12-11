@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	Client *pubsub.Client
+	client *pubsub.Client
 )
 
 func init() {
@@ -23,7 +23,14 @@ func init() {
 			slog.Logger.Error("error getting pubsub client", constants.Error, err.Error())
 			return err
 		}
-		Client = c
+		client = c
 		return nil
 	})
+}
+
+func Client() *pubsub.Client {
+	if client == nil {
+		return &pubsub.Client{}
+	}
+	return client
 }

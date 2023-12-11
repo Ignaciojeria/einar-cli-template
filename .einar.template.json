@@ -18,25 +18,27 @@
         "files": [{
             "source_file": "app/adapter/in/subscription/archetype_subscription.go",
             "destination_dir": "app/adapter/in/subscription",
+            "append_at_start":"",
+            "append_at_end":"",
             "ioc_discovery":true,
             "replace_holders": [
                 {
                     "kind":"camelCase",
-                    "name": "__archetype_subscription_struct",
+                    "name": "archetype_subscription",
                     "append_at_start":"",
                     "append_at_end":""
                 },
                 {
-                    "kind":"snake_case",
-                    "name": "__archetype_subscription_stop",
+                    "kind":"camelCase",
+                    "name": "init_archetype_subscription",
                     "append_at_start":"",
-                    "append_at_end":"_stop"
+                    "append_at_end":"Config"
                 },
                 {
                     "kind":"PascalCase",
-                    "name": "__archetype_subscription_constructor",
-                    "append_at_start":"",
-                    "append_at_end":""
+                    "name": "TestArchetypeSubscriptionSuccedded",
+                    "append_at_start":"Test",
+                    "append_at_end":"Succedded"
                 },
                 {
                     "kind":"snake_case",
@@ -51,7 +53,29 @@
                     "append_at_end":"_succedded"
                 }
             ]
-        }]
+        },
+        {
+            "source_file": "app/adapter/in/subscription/archetype_subscription_test.go",
+            "destination_dir": "app/adapter/in/subscription",
+            "append_at_start":"",
+            "append_at_end":"_test",
+            "ioc_discovery":true,
+            "replace_holders": [
+                {
+                    "kind":"PascalCase",
+                    "name": "TestArchetypeSubscriptionSuccedded",
+                    "append_at_start":"Test",
+                    "append_at_end":"Succedded"
+                },
+                {
+                    "kind":"PascalCase",
+                    "name": "TestArchetypeSubscriptionInvalidInput",
+                    "append_at_start":"Test",
+                    "append_at_end":"InvalidInput"
+                }
+            ]
+        }
+    ]
     },
     {
         "kind":"nats-subscription",

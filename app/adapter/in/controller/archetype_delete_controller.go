@@ -11,7 +11,7 @@ import (
 
 func init() {
 	container.InjectInboundAdapter(func() error {
-		einar.Echo.DELETE("/api/insert_your_pattern_here", archetypeDeleteController)
+		einar.Echo().DELETE("/api/insert_your_pattern_here", archetypeDeleteController)
 		return nil
 	})
 }
