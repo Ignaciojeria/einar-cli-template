@@ -9,7 +9,7 @@ import (
 
 func init() {
 	container.InjectInboundAdapter(func() error {
-		Echo.GET("/health", func(c echo.Context) error {
+		Echo().GET("/health", func(c echo.Context) error {
 			return c.String(http.StatusOK, "UP")
 		})
 		return nil

@@ -1,0 +1,33 @@
+package subscription
+
+import (
+	"context"
+	"testing"
+
+	"cloud.google.com/go/pubsub"
+)
+
+func TestArchetypeSubscriptionSuccedded(t *testing.T) {
+	init_archetype_subscription()
+	ctx := context.Background()
+	testData := `{"key": "value"}`
+	msg := &pubsub.Message{
+		Data: []byte(testData),
+	}
+	err := archetype_subscription(ctx, "INSERT YOUR SUBSCRIPTION NAME", msg)
+	if err != nil {
+		t.Errorf("archetype_subscription returned an error: %v", err)
+	}
+}
+
+func TestArchetypeSubscriptionInvalidInput(t *testing.T) {
+	ctx := context.Background()
+	invalidTestData := `invalid json`
+	msg := &pubsub.Message{
+		Data: []byte(invalidTestData),
+	}
+	err := archetype_subscription(ctx, "INSERT YOUR SUBSCRIPTION NAME", msg)
+	if err == nil {
+		t.Errorf("archetype_subscription did not return an error for invalid input")
+	}
+}

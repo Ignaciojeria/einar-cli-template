@@ -12,13 +12,13 @@ import (
 
 func init() {
 	container.InjectInboundAdapter(func() error {
-		einar.Echo.POST("/api/shutdown", shutdown)
+		einar.Echo().POST("/api/shutdown", shutdown)
 		return nil
 	})
 }
 
 func shutdown(c echo.Context) error {
-	if err := einar.Echo.Shutdown(context.Background()); err != nil {
+	if err := einar.Echo().Shutdown(context.Background()); err != nil {
 		c.Logger().Fatal(err)
 		return c.JSON(http.StatusOK, "err")
 	}

@@ -38,5 +38,5 @@ func (t *TemplateRegistry) Render(w io.Writer, name string, data interface{}, c 
 
 func setUpRenderer(globPatterns ...EmbeddedPattern) {
 	renderer := NewTemplateRegistry(globPatterns)
-	Echo.Renderer = renderer
+	Echo().Renderer = renderer
 }

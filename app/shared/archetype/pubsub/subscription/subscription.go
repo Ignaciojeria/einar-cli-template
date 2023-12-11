@@ -2,9 +2,11 @@ package subscription
 
 import (
 	"archetype/app/shared/archetype/echo_server"
+	einar "archetype/app/shared/archetype/pubsub"
 	"archetype/app/shared/archetype/slog"
 	"archetype/app/shared/constants"
 	"context"
+	"errors"
 	"io"
 	"net/http"
 	"time"
@@ -20,23 +22,33 @@ type Receive func(ctx context.Context, f func(context.Context, *pubsub.Message))
 
 type Subscription struct {
 	subscriptionName    string
-	processMessage      func(ctx context.Context, m *pubsub.Message) (err error)
+	processMessage      func(ctx context.Context, sub string, m *pubsub.Message) (err error)
 	recieveWithSettings Receive
 	stop                bool
 }
 
 func New(
 	subscriptionName string,
-	processMessage func(ctx context.Context, m *pubsub.Message) (err error),
+	processMessage func(ctx context.Context, sub string, m *pubsub.Message) (err error),
 	recieveWithSettings Receive) Subscription {
 	return Subscription{subscriptionName: subscriptionName, processMessage: processMessage, recieveWithSettings: recieveWithSettings}
 }
 
 func (s Subscription) Start() (Subscription, error) {
+
 	if s.stop {
 		return Subscription{}, nil
 	}
+
+	if einar.Client().Project() == "" {
+		s.recieveWithSettings = func(ctx context.Context, f func(context.Context, *pubsub.Message)) error {
+			s.stop = true
+			return errors.New("subscription cannot start")
+		}
+	}
+
 	ctx := context.Background()
+
 	if err := s.recieveWithSettings(ctx, Middleware(s.subscriptionName, s.receive)); err != nil {
 		slog.Logger.Error(
 			subscription_signal_broken,
@@ -51,12 +63,12 @@ func (s Subscription) Start() (Subscription, error) {
 }
 
 func (s Subscription) WithPushHandler(path string) Subscription {
-	echo_server.Echo.POST(path, s.pushHandler)
+	echo_server.Echo().POST(path, s.pushHandler)
 	return s
 }
 
 func (s Subscription) receive(ctx context.Context, m *pubsub.Message) {
-	s.processMessage(ctx, m)
+	s.processMessage(ctx, s.subscriptionName, m)
 }
 
 func (s Subscription) pushHandler(c echo.Context) error {
@@ -78,7 +90,7 @@ func (s Subscription) pushHandler(c echo.Context) error {
 		}
 		msg.Data = body
 	}
-	if err := s.processMessage(c.Request().Context(), &msg); err != nil {
+	if err := s.processMessage(c.Request().Context(), s.subscriptionName, &msg); err != nil {
 		return c.String(http.StatusNoContent, "error processing message")
 	}
 	return nil

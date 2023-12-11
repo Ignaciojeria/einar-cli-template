@@ -17,7 +17,7 @@ func Get(topicName string) *pubsub.Topic {
 		return value.(*pubsub.Topic)
 	}
 	// If the topic reference was not found, create a new one.
-	newTopicRef := einar.Client.Topic(topicName)
+	newTopicRef := einar.Client().Topic(topicName)
 	// Store the new topic reference in the map.
 	topicRefs.Store(topicName, newTopicRef)
 

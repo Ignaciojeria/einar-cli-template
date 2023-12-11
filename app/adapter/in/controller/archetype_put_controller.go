@@ -11,7 +11,7 @@ import (
 
 func init() {
 	container.InjectInboundAdapter(func() error {
-		einar.Echo.PUT("/api/insert_your_pattern_here", archetypePutController)
+		einar.Echo().PUT("/api/insert_your_pattern_here", archetypePutController)
 		return nil
 	})
 }
