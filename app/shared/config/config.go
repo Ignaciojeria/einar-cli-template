@@ -1,15 +1,15 @@
 package config
 
 import (
-	"archetype/app/shared/archetype/slog"
 	"fmt"
+	"log/slog"
 	"os"
 
 	"github.com/joho/godotenv"
 )
 
 type archetypeConfiguration struct {
-	//HTTP CLIENT IS ENABLED BY DEFAULT
+	// HTTP client is enabled by default
 	EnvironmentPath    string
 	EnablePostgreSQLDB bool
 	EnablePubSub       bool
@@ -26,27 +26,46 @@ func (e *archetypeConfiguration) SetPubsub(enable bool) {
 
 type Config string
 
-// ARCHETYPE CONFIGURATION
-const PORT Config = "PORT"
-const COUNTRY Config = "COUNTRY"
-const SERVICE Config = "SERVICE"
-const ENV Config = "ENV"
+// Archetype default configuration
+const (
+	PORT    Config = "PORT"
+	COUNTRY Config = "COUNTRY"
+	SERVICE Config = "SERVICE"
+	ENV     Config = "ENV"
+)
 
-const INTEGRATION_TESTS Config = "INTEGRATION_TESTS"
+// Google Cloud Platform configuration
+const GOOGLE_PROJECT Config = "GOOGLE_PROJECT"
 
-const GOOGLE_PROJECT_ID Config = "GOOGLE_PROJECT_ID"
+// PostgreSQL configuration
+const (
+	DATABASE_POSTGRES_HOSTNAME Config = "DATABASE_POSTGRES_HOSTNAME"
+	DATABASE_POSTGRES_PORT     Config = "DATABASE_POSTGRES_PORT"
+	DATABASE_POSTGRES_NAME     Config = "DATABASE_POSTGRES_NAME"
+	DATABASE_POSTGRES_USERNAME Config = "DATABASE_POSTGRES_USERNAME"
+	DATABASE_POSTGRES_PASSWORD Config = "DATABASE_POSTGRES_PASSWORD"
+	DATABASE_POSTGRES_SSL_MODE Config = "DATABASE_POSTGRES_SSL_MODE"
+)
 
-const DATABASE_POSTGRES_HOSTNAME Config = "DATABASE_POSTGRES_HOSTNAME"
-const DATABASE_POSTGRES_PORT Config = "DATABASE_POSTGRES_PORT"
-const DATABASE_POSTGRES_NAME Config = "DATABASE_POSTGRES_NAME"
-const DATABASE_POSTGRES_USERNAME Config = "DATABASE_POSTGRES_USERNAME"
-const DATABASE_POSTGRES_PASSWORD Config = "DATABASE_POSTGRES_PASSWORD"
-const DATABASE_POSTGRES_SSL_MODE Config = "DATABASE_POSTGRES_SSL_MODE"
+// Datadog configuration
+const (
+	DD_SERVICE    Config = "DD_SERVICE"
+	DD_ENV        Config = "DD_ENV"
+	DD_VERSION    Config = "DD_VERSION"
+	DD_AGENT_HOST Config = "DD_AGENT_HOST"
+)
+
+// OpenTelemetry Configuration
+const (
+	OTEL_EXPORTER_OTLP_ENDPOINT Config = "OTEL_EXPORTER_OTLP_ENDPOINT"
+)
 
 // Redis configuration
-const REDIS_ADDRESS Config = "REDIS_ADDRESS"
-const REDIS_PASSWORD Config = "REDIS_PASSWORD"
-const REDIS_DB Config = "REDIS_DB"
+const (
+	REDIS_ADDRESS  Config = "REDIS_ADDRESS"
+	REDIS_PASSWORD Config = "REDIS_PASSWORD"
+	REDIS_DB       Config = "REDIS_DB"
+)
 
 func (e Config) Get() string {
 	return os.Getenv(string(e))
@@ -62,11 +81,18 @@ var Installations = archetypeConfiguration{
 }
 
 func Setup() error {
-
 	errs := []string{}
 
 	if err := godotenv.Load(); err != nil {
-		slog.Logger().Warn(".env file not found getting environments from system")
+		slog.Warn(".env file not found getting environments from system")
+	}
+
+	ddService := DD_SERVICE.Get()
+	ddEnv := DD_ENV.Get()
+	ddVersion := DD_VERSION.Get()
+
+	if ddService != "" && ddEnv != "" && ddVersion != "" && DD_AGENT_HOST.Get() != "" && OTEL_EXPORTER_OTLP_ENDPOINT.Get() == "" {
+		os.Setenv(string(OTEL_EXPORTER_OTLP_ENDPOINT), DD_AGENT_HOST.Get()+":4317")
 	}
 
 	// Check that all required environment variables are set
@@ -75,7 +101,7 @@ func Setup() error {
 	}
 
 	if Installations.EnablePubSub || Installations.EnableFirestore {
-		requiredEnvVars = append(requiredEnvVars, GOOGLE_PROJECT_ID)
+		requiredEnvVars = append(requiredEnvVars, GOOGLE_PROJECT)
 	}
 
 	if Installations.EnablePostgreSQLDB {
@@ -104,7 +130,7 @@ func Setup() error {
 	}
 
 	if len(errs) > 0 {
-		slog.Logger().Error("error loading environment variables", "notFoundEnvironments", errs)
+		slog.Error("error loading environment variables", "notFoundEnvironments", errs)
 		//log.Error().Strs("notFoundEnvironments", errs).Msg("error loading environment variables")
 		return fmt.Errorf("error loading environment variables: %v", errs)
 	}

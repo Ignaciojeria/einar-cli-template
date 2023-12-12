@@ -23,7 +23,7 @@ func init() {
 	container.InjectInstallation(func() error {
 		ctx := context.Background()
 		app, err := firebase.NewApp(ctx, &firebase.Config{
-			ProjectID: config.GOOGLE_PROJECT_ID.Get(),
+			ProjectID: config.GOOGLE_PROJECT.Get(),
 		})
 		if err != nil {
 			slog.Logger().Error("error initializing firebase app", constants.Error, err.Error())

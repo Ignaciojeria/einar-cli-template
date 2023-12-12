@@ -1,6 +1,7 @@
 package slog
 
 import (
+	"archetype/app/shared/config"
 	"log/slog"
 	"os"
 	"strconv"
@@ -28,19 +29,25 @@ var logger = slog.New(slog.NewJSONHandler(os.Stdout, nil))
 
 func SpanLogger(span trace.Span) *slog.Logger {
 	traceID := span.SpanContext().TraceID().String()
-	ddTraceIDValue := convertTraceID(traceID)
 	spanID := span.SpanContext().SpanID().String()
-	ddSpanIDValue := convertTraceID(spanID)
-	return logger.
-		With(
+
+	ddService := config.DD_SERVICE.Get()
+	ddEnv := config.DD_ENV.Get()
+	ddVersion := config.DD_VERSION.Get()
+
+	if ddService == "" || ddEnv == "" || ddVersion == "" {
+		return logger.With(
 			slog.String(traceIDKey, traceID),
-			slog.String(spanID, spanID),
-			slog.String(ddTraceIDKey, ddTraceIDValue),
-			slog.String(ddSpanIDKey, ddSpanIDValue),
-			slog.String(ddServiceKey, os.Getenv("DD_SERVICE")),
-			slog.String(ddEnvKey, os.Getenv("DD_ENV")),
-			slog.String(ddVersionKey, os.Getenv("DD_VERSION")),
+			slog.String(spanIDKey, spanID),
 		)
+	}
+	return logger.With(
+		slog.String(traceIDKey, traceID),
+		slog.String(spanIDKey, spanID),
+		slog.String(ddServiceKey, ddService),
+		slog.String(ddEnvKey, ddEnv),
+		slog.String(ddVersionKey, ddVersion),
+	)
 }
 
 func Logger() *slog.Logger {
