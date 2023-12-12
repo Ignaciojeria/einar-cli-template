@@ -20,7 +20,7 @@ func init() {
 		projectId := config.GOOGLE_PROJECT_ID.Get()
 		c, err := pubsub.NewClient(context.Background(), projectId)
 		if err != nil {
-			slog.Logger.Error("error getting pubsub client", constants.Error, err.Error())
+			slog.Logger().Error("error getting pubsub client", constants.Error, err.Error())
 			return err
 		}
 		client = c

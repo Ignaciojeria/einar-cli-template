@@ -33,7 +33,7 @@ func init() {
 		err := e.Start(":" + config.PORT.Get())
 		if err != nil {
 			slog.
-				Logger.
+				Logger().
 				Error("error initializing application server",
 					constants.Error, err.Error())
 			return err
