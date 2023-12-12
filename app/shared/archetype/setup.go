@@ -5,16 +5,15 @@ import (
 	"archetype/app/shared/config"
 	"context"
 	"fmt"
-	"log"
 	"os"
 	"time"
 
-	texporter "github.com/GoogleCloudPlatform/opentelemetry-operations-go/exporter/trace"
-	"go.opentelemetry.io/contrib/detectors/gcp"
 	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/exporters/otlp/otlptrace"
+	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc"
 	"go.opentelemetry.io/otel/sdk/resource"
-	sdktrace "go.opentelemetry.io/otel/sdk/trace"
-	semconv "go.opentelemetry.io/otel/semconv/v1.7.0"
+	tracesdk "go.opentelemetry.io/otel/sdk/trace"
+	semconv "go.opentelemetry.io/otel/semconv/v1.12.0"
 )
 
 // ARCHETYPE CONFIGURATION
@@ -103,38 +102,21 @@ func injectInboundAdapters() error {
 	return nil
 }
 
-func tracerProvider(ctx context.Context) (*sdktrace.TracerProvider, error) {
-	projectID := config.GOOGLE_PROJECT_ID.Get()
-	exporter, err := texporter.New(texporter.WithProjectID(projectID))
-	if err != nil {
-		log.Fatalf("texporter.New: %v", err)
-	}
-	// Identify your application using resource detection
-	res, err := resource.New(ctx,
-		// Use the GCP resource detector to detect information about the GCP platform
-		resource.WithDetectors(gcp.NewDetector()),
-		// Keep the default detectors
-		resource.WithTelemetrySDK(),
-		// Add your own custom attributes to identify your application
-		resource.WithAttributes(
-			semconv.ServiceNameKey.String(config.SERVICE.Get()),
-		),
-	)
+func tracerProvider(ctx context.Context) (*tracesdk.TracerProvider, error) {
+	client := otlptracegrpc.NewClient()
+	exporter, err := otlptrace.New(ctx, client)
+
 	if err != nil {
 		return nil, fmt.Errorf("creating OTLP trace exporter: %w", err)
 	}
-
-	// Create trace provider with the exporter.
-	//
-	// By default it uses AlwaysSample() which samples all traces.
-	// In a production environment or high QPS setup please use
-	// probabilistic sampling.
-	// Example:
-	//   tp := sdktrace.NewTracerProvider(sdktrace.WithSampler(sdktrace.TraceIDRatioBased(0.0001)), ...)
-	tp := sdktrace.NewTracerProvider(
-		sdktrace.WithBatcher(exporter),
-		sdktrace.WithResource(res),
+	tp := tracesdk.NewTracerProvider(
+		// Always be sure to batch in production.
+		tracesdk.WithBatcher(exporter),
+		// Record information about this application in a Resource.
+		tracesdk.WithResource(resource.NewWithAttributes(
+			semconv.SchemaURL,
+			semconv.ServiceNameKey.String(os.Getenv("DD_SERVICE")),
+		)),
 	)
-
 	return tp, nil
 }
