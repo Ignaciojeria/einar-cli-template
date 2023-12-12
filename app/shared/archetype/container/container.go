@@ -30,13 +30,13 @@ var (
 func Inject(dependency LoadDependency, props InjectionProps, container map[string]DependencyContainer) error {
 	if props.DependencyID == "" {
 		err := errors.New("container injector error on InjectionProps. DependencyID can't be empty")
-		slog.Logger.Error(err.Error())
+		slog.Logger().Error(err.Error())
 		return err
 	}
 
 	if _, exists := container[props.DependencyID]; exists {
 		err := errors.New("container injector error. Next dependency already exists: " + props.DependencyID)
-		slog.Logger.Error(err.Error())
+		slog.Logger().Error(err.Error())
 		return err
 	}
 

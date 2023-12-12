@@ -22,7 +22,7 @@ func init() {
 		sslMode := config.DATABASE_POSTGRES_SSL_MODE.Get()
 		db, err := gorm.Open(postgres.Open("postgres://" + username + ":" + pwd + "@" + host + "/" + dbname + "?sslmode=" + sslMode))
 		if err != nil {
-			slog.Logger.Error("error getting postgresql connection", constants.Error, err.Error())
+			slog.Logger().Error("error getting postgresql connection", constants.Error, err.Error())
 			return err
 		}
 		DB = db

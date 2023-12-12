@@ -18,8 +18,11 @@ type HandleMessageAcknowledgementDetails struct {
 }
 
 func HandleMessageAcknowledgement(ctx context.Context, details *HandleMessageAcknowledgementDetails) {
+	ctx, span := tracer.Start(ctx, "HandleMessageAcknowledgement")
+	defer span.End()
+
 	if details.Error != nil {
-		slog.Logger.Error(
+		slog.SpanLogger(span).Error(
 			details.SubscriptionName+"_exception",
 			subscription_name, details.SubscriptionName,
 			constants.Fields, details.CustomLogFields,
@@ -34,8 +37,8 @@ func HandleMessageAcknowledgement(ctx context.Context, details *HandleMessageAck
 		details.Message.Ack()
 		return
 	}
-	// Logica existente para manejar el mensaje exitoso
-	slog.Logger.Info(
+
+	slog.SpanLogger(span).Info(
 		details.SubscriptionName+"_succedded",
 		subscription_name, details.SubscriptionName,
 		constants.Fields, details.CustomLogFields,

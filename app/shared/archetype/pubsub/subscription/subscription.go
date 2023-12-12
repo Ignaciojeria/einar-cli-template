@@ -53,7 +53,7 @@ func (s Subscription) Start() (Subscription, error) {
 	ctx := context.Background()
 
 	if err := s.recieveWithSettings(ctx, s.receive); err != nil {
-		slog.Logger.Error(
+		slog.Logger().Error(
 			subscription_signal_broken,
 			subscription_name, s.subscriptionName,
 			constants.Error, err.Error(),
