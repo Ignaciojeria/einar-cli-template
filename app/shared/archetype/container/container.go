@@ -1,11 +1,11 @@
 package container
 
 import (
-	"archetype/app/shared/archetype/slog"
 	"errors"
 	"os"
+	"sync"
 
-	"github.com/google/uuid"
+	"github.com/rs/zerolog/log"
 )
 
 type DependencyContainer struct {
@@ -27,16 +27,24 @@ var (
 	HTTPServerContainer      DependencyContainer
 )
 
-func Inject(dependency LoadDependency, props InjectionProps, container map[string]DependencyContainer) error {
+// Mutexes for each container
+var (
+	containerMutex = &sync.Mutex{}
+)
+
+func Inject(dependency LoadDependency, props InjectionProps, container map[string]DependencyContainer, mutex *sync.Mutex) error {
 	if props.DependencyID == "" {
 		err := errors.New("container injector error on InjectionProps. DependencyID can't be empty")
-		slog.Logger().Error(err.Error())
+		log.Error().Err(err).Send()
 		return err
 	}
 
+	mutex.Lock()
+	defer mutex.Unlock()
+
 	if _, exists := container[props.DependencyID]; exists {
 		err := errors.New("container injector error. Next dependency already exists: " + props.DependencyID)
-		slog.Logger().Error(err.Error())
+		log.Error().Err(err).Send()
 		return err
 	}
 
@@ -45,20 +53,20 @@ func Inject(dependency LoadDependency, props InjectionProps, container map[strin
 	return nil
 }
 
-func InjectInboundAdapter(dependency LoadDependency, props ...InjectionProps) error {
-	return Inject(dependency, InjectionProps{uuid.NewString()}, InboundAdapterContainer)
+func InjectInBoundAdapter(dependency LoadDependency, props InjectionProps) error {
+	return Inject(dependency, props, InboundAdapterContainer, containerMutex)
 }
 
-func InjectOutboundAdapter(dependency LoadDependency, props ...InjectionProps) error {
-	return Inject(dependency, InjectionProps{uuid.NewString()}, OutboundAdapterContainer)
+func InjectOutBoundAdapter(dependency LoadDependency, props InjectionProps) error {
+	return Inject(dependency, props, OutboundAdapterContainer, containerMutex)
 }
 
-func InjectInstallation(dependency LoadDependency, props ...InjectionProps) error {
-	return Inject(dependency, InjectionProps{uuid.NewString()}, InstallationsContainer)
+func InjectInstallation(dependency LoadDependency, props InjectionProps) error {
+	return Inject(dependency, props, InstallationsContainer, containerMutex)
 }
 
-func InjectHTTPServer(dependency LoadDependency, props ...InjectionProps) error {
-	HTTPServerContainer = DependencyContainer{LoadDependency: dependency, InjectionProps: InjectionProps{uuid.NewString()}, isPresent: true}
+func InjectHTTPServer(dependency LoadDependency, props InjectionProps) error {
+	HTTPServerContainer = DependencyContainer{LoadDependency: dependency, InjectionProps: props, isPresent: true}
 	return nil
 }
 

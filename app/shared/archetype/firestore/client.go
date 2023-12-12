@@ -2,10 +2,11 @@ package firestore
 
 import (
 	"archetype/app/shared/archetype/container"
-	"archetype/app/shared/archetype/slog"
 	"archetype/app/shared/config"
-	"archetype/app/shared/constants"
 	"sync"
+
+	"github.com/google/uuid"
+	"github.com/rs/zerolog/log"
 
 	"context"
 
@@ -22,21 +23,25 @@ func init() {
 	config.Installations.EnableFirestore = true
 	container.InjectInstallation(func() error {
 		ctx := context.Background()
+
 		app, err := firebase.NewApp(ctx, &firebase.Config{
 			ProjectID: config.GOOGLE_PROJECT_ID.Get(),
 		})
+
 		if err != nil {
-			slog.Logger().Error("error initializing firebase app", constants.Error, err.Error())
+			log.Error().Err(err).Msg("error initializing firebase app")
 			return err
 		}
+
 		c, err := app.Firestore(ctx)
+
 		if err != nil {
-			slog.Logger().Error("error getting firestore client", constants.Error, err.Error())
+			log.Error().Err(err).Msg("error getting firestore client")
 			return err
 		}
 		Client = c
 		return nil
-	})
+	}, container.InjectionProps{DependencyID: uuid.NewString()})
 }
 
 // Collection fetches a *firestore.CollectionRef by name. If the CollectionRef exists in the sync.Map, it's returned, otherwise a new one is created and stored in the map.

@@ -2,10 +2,10 @@ package postgres
 
 import (
 	"archetype/app/shared/archetype/container"
-	"archetype/app/shared/archetype/slog"
 	"archetype/app/shared/config"
-	"archetype/app/shared/constants"
 
+	"github.com/google/uuid"
+	"github.com/rs/zerolog/log"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -19,13 +19,14 @@ func init() {
 		pwd := config.DATABASE_POSTGRES_PASSWORD.Get()
 		host := config.DATABASE_POSTGRES_HOSTNAME.Get()
 		dbname := config.DATABASE_POSTGRES_NAME.Get()
-		sslMode := config.DATABASE_POSTGRES_SSL_MODE.Get()
-		db, err := gorm.Open(postgres.Open("postgres://" + username + ":" + pwd + "@" + host + "/" + dbname + "?sslmode=" + sslMode))
+		db, err := gorm.Open(postgres.Open("postgres://" + username + ":" + pwd + "@" + host + "/" + dbname + "?sslmode=disable"))
 		if err != nil {
-			slog.Logger().Error("error getting postgresql connection", constants.Error, err.Error())
+			log.Error().Err(err).Msg("error getting postgresql connection")
 			return err
 		}
 		DB = db
 		return nil
+	}, container.InjectionProps{
+		DependencyID: uuid.NewString(),
 	})
 }

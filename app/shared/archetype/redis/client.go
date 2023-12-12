@@ -2,14 +2,14 @@ package redis
 
 import (
 	"archetype/app/shared/archetype/container"
-	"archetype/app/shared/archetype/slog"
 	"archetype/app/shared/config"
-	"archetype/app/shared/constants"
 	"context"
 	"fmt"
 	"strconv"
 
+	"github.com/google/uuid"
 	"github.com/redis/go-redis/v9"
+	"github.com/rs/zerolog/log"
 )
 
 var Client *redis.Client
@@ -31,9 +31,11 @@ func init() {
 
 		ping := Client.Ping(context.Background())
 		if err := ping.Err(); err != nil {
-			slog.Logger().Error("error on ping redis connection", constants.Error, err.Error())
+			log.Error().Err(err).Msg("error on ping redis connection")
 			return err
 		}
 		return nil
+	}, container.InjectionProps{
+		DependencyID: uuid.NewString(),
 	})
 }

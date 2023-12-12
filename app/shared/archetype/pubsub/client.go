@@ -2,16 +2,18 @@ package pubsub
 
 import (
 	"archetype/app/shared/archetype/container"
-	"archetype/app/shared/archetype/slog"
 	"archetype/app/shared/config"
-	"archetype/app/shared/constants"
 	"context"
+	"sync"
 
 	"cloud.google.com/go/pubsub"
+	"github.com/google/uuid"
+	"github.com/rs/zerolog/log"
 )
 
 var (
-	client *pubsub.Client
+	Client    *pubsub.Client
+	topicRefs sync.Map
 )
 
 func init() {
@@ -20,17 +22,30 @@ func init() {
 		projectId := config.GOOGLE_PROJECT_ID.Get()
 		c, err := pubsub.NewClient(context.Background(), projectId)
 		if err != nil {
-			slog.Logger().Error("error getting pubsub client", constants.Error, err.Error())
+			log.Error().Err(err).Msg("error getting pubsub client")
 			return err
 		}
-		client = c
+		Client = c
 		return nil
+	}, container.InjectionProps{
+		DependencyID: uuid.NewString(),
 	})
 }
 
-func Client() *pubsub.Client {
-	if client == nil {
-		return &pubsub.Client{}
+// Topic fetches a *pubsub.Topic by name. If the Topic exists in the sync.Map, it's returned, otherwise a new one is created and stored in the map.
+func Topic(topicName string) *pubsub.Topic {
+	value, ok := topicRefs.Load(topicName)
+	if ok {
+		// If the topic reference was found, return it.
+		return value.(*pubsub.Topic)
 	}
-	return client
+
+	// If the topic reference was not found, create a new one.
+	newTopicRef := Client.Topic(topicName)
+
+	// Store the new topic reference in the map.
+	topicRefs.Store(topicName, newTopicRef)
+
+	// Return the new topic reference.
+	return newTopicRef
 }

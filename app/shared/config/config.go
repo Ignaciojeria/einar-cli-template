@@ -1,11 +1,11 @@
 package config
 
 import (
-	"archetype/app/shared/archetype/slog"
 	"fmt"
 	"os"
 
 	"github.com/joho/godotenv"
+	"github.com/rs/zerolog/log"
 )
 
 type archetypeConfiguration struct {
@@ -14,7 +14,6 @@ type archetypeConfiguration struct {
 	EnablePostgreSQLDB bool
 	EnablePubSub       bool
 	EnableFirestore    bool
-	EnableCobraCli     bool
 	EnableHTTPServer   bool
 	EnableRedis        bool
 	EnableRestyClient  bool
@@ -29,24 +28,23 @@ type Config string
 // ARCHETYPE CONFIGURATION
 const PORT Config = "PORT"
 const COUNTRY Config = "COUNTRY"
-const SERVICE Config = "SERVICE"
-const ENV Config = "ENV"
+const PROJECT_NAME Config = "PROJECT_NAME"
+const ENVIRONMENT Config = "ENVIRONMENT"
 
 const INTEGRATION_TESTS Config = "INTEGRATION_TESTS"
 
 const GOOGLE_PROJECT_ID Config = "GOOGLE_PROJECT_ID"
 
-const DATABASE_POSTGRES_HOSTNAME Config = "DATABASE_POSTGRES_HOSTNAME"
-const DATABASE_POSTGRES_PORT Config = "DATABASE_POSTGRES_PORT"
-const DATABASE_POSTGRES_NAME Config = "DATABASE_POSTGRES_NAME"
-const DATABASE_POSTGRES_USERNAME Config = "DATABASE_POSTGRES_USERNAME"
-const DATABASE_POSTGRES_PASSWORD Config = "DATABASE_POSTGRES_PASSWORD"
-const DATABASE_POSTGRES_SSL_MODE Config = "DATABASE_POSTGRES_SSL_MODE"
+const DATABASE_POSTGRES_HOSTNAME Config = "database.postgres.hostName"
+const DATABASE_POSTGRES_PORT Config = "database.postgres.port"
+const DATABASE_POSTGRES_NAME Config = "database.postgres.name"
+const DATABASE_POSTGRES_USERNAME Config = "database.postgres.username"
+const DATABASE_POSTGRES_PASSWORD Config = "database.postgres.pwd"
 
 // Redis configuration
-const REDIS_ADDRESS Config = "REDIS_ADDRESS"
-const REDIS_PASSWORD Config = "REDIS_PASSWORD"
-const REDIS_DB Config = "REDIS_DB"
+const REDIS_ADDRESS Config = "redis.addr"
+const REDIS_PASSWORD Config = "redis.password"
+const REDIS_DB Config = "redis.db"
 
 func (e Config) Get() string {
 	return os.Getenv(string(e))
@@ -66,12 +64,20 @@ func Setup() error {
 	errs := []string{}
 
 	if err := godotenv.Load(); err != nil {
-		slog.Logger().Warn(".env file not found getting environments from system")
+		log.Error().Err(err).Msg(".env file not found getting environments from envgonsul")
+	}
+
+	//COUNTRY SHOULD CONFIGURED BY HELMCHART BUT IF NOT PRESENT SET CHILE BY DEFAULT
+	if COUNTRY.Get() == "" {
+		os.Setenv(string(COUNTRY), "CL")
 	}
 
 	// Check that all required environment variables are set
 	requiredEnvVars := []Config{
-		//PUT YOUR CUSTOM REQUIRED ENVIRONMENTS
+		//ARCHETYPE CONFIGURATION
+		PORT,
+		COUNTRY,
+		PROJECT_NAME,
 	}
 
 	if Installations.EnablePubSub || Installations.EnableFirestore {
@@ -84,16 +90,11 @@ func Setup() error {
 		requiredEnvVars = append(requiredEnvVars, DATABASE_POSTGRES_NAME)
 		requiredEnvVars = append(requiredEnvVars, DATABASE_POSTGRES_USERNAME)
 		requiredEnvVars = append(requiredEnvVars, DATABASE_POSTGRES_PASSWORD)
-		requiredEnvVars = append(requiredEnvVars, DATABASE_POSTGRES_SSL_MODE)
 	}
 
 	if Installations.EnableRedis {
 		requiredEnvVars = append(requiredEnvVars, REDIS_ADDRESS)
 		requiredEnvVars = append(requiredEnvVars, REDIS_PASSWORD)
-	}
-
-	if Installations.EnableHTTPServer {
-		requiredEnvVars = append(requiredEnvVars, PORT)
 	}
 
 	for _, envVar := range requiredEnvVars {
@@ -104,8 +105,7 @@ func Setup() error {
 	}
 
 	if len(errs) > 0 {
-		slog.Logger().Error("error loading environment variables", "notFoundEnvironments", errs)
-		//log.Error().Strs("notFoundEnvironments", errs).Msg("error loading environment variables")
+		log.Error().Strs("notFoundEnvironments", errs).Msg("error loading environment variables")
 		return fmt.Errorf("error loading environment variables: %v", errs)
 	}
 
