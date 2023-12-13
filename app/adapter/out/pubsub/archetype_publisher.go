@@ -1,7 +1,9 @@
 package pubsub
 
 import (
+	"archetype/app/exception"
 	"archetype/app/shared/archetype/pubsub/topic"
+	"archetype/app/shared/archetype/slog"
 	"archetype/app/shared/constants"
 	"context"
 	"encoding/json"
@@ -25,6 +27,7 @@ var ArchetypePublisher = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[st
 	if err != nil {
 		return err
 	}
+
 	message := &pubsub.Message{
 		Attributes: map[string]string{
 			"customAttribute1": "attr1",
@@ -35,11 +38,19 @@ var ArchetypePublisher = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[st
 	result := topic.Get(topicName).Publish(ctx, message)
 	// Get the server-generated message ID.
 	messageID, err := result.Get(ctx)
+
 	if err != nil {
 		span.SetStatus(codes.Error, err.Error())
 		span.RecordError(err)
-		return err
+
+		slog.
+			SpanLogger(span).
+			Error(exception.PUBSUB_BROKER_ERROR.Error(),
+				constants.Error, err.Error())
+
+		return exception.PUBSUB_BROKER_ERROR
 	}
+
 	// Successful publishing
 	fmt.Println("Message published with ID:", messageID)
 	return nil
