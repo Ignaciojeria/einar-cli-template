@@ -7,7 +7,7 @@ ENV = "local"
 
 ##################################
 #ENABLE FOR PUBSUB OR FIRESTORE ARCHETYPE INSTALLATION
-#GOOGLE_PROJECT = "secret"
+#GOOGLE_PROJECT_ID = "secret"
 #GOOGLE_APPLICATION_CREDENTIALS = "secret"
 
 ##################################

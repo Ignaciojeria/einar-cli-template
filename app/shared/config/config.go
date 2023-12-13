@@ -35,7 +35,7 @@ const (
 )
 
 // Google Cloud Platform configuration
-const GOOGLE_PROJECT Config = "GOOGLE_PROJECT"
+const GOOGLE_PROJECT_ID Config = "GOOGLE_PROJECT_ID"
 
 // PostgreSQL configuration
 const (
@@ -101,7 +101,7 @@ func Setup() error {
 	}
 
 	if Installations.EnablePubSub || Installations.EnableFirestore {
-		requiredEnvVars = append(requiredEnvVars, GOOGLE_PROJECT)
+		requiredEnvVars = append(requiredEnvVars, GOOGLE_PROJECT_ID)
 	}
 
 	if Installations.EnablePostgreSQLDB {
