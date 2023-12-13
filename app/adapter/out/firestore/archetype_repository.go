@@ -8,6 +8,9 @@ import (
 )
 
 var ArchetypeRepository = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]string) (err error) {
+	_, span := tracer.Start(ctx, "ArchetypeRepository")
+	defer span.End()
+
 	var _ *firestore.CollectionRef = einar.Collection("INSERT_YOUR_COLLECTION_CONSTANT_HERE")
 	return nil
 }

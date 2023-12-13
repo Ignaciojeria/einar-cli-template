@@ -8,6 +8,7 @@ import (
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"gorm.io/plugin/opentelemetry/tracing"
 )
 
 var DB *gorm.DB
@@ -23,6 +24,9 @@ func init() {
 		db, err := gorm.Open(postgres.Open("postgres://" + username + ":" + pwd + "@" + host + "/" + dbname + "?sslmode=" + sslMode))
 		if err != nil {
 			slog.Logger().Error("error getting postgresql connection", constants.Error, err.Error())
+			return err
+		}
+		if err := db.Use(tracing.NewPlugin()); err != nil {
 			return err
 		}
 		DB = db

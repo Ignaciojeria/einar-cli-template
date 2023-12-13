@@ -465,6 +465,12 @@
                 "echo-server"],
             "source_dir": "app/shared/archetype/pubsub",
             "destination_dir": "app/shared/archetype/pubsub",
+            "files": [
+                {   "source_file": "app/adapter/out/postgresql/tracer.go",
+                    "destination_dir": "app/adapter/out/postgresql",
+                    "ioc_discovery":false
+                }
+                ],
             "command":"einar install pubsub",
             "libraries": ["cloud.google.com/go/pubsub"]
         },
@@ -549,6 +555,12 @@
             "name":"firestore",
             "source_dir": "app/shared/archetype/firestore",
             "destination_dir": "app/shared/archetype/firestore",
+            "files": [
+                {   "source_file": "app/adapter/out/firestore/tracer.go",
+                    "destination_dir": "app/adapter/out/firestore",
+                    "ioc_discovery":false
+                }
+                ],
             "command":"einar install firestore",
             "libraries": [
                 "cloud.google.com/go/firestore",
@@ -557,12 +569,21 @@
         },
         {
             "name":"postgres",
-            "source_dir": "app/shared/archetype/postgres",
-            "destination_dir": "app/shared/archetype/postgres",
+            "files": [
+                {   "source_file": "app/shared/archetype/postgres/db.go",
+                    "destination_dir": "app/shared/archetype/postgres",
+                    "ioc_discovery":true
+                },
+                {   "source_file": "app/adapter/out/postgresql/tracer.go",
+                    "destination_dir": "app/adapter/out/postgresql",
+                    "ioc_discovery":false
+                }
+                ],
             "command":"einar install postgres",
             "libraries": [
                 "gorm.io/gorm",
-                "gorm.io/driver/postgres"
+                "gorm.io/driver/postgres",
+                "gorm.io/plugin/opentelemetry/tracing"
             ]
         },
         {

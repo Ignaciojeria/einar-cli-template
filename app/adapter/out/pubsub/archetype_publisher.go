@@ -7,9 +7,14 @@ import (
 	"fmt"
 
 	"cloud.google.com/go/pubsub"
+	"go.opentelemetry.io/otel/codes"
 )
 
 var ArchetypePublisher = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]string) (err error) {
+
+	_, span := tracer.Start(ctx, "ArchetypePublisher")
+	defer span.End()
+
 	bytes, err := json.Marshal(REPLACE_BY_YOUR_DOMAIN)
 	if err != nil {
 		return err
@@ -25,6 +30,8 @@ var ArchetypePublisher = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[st
 	// Get the server-generated message ID.
 	messageID, err := result.Get(ctx)
 	if err != nil {
+		span.SetStatus(codes.Error, err.Error())
+		span.RecordError(err)
 		return err
 	}
 	// Successful publishing
