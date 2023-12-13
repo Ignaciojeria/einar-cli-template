@@ -21,6 +21,8 @@ var archetype_subscription = func(ctx context.Context, subscriptionName string, 
 		Message:          m,
 		ErrorsRequiringNack: []error{
 			exception.INTERNAL_SERVER_ERROR,
+			exception.EXTERNAL_SERVER_ERROR,
+			exception.HTTP_NETWORK_ERROR,
 		},
 		CustomLogFields: map[string]interface{}{
 			"dataModel": dataModel,
