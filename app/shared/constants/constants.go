@@ -1,6 +1,5 @@
 package constants
 
-
 const Error = "error"
 const Sucess = "success"
 
@@ -11,3 +10,5 @@ const Fields = "fields"
 const EventType = "eventType"
 const EntityType = "entityType"
 const DefaultPushHandlerPrefix = "/subscription/"
+
+const TopicName = "topicName"

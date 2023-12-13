@@ -2,17 +2,23 @@ package pubsub
 
 import (
 	"archetype/app/shared/archetype/pubsub/topic"
+	"archetype/app/shared/constants"
 	"context"
 	"encoding/json"
 	"fmt"
 
 	"cloud.google.com/go/pubsub"
+	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/codes"
+	"go.opentelemetry.io/otel/trace"
 )
 
 var ArchetypePublisher = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]string) (err error) {
+	topicName := "INSERT YOUR TOPIC NAME HERE"
 
-	_, span := tracer.Start(ctx, "ArchetypePublisher")
+	_, span := tracer.Start(ctx, "ArchetypePublisher",
+		trace.WithAttributes(attribute.String(constants.TopicName, topicName)),
+	)
 	defer span.End()
 
 	bytes, err := json.Marshal(REPLACE_BY_YOUR_DOMAIN)
@@ -26,7 +32,7 @@ var ArchetypePublisher = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[st
 		},
 		Data: bytes,
 	}
-	result := topic.Get("INSERT YOUR TOPIC NAME HERE").Publish(ctx, message)
+	result := topic.Get(topicName).Publish(ctx, message)
 	// Get the server-generated message ID.
 	messageID, err := result.Get(ctx)
 	if err != nil {
