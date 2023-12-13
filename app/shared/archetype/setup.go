@@ -115,7 +115,7 @@ func tracerProvider(ctx context.Context) (*tracesdk.TracerProvider, error) {
 		// Record information about this application in a Resource.
 		tracesdk.WithResource(resource.NewWithAttributes(
 			semconv.SchemaURL,
-			semconv.ServiceNameKey.String(os.Getenv("DD_SERVICE")),
+			semconv.ServiceNameKey.String(config.PROJECT_NAME.Get()),
 		)),
 	)
 	return tp, nil

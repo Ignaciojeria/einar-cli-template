@@ -2,8 +2,8 @@
 # DONT STORE YOUR ENVIRONMENT VARIABLES ON YOUR REPOSITORY!
 PORT = "8080"
 COUNTRY = "CL"
-SERVICE = "${project}"
-ENV = "local"
+PROJECT_NAME = "${project}"
+ENVIRONMENT = "local"
 
 ##################################
 #Enable for pubsub or firestore archetype installation

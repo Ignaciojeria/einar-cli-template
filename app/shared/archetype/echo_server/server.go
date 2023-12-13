@@ -21,7 +21,7 @@ func init() {
 		e = echo.New()
 		e.Use(middleware.Logger())
 		e.Use(middleware.Recover())
-		e.Use(otelecho.Middleware(config.SERVICE.Get() + "-http-server"))
+		e.Use(otelecho.Middleware(config.PROJECT_NAME.Get() + "-http-server"))
 		return nil
 	})
 

@@ -28,10 +28,10 @@ type Config string
 
 // Archetype default configuration
 const (
-	PORT    Config = "PORT"
-	COUNTRY Config = "COUNTRY"
-	SERVICE Config = "SERVICE"
-	ENV     Config = "ENV"
+	PORT         Config = "PORT"
+	COUNTRY      Config = "COUNTRY"
+	PROJECT_NAME Config = "PROJECT_NAME"
+	ENVIRONMENT  Config = "ENVIRONMENT"
 )
 
 // Google Cloud Platform configuration
