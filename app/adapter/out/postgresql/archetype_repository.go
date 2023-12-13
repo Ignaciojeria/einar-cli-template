@@ -8,7 +8,7 @@ import (
 )
 
 var ArchetypeRepository = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]string) error {
-	_, span := tracer.Start(ctx, "ArchetypeRepository")
+	_, span := einar.Tracer.Start(ctx, "ArchetypeRepository")
 	defer span.End()
 
 	var _ *gorm.DB = einar.DB

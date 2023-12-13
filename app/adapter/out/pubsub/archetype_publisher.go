@@ -16,7 +16,7 @@ import (
 var ArchetypePublisher = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]string) (err error) {
 	topicName := "INSERT YOUR TOPIC NAME HERE"
 
-	_, span := tracer.Start(ctx, "ArchetypePublisher",
+	_, span := topic.Tracer.Start(ctx, "ArchetypePublisher",
 		trace.WithAttributes(attribute.String(constants.TopicName, topicName)),
 	)
 	defer span.End()

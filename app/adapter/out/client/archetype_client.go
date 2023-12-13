@@ -17,7 +17,7 @@ var ArchetypeRestyClient = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[
 	//Replace Get by your http method
 	res, err := req.Get("http://localhost:8080/api/ping")
 
-	ctx, span := tracer.Start(ctx, "ArchetypeRestyClient")
+	ctx, span := einar.Tracer.Start(ctx, "ArchetypeRestyClient")
 	defer func() {
 		if err != nil {
 			span.SetStatus(codes.Error, err.Error())

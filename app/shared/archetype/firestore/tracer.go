@@ -2,4 +2,4 @@ package firestore
 
 import "go.opentelemetry.io/otel"
 
-var tracer = otel.Tracer("firestore")
+var Tracer = otel.Tracer("firestore")
