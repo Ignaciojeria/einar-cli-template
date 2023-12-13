@@ -14,7 +14,7 @@
         },
         {
             "name":"otlptrace",
-            "library": "go.opentelemetry.io/otlptrace"
+            "library": "go.opentelemetry.io/otel/exporters/otlp/otlptrace"
         },
         {
             "name":"otlptracegrpc",
