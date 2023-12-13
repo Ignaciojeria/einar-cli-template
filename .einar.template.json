@@ -503,10 +503,15 @@
             {   "source_file": "app/shared/archetype/resty/client.go",
                 "destination_dir": "app/shared/archetype/resty",
                 "ioc_discovery":true
+            },
+            {   "source_file": "app/adapter/out/client/tracer.go",
+                "destination_dir": "app/adapter/out/client",
+                "ioc_discovery":false
             }
             ],
             "libraries": [
-                "github.com/go-resty/resty/v2"
+                "github.com/go-resty/resty/v2",
+                "github.com/dubonzi/otelresty"
             ]
         },
         {

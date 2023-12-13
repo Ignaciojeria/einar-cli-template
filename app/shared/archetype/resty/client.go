@@ -4,6 +4,7 @@ import (
 	"archetype/app/shared/archetype/container"
 	"archetype/app/shared/config"
 
+	"github.com/dubonzi/otelresty"
 	"github.com/go-resty/resty/v2"
 )
 
@@ -16,8 +17,9 @@ func init() {
 
 func LoadDependency() container.LoadDependency {
 	var dependency container.LoadDependency = func() error {
-		//Customize your resty client here :
 		Client = resty.New()
+		opts := []otelresty.Option{otelresty.WithTracerName("resty-http-client")}
+		otelresty.TraceClient(Client, opts...)
 		return nil
 	}
 	container.InjectInstallation(dependency)
