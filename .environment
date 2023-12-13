@@ -1,4 +1,4 @@
-# THIS IS REFERENCE FILE OF YOUR ENVIRONMENT VARIABLES
+# This is reference file of your environment variables
 # DONT STORE YOUR ENVIRONMENT VARIABLES ON YOUR REPOSITORY!
 PORT = "8080"
 COUNTRY = "CL"
@@ -6,18 +6,18 @@ SERVICE = "${project}"
 ENV = "local"
 
 ##################################
-#ENABLE FOR PUBSUB OR FIRESTORE ARCHETYPE INSTALLATION
+#Enable for pubsub or firestore archetype installation
 #GOOGLE_PROJECT_ID = "secret"
 #GOOGLE_APPLICATION_CREDENTIALS = "secret"
 
 ##################################
-#ENABLE FOR REDIS ARCHETYPE INSTALLATION
+#Enable for redis archetype installation
 #REDIS_ADDRESS = "localhost:6379"
 #REDIS_DB = "1"
 #REDIS_PASSWORD = ""
 
 ##################################
-#ENABLE FOR POSTGRES ARCHETYPE INSTALLATION
+#Enable for postgres archetype installation
 #DATABASE_POSTGRES_HOSTNAME = "localhost"
 #DATABASE_POSTGRES_PORT = "5432"
 #DATABASE_POSTGRES_NAME = "postgres"
@@ -26,7 +26,12 @@ ENV = "local"
 #DATABASE_POSTGRES_SSL_MODE = "disable"
 
 ##################################
+#Enable if you are using datadog with open telemetry
 #DD_SERVICE = "${project}"
 #DD_ENV = "local"
 #DD_VERSION = "1.0"
 #DD_AGENT_HOST = http://127.0.0.1
+
+########################################
+#Open telemetry endpoint configuration
+#OTEL_EXPORTER_OTLP_ENDPOINT= "http://127.0.0.1:4317"
