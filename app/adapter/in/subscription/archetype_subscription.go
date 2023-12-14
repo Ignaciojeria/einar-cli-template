@@ -16,6 +16,8 @@ import (
 var archetype_subscription = func(ctx context.Context, subscriptionName string, m *pubsub.Message) (err error) {
 	var dataModel interface{}
 	defer subscription.HandleMessageAcknowledgement(ctx, &subscription.HandleMessageAcknowledgementDetails{
+		MessageID:        m.ID,
+		PublishTime:      m.PublishTime.String(),
 		SubscriptionName: subscriptionName,
 		Error:            err,
 		Message:          m,

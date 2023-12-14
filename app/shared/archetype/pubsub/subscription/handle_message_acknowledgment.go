@@ -16,6 +16,8 @@ type HandleMessageAcknowledgementDetails struct {
 	SubscriptionName    string
 	Error               error
 	Message             *pubsub.Message
+	MessageID           string
+	PublishTime         string
 	ErrorsRequiringNack []error
 	CustomLogFields     map[string]interface{}
 }
@@ -23,7 +25,11 @@ type HandleMessageAcknowledgementDetails struct {
 func HandleMessageAcknowledgement(ctx context.Context, details *HandleMessageAcknowledgementDetails) {
 	ctx, span := tracer.Start(ctx,
 		"HandleMessageAcknowledgement",
-		trace.WithSpanKind(trace.SpanKindConsumer))
+		trace.WithSpanKind(trace.SpanKindConsumer), trace.WithAttributes(
+			attribute.String("subscription.name", details.SubscriptionName),
+			attribute.String("message.id", details.MessageID),
+			attribute.String("message.publishTime", details.PublishTime),
+		))
 	defer span.End()
 
 	if details.Error != nil {
