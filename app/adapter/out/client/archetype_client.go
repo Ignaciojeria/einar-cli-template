@@ -3,6 +3,7 @@ package client
 import (
 	"archetype/app/exception"
 	einar "archetype/app/shared/archetype/resty"
+	"archetype/app/shared/archetype/slog"
 	"archetype/app/shared/constants"
 	"context"
 	"errors"
@@ -17,7 +18,9 @@ var ArchetypeRestyClient = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[
 	//Replace Get by your http method
 	res, err := req.Get("http://localhost:8080/api/ping")
 
-	ctx, span := einar.Tracer.Start(ctx, "ArchetypeRestyClient")
+	ctx, span := einar.Tracer.Start(ctx,
+		"ArchetypeRestyClient",
+		trace.WithSpanKind(trace.SpanKindClient))
 	defer func() {
 		if err != nil {
 			span.SetStatus(codes.Error, err.Error())
@@ -25,10 +28,18 @@ var ArchetypeRestyClient = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[
 				span.RecordError(err, trace.WithAttributes(
 					attribute.String(constants.ResponseBody, constants.NoResponse),
 				))
+				slog.
+					SpanLogger(span).
+					Error(err.Error(),
+						constants.ResponseBody, constants.NoResponse)
 			} else {
 				span.RecordError(err, trace.WithAttributes(
 					attribute.String(constants.ResponseBody, string(res.Body())),
 				))
+				slog.
+					SpanLogger(span).
+					Error(err.Error(),
+						constants.ResponseBody, constants.NoResponse, res.Body())
 			}
 			span.End()
 		}
