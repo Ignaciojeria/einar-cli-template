@@ -25,12 +25,13 @@ var ArchetypeRestyClient = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[
 				span.RecordError(err, trace.WithAttributes(
 					attribute.String(constants.ResponseBody, constants.NoResponse),
 				))
+			} else {
+				span.RecordError(err, trace.WithAttributes(
+					attribute.String(constants.ResponseBody, string(res.Body())),
+				))
 			}
-			span.RecordError(err, trace.WithAttributes(
-				attribute.String(constants.ResponseBody, string(res.Body())),
-			))
+			span.End()
 		}
-		span.End()
 	}()
 
 	if err != nil {
