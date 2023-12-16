@@ -469,7 +469,9 @@
                     "destination_dir": "app/shared/archetype/secret_manager",
                     "ioc_discovery":true
                 }],
-            "libraries": ["cloud.google.com/go/pubsub"]
+            "libraries": [
+            "cloud.google.com/go/secretmanager/apiv1",
+            "cloud.google.com/go/secretmanager/apiv1/secretmanagerpb"]
         },
         {
             "name":"pubsub",
