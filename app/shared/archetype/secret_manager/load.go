@@ -16,6 +16,10 @@ import (
 var client *secretmanager.Client
 
 var _ = container.InjectConfiguration(func() error {
+	if !config.Installations.EnableSecretManager {
+		return nil
+	}
+
 	ctx := context.Background()
 	c, err := secretmanager.NewClient(ctx)
 	if err != nil {

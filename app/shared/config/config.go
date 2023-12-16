@@ -13,14 +13,15 @@ var env sync.Map
 
 type archetypeConfiguration struct {
 	// HTTP client is enabled by default
-	EnvironmentPath    string
-	EnablePostgreSQLDB bool
-	EnablePubSub       bool
-	EnableFirestore    bool
-	EnableCobraCli     bool
-	EnableHTTPServer   bool
-	EnableRedis        bool
-	EnableRestyClient  bool
+	EnableSecretManager bool
+	EnvironmentPath     string
+	EnablePostgreSQLDB  bool
+	EnablePubSub        bool
+	EnableFirestore     bool
+	EnableCobraCli      bool
+	EnableHTTPServer    bool
+	EnableRedis         bool
+	EnableRestyClient   bool
 }
 
 func (e *archetypeConfiguration) SetPubsub(enable bool) {
@@ -84,12 +85,13 @@ func Set(key, val string) {
 }
 
 var Installations = archetypeConfiguration{
-	EnableHTTPServer:   false,
-	EnableFirestore:    false,
-	EnablePubSub:       false,
-	EnableRedis:        false,
-	EnableRestyClient:  false,
-	EnablePostgreSQLDB: false,
+	EnableSecretManager: false,
+	EnableHTTPServer:    false,
+	EnableFirestore:     false,
+	EnablePubSub:        false,
+	EnableRedis:         false,
+	EnableRestyClient:   false,
+	EnablePostgreSQLDB:  false,
 }
 
 func Setup() error {
@@ -97,6 +99,7 @@ func Setup() error {
 
 	if err := godotenv.Load(); err != nil {
 		slog.Warn(".env file not found getting environments from system")
+		Installations.EnableSecretManager = true
 	}
 
 	ddService := DD_SERVICE.Get()
