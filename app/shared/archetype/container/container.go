@@ -21,6 +21,7 @@ type InjectionProps struct {
 type LoadDependency func() error
 
 var (
+	ConfigurationContainer   = make(map[string]DependencyContainer)
 	InstallationsContainer   = make(map[string]DependencyContainer)
 	InboundAdapterContainer  = make(map[string]DependencyContainer)
 	OutboundAdapterContainer = make(map[string]DependencyContainer)
@@ -54,6 +55,10 @@ func InjectOutboundAdapter(dependency LoadDependency, props ...InjectionProps) e
 }
 
 func InjectInstallation(dependency LoadDependency, props ...InjectionProps) error {
+	return Inject(dependency, InjectionProps{uuid.NewString()}, InstallationsContainer)
+}
+
+func InjectConfiguration(dependency LoadDependency, props ...InjectionProps) error {
 	return Inject(dependency, InjectionProps{uuid.NewString()}, InstallationsContainer)
 }
 

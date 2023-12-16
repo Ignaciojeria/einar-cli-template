@@ -460,6 +460,18 @@
 ],
     "installation_commands": [
         {
+            "name":"secret-manager",
+            "command":"einar install secret-manager",
+            "depends_on":[],
+            "files": [
+                {   
+                    "source_file": "app/shared/archetype/secret_manager/load.go",
+                    "destination_dir": "app/shared/archetype/secret_manager",
+                    "ioc_discovery":true
+                }],
+            "libraries": ["cloud.google.com/go/pubsub"]
+        },
+        {
             "name":"pubsub",
             "depends_on":[
                 "echo-server"],

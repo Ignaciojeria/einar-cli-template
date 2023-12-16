@@ -19,15 +19,10 @@ import (
 // ARCHETYPE CONFIGURATION
 func Setup() error {
 
-	if !config.Installations.EnableCobraCli {
-		if err := config.Setup(); err != nil {
-			return err
-		}
-	}
-
 	if err := config.Setup(); err != nil {
 		return err
 	}
+
 	ctx := context.Background()
 	tp, err := tracerProvider(ctx)
 	if err != nil {
@@ -52,6 +47,10 @@ func Setup() error {
 
 		}
 	}(ctx)
+
+	if err := injectConfigurations(); err != nil {
+		return err
+	}
 
 	if err := InjectInstallations(); err != nil {
 		return err
@@ -83,9 +82,17 @@ func InjectInstallations() error {
 	return nil
 }
 
-// CUSTOM INITIALIZATION OF YOUR DOMAIN COMPONENTS
 func injectOutboundAdapters() error {
 	for _, v := range container.OutboundAdapterContainer {
+		if err := v.LoadDependency(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func injectConfigurations() error {
+	for _, v := range container.ConfigurationContainer {
 		if err := v.LoadDependency(); err != nil {
 			return err
 		}

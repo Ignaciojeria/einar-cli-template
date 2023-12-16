@@ -4,9 +4,12 @@ import (
 	"fmt"
 	"log/slog"
 	"os"
+	"sync"
 
 	"github.com/joho/godotenv"
 )
+
+var env sync.Map
 
 type archetypeConfiguration struct {
 	// HTTP client is enabled by default
@@ -68,7 +71,16 @@ const (
 )
 
 func (e Config) Get() string {
-	return os.Getenv(string(e))
+	if val, ok := env.Load(string(e)); ok {
+		return val.(string)
+	}
+	val := os.Getenv(string(e))
+	env.Store(string(e), val)
+	return val
+}
+
+func Set(key, val string) {
+	env.Store(string(key), val)
 }
 
 var Installations = archetypeConfiguration{
