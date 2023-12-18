@@ -3,6 +3,7 @@ package subscription
 import (
 	"context"
 	"encoding/json"
+	"net/http"
 
 	"archetype/app/exception"
 	"archetype/app/shared/archetype/container"
@@ -13,7 +14,7 @@ import (
 	"cloud.google.com/go/pubsub"
 )
 
-var archetype_subscription = func(ctx context.Context, subscriptionName string, m *pubsub.Message) (err error) {
+var archetype_subscription = func(ctx context.Context, subscriptionName string, m *pubsub.Message) (statusCode int, err error) {
 	var dataModel interface{}
 	defer func() {
 		subscription.HandleMessageAcknowledgement(ctx, &subscription.HandleMessageAcknowledgementDetails{
@@ -34,9 +35,9 @@ var archetype_subscription = func(ctx context.Context, subscriptionName string, 
 		})
 	}()
 	if err := json.Unmarshal(m.Data, &dataModel); err != nil {
-		return err
+		return http.StatusBadRequest, err
 	}
-	return nil
+	return http.StatusOK, nil
 }
 
 var archetypeInboundAdapterConfig = func() error {

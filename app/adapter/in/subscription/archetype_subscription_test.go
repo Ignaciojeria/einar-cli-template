@@ -14,7 +14,7 @@ func TestArchetypeSubscriptionSuccedded(t *testing.T) {
 	msg := &pubsub.Message{
 		Data: []byte(testData),
 	}
-	err := archetype_subscription(ctx, "fake-subscription-dont-change", msg)
+	_, err := archetype_subscription(ctx, "fake-subscription-dont-change", msg)
 	if err != nil {
 		t.Errorf("archetype_subscription returned an error: %v", err)
 	}
@@ -26,7 +26,7 @@ func TestArchetypeSubscriptionInvalidInput(t *testing.T) {
 	msg := &pubsub.Message{
 		Data: []byte(invalidTestData),
 	}
-	err := archetype_subscription(ctx, "fake-subscription-dont-change", msg)
+	_, err := archetype_subscription(ctx, "fake-subscription-dont-change", msg)
 	if err == nil {
 		t.Errorf("archetype_subscription did not return an error for invalid input")
 	}

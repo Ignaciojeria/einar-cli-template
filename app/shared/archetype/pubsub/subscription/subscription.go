@@ -22,14 +22,14 @@ type Receive func(ctx context.Context, f func(context.Context, *pubsub.Message))
 
 type Subscription struct {
 	subscriptionName    string
-	processMessage      func(ctx context.Context, sub string, m *pubsub.Message) (err error)
+	processMessage      func(ctx context.Context, sub string, m *pubsub.Message) (statusCode int, err error)
 	recieveWithSettings Receive
 	stop                bool
 }
 
 func New(
 	subscriptionName string,
-	processMessage func(ctx context.Context, sub string, m *pubsub.Message) (err error),
+	processMessage func(ctx context.Context, sub string, m *pubsub.Message) (statusCode int, err error),
 	recieveWithSettings Receive) Subscription {
 	return Subscription{subscriptionName: subscriptionName, processMessage: processMessage, recieveWithSettings: recieveWithSettings}
 }
@@ -72,26 +72,39 @@ func (s Subscription) receive(ctx context.Context, m *pubsub.Message) {
 }
 
 func (s Subscription) pushHandler(c echo.Context) error {
-	var msg pubsub.Message
 	googleChannel := c.Request().Header.Get("X-Goog-Channel-ID")
+
 	if googleChannel != "" {
+		var msg pubsub.Message
 		if err := c.Bind(&msg); err != nil {
 			return c.String(http.StatusNoContent, "error binding Pub/Sub message")
 		}
+		statusCode, err := s.processMessage(c.Request().Context(), s.subscriptionName, &msg)
+		if statusCode >= 500 && statusCode <= 599 {
+			return c.String(statusCode, "")
+		}
+		if err != nil {
+			return c.String(http.StatusNoContent, "")
+		}
+		return c.String(http.StatusOK, "")
 	}
+
 	if googleChannel == "" {
+		var msg pubsub.Message
 		msg.Attributes = map[string]string{
 			constants.EventType:  c.Request().Header.Get(constants.EventType),
 			constants.EntityType: c.Request().Header.Get(constants.EntityType),
 		}
 		body, err := io.ReadAll(c.Request().Body)
 		if err != nil {
-			return c.String(http.StatusNoContent, "error reading request body")
+			return c.String(http.StatusBadRequest, "error reading request body")
 		}
 		msg.Data = body
+		if statusCode, err := s.processMessage(c.Request().Context(), s.subscriptionName, &msg); err != nil {
+			return c.String(statusCode, err.Error())
+		}
+		return c.String(http.StatusOK, "")
 	}
-	if err := s.processMessage(c.Request().Context(), s.subscriptionName, &msg); err != nil {
-		return c.String(http.StatusNoContent, "error processing message")
-	}
-	return nil
+
+	return c.String(http.StatusBadRequest, "unknown channel")
 }
