@@ -15,22 +15,24 @@ import (
 
 var archetype_subscription = func(ctx context.Context, subscriptionName string, m *pubsub.Message) (err error) {
 	var dataModel interface{}
-	defer subscription.HandleMessageAcknowledgement(ctx, &subscription.HandleMessageAcknowledgementDetails{
-		MessageID:        m.ID,
-		PublishTime:      m.PublishTime.String(),
-		SubscriptionName: subscriptionName,
-		Error:            err,
-		Message:          m,
-		ErrorsRequiringNack: []error{
-			exception.INTERNAL_SERVER_ERROR,
-			exception.EXTERNAL_SERVER_ERROR,
-			exception.HTTP_NETWORK_ERROR,
-			exception.PUBSUB_BROKER_ERROR,
-		},
-		CustomLogFields: map[string]interface{}{
-			"dataModel": dataModel,
-		},
-	})
+	defer func() {
+		subscription.HandleMessageAcknowledgement(ctx, &subscription.HandleMessageAcknowledgementDetails{
+			MessageID:        m.ID,
+			PublishTime:      m.PublishTime.String(),
+			SubscriptionName: subscriptionName,
+			Error:            err,
+			Message:          m,
+			ErrorsRequiringNack: []error{
+				exception.INTERNAL_SERVER_ERROR,
+				exception.EXTERNAL_SERVER_ERROR,
+				exception.HTTP_NETWORK_ERROR,
+				exception.PUBSUB_BROKER_ERROR,
+			},
+			CustomLogFields: map[string]interface{}{
+				"dataModel": dataModel,
+			},
+		})
+	}()
 	if err := json.Unmarshal(m.Data, &dataModel); err != nil {
 		return err
 	}
