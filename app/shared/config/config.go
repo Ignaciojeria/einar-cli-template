@@ -133,8 +133,8 @@ func Setup() error {
 		requiredEnvVars = append(requiredEnvVars, REDIS_PASSWORD)
 	}
 
-	if Installations.EnableHTTPServer {
-		requiredEnvVars = append(requiredEnvVars, PORT)
+	if PORT.Get() == "" {
+		Set("PORT","8080")
 	}
 
 	for _, envVar := range requiredEnvVars {
