@@ -624,6 +624,10 @@
                 "destination_dir": "app/shared/archetype/slog"
             },
             {
+                "source_dir": "app/shared/archetype/business",
+                "destination_dir": "app/shared/archetype/business"
+            },
+            {
                 "source_dir": "app/shared/constants",
                 "destination_dir": "app/shared/constants"
             }
@@ -632,10 +636,6 @@
             {
                 "source_file": ".environment",
                 "destination_file": ".env"
-            },
-            {
-                "source_file": "app/business/tracer.go",
-                "destination_file": "app/business/tracer.go"
             },
             {
                 "source_file": "main.go",
